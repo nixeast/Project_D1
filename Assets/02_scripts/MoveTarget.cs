@@ -21,7 +21,7 @@ public class MoveTarget : MonoBehaviour
     {
         if (other.CompareTag(enemyTag))
         {
-            Debug.Log("enemy detected..");
+            //Debug.Log("enemy detected..");
             //Destroy(gameObject);
             this.gameObject.SetActive(false);
         }
@@ -30,6 +30,7 @@ public class MoveTarget : MonoBehaviour
     private void OnMouseDown()
     {
         GameManager.instance.MoveUnit(this);
+        
     }
 
 }

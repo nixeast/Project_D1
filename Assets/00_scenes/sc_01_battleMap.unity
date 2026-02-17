@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f348e0586dc1d45caab5437c565acf2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentControlMode: 0
 --- !u!1 &50057796
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,6 +2813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f348e0586dc1d45caab5437c565acf2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentControlMode: 0
 --- !u!1 &1031613462
 GameObject:
   m_ObjectHideFlags: 0
@@ -3159,6 +3161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSelectedUnit: {fileID: 0}
   tile_moveTarget_true: {fileID: 8622115037968185663, guid: 9e82ad78f604e4751acbcb3d4802e380, type: 3}
+  tile_attackTarget_true: {fileID: 2479895205856645358, guid: f77356551fd7f7340a439ec8f6ca0423, type: 3}
 --- !u!4 &1638072633
 Transform:
   m_ObjectHideFlags: 0
@@ -3947,6 +3950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f348e0586dc1d45caab5437c565acf2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentControlMode: 0
 --- !u!50 &1989282366
 Rigidbody2D:
   serializedVersion: 4
