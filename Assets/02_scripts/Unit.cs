@@ -39,6 +39,12 @@ public class Unit : MonoBehaviour
             Instantiate(tile_moveTarget_true,movePosittions[i],Quaternion.identity);
         }
         
+        if(GameManager.instance==null)
+        {
+            Debug.Log("game manger null..");
+        }
+
+        GameManager.instance.SelectUnit(this);
         
     }
 
