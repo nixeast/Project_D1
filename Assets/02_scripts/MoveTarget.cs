@@ -23,6 +23,7 @@ public class MoveTarget : MonoBehaviour
         {
             Debug.Log("enemy detected..");
             //Destroy(gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 
