@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
 {
 
     public GameObject panel_characterInfo;
+    public RectTransform scrollViewContent_unitCard;
+    public GameObject unitCardPrefab;
+    public PlayerDataManager currentPlayerDataManager;
 
     // Start is called before the first frame update
     void Start()
@@ -41,5 +44,28 @@ public class UIManager : MonoBehaviour
     public void HideCharacterInfoPanel()
     {
         panel_characterInfo.SetActive(false);
+    }
+
+    public void RefreshUnitCard()
+    {
+        PlayerData playerData = currentPlayerDataManager.GetPlayerData();
+        
+        int unitCardCount = 0;
+
+        if(playerData != null)
+        {
+            unitCardCount = playerData.currentUnits.Length;
+        }
+        else
+        {
+            Debug.Log("playerData is null..");
+        }
+
+        for(int i=0; i<unitCardCount; i++)
+        {
+            GameObject cardObj = Instantiate(unitCardPrefab);
+            cardObj.transform.SetParent(scrollViewContent_unitCard, false);
+        }
+
     }
 }
