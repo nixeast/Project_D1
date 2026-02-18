@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+
+    public GameObject panel_characterInfo;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,5 +31,15 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("btn clicked");
         SceneManager.LoadScene("sc_00_lobby");
+    }
+
+    public void ShowCharacterInfoPanel()
+    {
+        panel_characterInfo.SetActive(true);
+    }
+
+    public void HideCharacterInfoPanel()
+    {
+        panel_characterInfo.SetActive(false);
     }
 }
