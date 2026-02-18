@@ -7,4 +7,7 @@ using System;
 public class PlayerData
 {
     public int nGold;
+
+    public UnitSaveData[] currentUnits;
+
 }
