@@ -38,12 +38,13 @@ public class UIManager : MonoBehaviour
 
     public void ShowCharacterInfoPanel()
     {
-        panel_characterInfo.SetActive(true);
+        panel_characterInfo.gameObject.SetActive(true);
     }
 
     public void HideCharacterInfoPanel()
     {
-        panel_characterInfo.SetActive(false);
+        panel_characterInfo.gameObject.SetActive(false);
+        //panel_characterInfo.SetActive(false);
     }
 
     public void RefreshUnitCard()
@@ -65,6 +66,7 @@ public class UIManager : MonoBehaviour
         {
             GameObject cardObj = Instantiate(unitCardPrefab);
             cardObj.transform.SetParent(scrollViewContent_unitCard, false);
+            cardObj.GetComponent<UnitCard>().InitUnitCard(this);
         }
 
     }

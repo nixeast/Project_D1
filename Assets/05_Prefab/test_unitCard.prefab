@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 8396237192949255210}
   - component: {fileID: 7182160290463449226}
   - component: {fileID: 2255988049805555314}
+  - component: {fileID: 7466375109392112271}
   m_Layer: 5
   m_Name: test_unitCard
   m_TagString: Untagged
@@ -286,6 +287,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7466375109392112271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821927496793871874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e77d00921ab4630b8c1cca35f39e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_infoButton: {fileID: 3039884570527085812}
 --- !u!1 &8922959209278635441
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +313,7 @@ GameObject:
   - component: {fileID: 2763070795647235827}
   - component: {fileID: 3039884570527085812}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button_info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
