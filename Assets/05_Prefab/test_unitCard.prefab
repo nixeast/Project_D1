@@ -302,6 +302,8 @@ MonoBehaviour:
   m_infoButton: {fileID: 3039884570527085812}
   m_unitName: 
   m_portraitSlot: {fileID: 4334459341110522022}
+  m_playerUnitNumber: 0
+  text_playerUnitNumber: {fileID: 130777290305298358}
 --- !u!1 &8922959209278635441
 GameObject:
   m_ObjectHideFlags: 0

@@ -69,7 +69,15 @@ public class UIManager : MonoBehaviour
             cardObj.transform.SetParent(scrollViewContent_unitCard, false);
             cardObj.GetComponent<UnitCard>().InitUnitCard(this, playerData.currentUnits[i].unitName);
             //cardObj.GetComponent<UnitCard>().m_unitName = playerData.currentUnits[i].unitName;
+            cardObj.GetComponent<UnitCard>().m_playerUnitNumber = i;
+            //cardObj.GetComponent<UnitCard>().text_playerUnitNumber
+
         }
+
+    }
+
+    public void SetItemToUnit()
+    {
 
     }
 }
