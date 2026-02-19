@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
             cardObj.GetComponent<UnitCard>().InitUnitCard(this, playerData.currentUnits[i].unitName);
             //cardObj.GetComponent<UnitCard>().m_unitName = playerData.currentUnits[i].unitName;
             cardObj.GetComponent<UnitCard>().m_playerUnitNumber = i;
-            //cardObj.GetComponent<UnitCard>().text_playerUnitNumber
+            cardObj.GetComponent<UnitCard>().text_playerUnitNumber.text = i.ToString();
 
         }
 
