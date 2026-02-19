@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public RectTransform scrollViewContent_unitCard;
     public GameObject unitCardPrefab;
     public PlayerDataManager currentPlayerDataManager;
+    public UnitPortraitDatabase m_unitPortraitDatabase;
 
     // Start is called before the first frame update
     void Start()
@@ -66,7 +67,8 @@ public class UIManager : MonoBehaviour
         {
             GameObject cardObj = Instantiate(unitCardPrefab);
             cardObj.transform.SetParent(scrollViewContent_unitCard, false);
-            cardObj.GetComponent<UnitCard>().InitUnitCard(this);
+            cardObj.GetComponent<UnitCard>().InitUnitCard(this, playerData.currentUnits[i].unitName);
+            //cardObj.GetComponent<UnitCard>().m_unitName = playerData.currentUnits[i].unitName;
         }
 
     }

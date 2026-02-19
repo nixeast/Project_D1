@@ -1869,6 +1869,7 @@ MonoBehaviour:
   scrollViewContent_unitCard: {fileID: 1318989509}
   unitCardPrefab: {fileID: 7821927496793871874, guid: 9be402876c6813d4a894c4c90a044bb0, type: 3}
   currentPlayerDataManager: {fileID: 1193486663}
+  m_unitPortraitDatabase: {fileID: 2009848956}
 --- !u!4 &447805057
 Transform:
   m_ObjectHideFlags: 0
@@ -8195,6 +8196,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1986318397}
   m_CullTransparentMesh: 1
+--- !u!1 &2009848955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2009848957}
+  - component: {fileID: 2009848956}
+  m_Layer: 0
+  m_Name: UnitPortraitDatabase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2009848956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009848955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59dfa5817bca2458d91150752017a0e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_portraitPathCsv: {fileID: 4900000, guid: 6788d3da013f3417fb121f023f7637d3, type: 3}
+  tempSP: {fileID: 0}
+--- !u!4 &2009848957
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009848955}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2031815830
 GameObject:
   m_ObjectHideFlags: 0
@@ -8212,7 +8259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2031815831
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9164,3 +9211,4 @@ SceneRoots:
   - {fileID: 46940755}
   - {fileID: 1384838103}
   - {fileID: 1193486662}
+  - {fileID: 2009848957}

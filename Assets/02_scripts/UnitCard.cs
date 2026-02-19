@@ -8,6 +8,9 @@ public class UnitCard : MonoBehaviour
     [SerializeField]
     private Button m_infoButton;
     private UIManager m_uiManager;
+    private Sprite m_portrait;
+    public string m_unitName;
+    public Image m_portraitSlot;
 
     // Start is called before the first frame update
     void Start()
@@ -21,10 +24,13 @@ public class UnitCard : MonoBehaviour
         
     }
 
-    public void InitUnitCard(UIManager uiManager)
+    public void InitUnitCard(UIManager uiManager, string tempUnitName)
     {
         m_uiManager = uiManager;
         m_infoButton.onClick.AddListener(OnInfoButtonClicked);
+        m_unitName = tempUnitName;
+        m_portrait = m_uiManager.m_unitPortraitDatabase.GetPortraitSprite(m_unitName);
+        m_portraitSlot.sprite = m_portrait;
     }
 
     public void OnInfoButtonClicked()

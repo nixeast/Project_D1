@@ -17,22 +17,22 @@ public class PlayerDataManager : MonoBehaviour
         playerData.currentUnits = new UnitSaveData[4];
 
         playerData.currentUnits[0] = new UnitSaveData();
-        playerData.currentUnits[0].unitName = "knight1";
+        playerData.currentUnits[0].unitName = "Dwarf_01";
         playerData.currentUnits[0].level = 1;
         playerData.currentUnits[0].upgrade = 1;
 
         playerData.currentUnits[1] = new UnitSaveData();
-        playerData.currentUnits[1].unitName = "knight2";
+        playerData.currentUnits[1].unitName = "Dwarf_02";
         playerData.currentUnits[1].level = 2;
         playerData.currentUnits[1].upgrade = 2;
 
         playerData.currentUnits[2] = new UnitSaveData();
-        playerData.currentUnits[2].unitName = "knight3";
+        playerData.currentUnits[2].unitName = "Dwarf_03";
         playerData.currentUnits[2].level = 3;
         playerData.currentUnits[2].upgrade = 3;
 
         playerData.currentUnits[3] = new UnitSaveData();
-        playerData.currentUnits[3].unitName = "knight4";
+        playerData.currentUnits[3].unitName = "Dwarf_04";
         playerData.currentUnits[3].level = 4;
         playerData.currentUnits[3].upgrade = 4;
 
@@ -61,9 +61,9 @@ public class PlayerDataManager : MonoBehaviour
     public void SavePlayerData()
     {
         //playerData.currentUnits[3] = new UnitSaveData();
-        playerData.currentUnits[3].unitName = "mage";
-        playerData.currentUnits[3].level = 2;
-        playerData.currentUnits[3].upgrade = 2;
+        // playerData.currentUnits[3].unitName = "mage";
+        // playerData.currentUnits[3].level = 2;
+        // playerData.currentUnits[3].upgrade = 2;
 
         string json = JsonUtility.ToJson(playerData, true);
         File.WriteAllText(savePath,json);
