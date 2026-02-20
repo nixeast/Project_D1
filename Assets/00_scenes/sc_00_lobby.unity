@@ -1315,6 +1315,7 @@ GameObject:
   - component: {fileID: 249311456}
   - component: {fileID: 249311455}
   - component: {fileID: 249311454}
+  - component: {fileID: 249311457}
   m_Layer: 5
   m_Name: btn_slot_weapon
   m_TagString: Untagged
@@ -1424,6 +1425,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 249311452}
   m_CullTransparentMesh: 1
+--- !u!114 &249311457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249311452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b13562c207676249901f6a54a02d895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_slotIndex: 0
+  m_iconImage: {fileID: 249311455}
+  m_button: {fileID: 249311454}
 --- !u!1 &266527456
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,6 +1886,19 @@ MonoBehaviour:
   unitCardPrefab: {fileID: 7821927496793871874, guid: 9be402876c6813d4a894c4c90a044bb0, type: 3}
   currentPlayerDataManager: {fileID: 1193486663}
   m_unitPortraitDatabase: {fileID: 2009848956}
+  m_selectedUnitCard: {fileID: 0}
+  tmp_currentUnitName: {fileID: 1572550835}
+  tmp_currentUnitHealth: {fileID: 984030191}
+  tmp_currentUnitAttack: {fileID: 732236653}
+  tmp_currentUnitDefense: {fileID: 1487345472}
+  tmp_currentUnitMorale: {fileID: 1824745142}
+  btn_slotWeapon: {fileID: 249311454}
+  btn_slotArmor: {fileID: 843818215}
+  btn_slotAccessory_01: {fileID: 2069946381}
+  btn_slotAccessory_02: {fileID: 19326685}
+  m_testSprite: {fileID: 21300000, guid: 0d6a88ba9c373404482d15bf93782bab, type: 3}
+  m_slotButtons:
+  - {fileID: 249311457}
 --- !u!4 &447805057
 Transform:
   m_ObjectHideFlags: 0

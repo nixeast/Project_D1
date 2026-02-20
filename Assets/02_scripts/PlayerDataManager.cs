@@ -20,21 +20,61 @@ public class PlayerDataManager : MonoBehaviour
         playerData.currentUnits[0].unitName = "Dwarf_01";
         playerData.currentUnits[0].level = 1;
         playerData.currentUnits[0].upgrade = 1;
+        
+        playerData.currentUnits[0].m_weapon = null;
+        playerData.currentUnits[0].m_armor = null;
+        playerData.currentUnits[0].m_charm_01 = null;
+        playerData.currentUnits[0].m_charm_02 = null;
+
+        playerData.currentUnits[0].m_health = 10;
+        playerData.currentUnits[0].m_attack = 10;
+        playerData.currentUnits[0].m_defense = 10;
+        playerData.currentUnits[0].m_morale = 10;
 
         playerData.currentUnits[1] = new UnitSaveData();
         playerData.currentUnits[1].unitName = "Dwarf_02";
         playerData.currentUnits[1].level = 2;
         playerData.currentUnits[1].upgrade = 2;
 
+        playerData.currentUnits[1].m_weapon = null;
+        playerData.currentUnits[1].m_armor = null;
+        playerData.currentUnits[1].m_charm_01 = null;
+        playerData.currentUnits[1].m_charm_02 = null;
+
+        playerData.currentUnits[1].m_health = 11;
+        playerData.currentUnits[1].m_attack = 11;
+        playerData.currentUnits[1].m_defense = 11;
+        playerData.currentUnits[1].m_morale = 11;
+
         playerData.currentUnits[2] = new UnitSaveData();
         playerData.currentUnits[2].unitName = "Dwarf_03";
         playerData.currentUnits[2].level = 3;
         playerData.currentUnits[2].upgrade = 3;
 
+        playerData.currentUnits[2].m_weapon = null;
+        playerData.currentUnits[2].m_armor = null;
+        playerData.currentUnits[2].m_charm_01 = null;
+        playerData.currentUnits[2].m_charm_02 = null;
+
+        playerData.currentUnits[2].m_health = 12;
+        playerData.currentUnits[2].m_attack = 12;
+        playerData.currentUnits[2].m_defense = 12;
+        playerData.currentUnits[2].m_morale = 12;
+
         playerData.currentUnits[3] = new UnitSaveData();
         playerData.currentUnits[3].unitName = "Dwarf_04";
         playerData.currentUnits[3].level = 4;
         playerData.currentUnits[3].upgrade = 4;
+
+        playerData.currentUnits[3].m_weapon = null;
+        playerData.currentUnits[3].m_armor = null;
+        playerData.currentUnits[3].m_charm_01 = null;
+        playerData.currentUnits[3].m_charm_02 = null;
+
+        playerData.currentUnits[3].m_health = 13;
+        playerData.currentUnits[3].m_attack = 13;
+        playerData.currentUnits[3].m_defense = 13;
+        playerData.currentUnits[3].m_morale = 13;
 
     }
 

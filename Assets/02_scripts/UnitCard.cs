@@ -14,6 +14,7 @@ public class UnitCard : MonoBehaviour
     public Image m_portraitSlot;
     public int m_playerUnitNumber;
     public TMP_Text text_playerUnitNumber;
+    public UnitSaveData m_unitSaveData;
 
     // Start is called before the first frame update
     void Start()
@@ -27,18 +28,19 @@ public class UnitCard : MonoBehaviour
         
     }
 
-    public void InitUnitCard(UIManager uiManager, string tempUnitName)
+    public void InitUnitCard(UIManager uiManager, string tempUnitName, UnitSaveData currentUnitSaveData)
     {
         m_uiManager = uiManager;
         m_infoButton.onClick.AddListener(OnInfoButtonClicked);
         m_unitName = tempUnitName;
         m_portrait = m_uiManager.m_unitPortraitDatabase.GetPortraitSprite(m_unitName);
         m_portraitSlot.sprite = m_portrait;
-        
+        m_unitSaveData = currentUnitSaveData;
+
     }
 
     public void OnInfoButtonClicked()
     {
-        m_uiManager.ShowCharacterInfoPanel();
+        m_uiManager.ShowCharacterInfoPanel(this);
     }
 }

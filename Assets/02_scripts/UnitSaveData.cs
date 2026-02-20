@@ -15,5 +15,10 @@ public class UnitSaveData
     public Item m_charm_01;
     public Item m_charm_02;
 
+    public int m_health;
+    public int m_attack;
+    public int m_defense;
+    public int m_morale;
+
    
 }
