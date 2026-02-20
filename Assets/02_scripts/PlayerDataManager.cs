@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerDataManager : MonoBehaviour
 {
+    [SerializeField] UIManager m_uiManager;
     private PlayerData playerData;
     private string savePath;
 
@@ -29,6 +30,7 @@ public class PlayerDataManager : MonoBehaviour
         playerData.currentUnits[0].level = 1;
         playerData.currentUnits[0].upgrade = 1;
 
+        playerData.currentUnits[0].m_weapon = null;
         playerData.currentUnits[0].m_armor = null;
         playerData.currentUnits[0].m_charm_01 = null;
         playerData.currentUnits[0].m_charm_02 = null;
@@ -128,6 +130,8 @@ public class PlayerDataManager : MonoBehaviour
         playerData = JsonUtility.FromJson<PlayerData>(json);
         Debug.Log("[load]" + savePath + "\n" + json);
 
+        m_uiManager.LoadStorageItem();
+
     }
 
     public void DeletePlayerData()
@@ -170,9 +174,13 @@ public class PlayerDataManager : MonoBehaviour
 
     public void AddItemToStorage(int storageSlotNumber)
     {
-        playerData.m_storage.m_storageItem[storageSlotNumber].m_itemName = "test" + storageSlotNumber.ToString();
+        playerData.m_storage.m_storageItem[storageSlotNumber] = new Item();
         playerData.m_storage.m_storageItem[storageSlotNumber].m_itemNumber = storageSlotNumber;
+        playerData.m_storage.m_storageItem[storageSlotNumber].m_itemName = "test" + storageSlotNumber.ToString();
         playerData.m_storage.m_storageItem[storageSlotNumber].InitItem();
+
+        //playerData.m_storage.m_storageItem[storageSlotNumber].m_itemNumber = storageSlotNumber;
+        //playerData.m_storage.m_storageItem[storageSlotNumber].InitItem();
     }
 
 }

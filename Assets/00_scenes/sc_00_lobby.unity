@@ -5627,6 +5627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1786d5e2d074d03a4d2c3f5c697afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_uiManager: {fileID: 447805056}
 --- !u!1 &1198192254
 GameObject:
   m_ObjectHideFlags: 0
@@ -7390,7 +7391,7 @@ GameObject:
   - component: {fileID: 1589020913}
   - component: {fileID: 1589020912}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button_createItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8944,7 +8945,7 @@ GameObject:
   - component: {fileID: 1779398882}
   - component: {fileID: 1779398881}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Button_deleteItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
