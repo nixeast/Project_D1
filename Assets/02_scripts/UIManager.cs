@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     public GameObject panel_characterInfo;
     public RectTransform scrollViewContent_unitCard;
     public GameObject unitCardPrefab;
-    public PlayerDataManager currentPlayerDataManager;
+    public PlayerDataManager m_playerDataManager;
     public UnitPortraitDatabase m_unitPortraitDatabase;
     public UnitCard m_selectedUnitCard;
 
@@ -65,19 +65,29 @@ public class UIManager : MonoBehaviour
     private void OnSlotButtonClicked(ItemSlotButton slotButton)
     {
         Debug.Log("OnSlotButtonClicked..");
+        //m_playerDataManager.GenerateItem();
         ApplySpriteToSlot(slotButton);
+        PlayerUnitDataUpdate();
     }
 
     private void ApplySpriteToSlot(ItemSlotButton slotButton)
     {
         if (slotButton.getIconSprite() != null)
         {
+            m_playerDataManager.DeleteItem();
             slotButton.resetIconImage();
         }
         else if (slotButton.getIconSprite() == null)
         {
+            m_playerDataManager.GenerateItem();
             slotButton.setIconImage(m_testSprite);
         }
+        RefreshUnitStats();
+    }
+
+    private void PlayerUnitDataUpdate()
+    {
+        RefreshUnitStats();
     }
 
 
@@ -98,10 +108,35 @@ public class UIManager : MonoBehaviour
         m_selectedUnitCard = selectedUnitCard;
         panel_characterInfo.gameObject.SetActive(true);
         tmp_currentUnitName.text = m_selectedUnitCard.m_unitName;
+        RefreshUnitStats();
+    }
+
+    public void RefreshUnitStats()
+    {
         tmp_currentUnitHealth.text = m_selectedUnitCard.m_unitSaveData.m_health.ToString();
-        tmp_currentUnitAttack.text = m_selectedUnitCard.m_unitSaveData.m_attack.ToString();
         tmp_currentUnitDefense.text = m_selectedUnitCard.m_unitSaveData.m_defense.ToString();
         tmp_currentUnitMorale.text = m_selectedUnitCard.m_unitSaveData.m_morale.ToString();
+
+        int attackValueResult;
+        if(m_selectedUnitCard.m_unitSaveData.m_weapon != null)
+        {
+            attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack + m_selectedUnitCard.m_unitSaveData.m_weapon.m_attackValue;
+        }
+        else
+        {
+            attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack;
+        }
+        tmp_currentUnitAttack.text = attackValueResult.ToString();
+
+        if(m_selectedUnitCard.m_unitSaveData.m_weapon.m_itemName == "longSword")
+        {
+            //slotButton.setIconImage(m_testSprite);
+            btn_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(m_testSprite);
+        }
+        else
+        {
+            btn_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
+        }
     }
 
     public void HideCharacterInfoPanel()
@@ -112,7 +147,7 @@ public class UIManager : MonoBehaviour
 
     public void RefreshUnitCard()
     {
-        PlayerData playerData = currentPlayerDataManager.GetPlayerData();
+        PlayerData playerData = m_playerDataManager.GetPlayerData();
         
         int unitCardCount = 0;
 

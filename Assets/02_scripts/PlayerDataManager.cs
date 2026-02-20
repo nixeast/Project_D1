@@ -21,7 +21,9 @@ public class PlayerDataManager : MonoBehaviour
         playerData.currentUnits[0].level = 1;
         playerData.currentUnits[0].upgrade = 1;
         
-        playerData.currentUnits[0].m_weapon = null;
+        
+
+
         playerData.currentUnits[0].m_armor = null;
         playerData.currentUnits[0].m_charm_01 = null;
         playerData.currentUnits[0].m_charm_02 = null;
@@ -147,6 +149,18 @@ public class PlayerDataManager : MonoBehaviour
         Debug.Log("[Current Unit 2] : " + playerData.currentUnits[1].unitName);
         Debug.Log("[Current Unit 3] : " + playerData.currentUnits[2].unitName);
         Debug.Log("[Current Unit 4] : " + playerData.currentUnits[3].unitName);
+    }
+
+    public void GenerateItem()
+    {
+        playerData.currentUnits[0].m_weapon = new Item();
+        playerData.currentUnits[0].m_weapon.m_itemName = "longSword";
+        playerData.currentUnits[0].m_weapon.m_attackValue = 45;
+    }
+
+    public void DeleteItem()
+    {
+        playerData.currentUnits[0].m_weapon = null;
     }
 
 }

@@ -1884,7 +1884,7 @@ MonoBehaviour:
   panel_characterInfo: {fileID: 2031815830}
   scrollViewContent_unitCard: {fileID: 1318989509}
   unitCardPrefab: {fileID: 7821927496793871874, guid: 9be402876c6813d4a894c4c90a044bb0, type: 3}
-  currentPlayerDataManager: {fileID: 1193486663}
+  m_playerDataManager: {fileID: 1193486663}
   m_unitPortraitDatabase: {fileID: 2009848956}
   m_selectedUnitCard: {fileID: 0}
   tmp_currentUnitName: {fileID: 1572550835}
