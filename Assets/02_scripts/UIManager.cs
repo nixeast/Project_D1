@@ -70,7 +70,14 @@ public class UIManager : MonoBehaviour
 
     private void ApplySpriteToSlot(ItemSlotButton slotButton)
     {
-        slotButton.setIconImage(m_testSprite);
+        if (slotButton.getIconSprite() != null)
+        {
+            slotButton.resetIconImage();
+        }
+        else if (slotButton.getIconSprite() == null)
+        {
+            slotButton.setIconImage(m_testSprite);
+        }
     }
 
 

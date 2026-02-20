@@ -61,6 +61,16 @@ public class ItemSlotButton : MonoBehaviour
         m_iconImage.sprite = iconImage;
     }
 
+    public void resetIconImage()
+    {
+        m_iconImage.sprite = null;
+    }
+
+    public Sprite getIconSprite()
+    {
+        return m_iconImage.sprite;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
