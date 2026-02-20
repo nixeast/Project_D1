@@ -14,13 +14,15 @@ public class PlayerDataManager : MonoBehaviour
 
         playerData = new PlayerData();
         playerData.nGold = 0;
-        playerData.currentUnits = new UnitSaveData[4];
+        
         playerData.m_storage = new StorageSaveData();
-        playerData.m_storage.m_storageItem = new Item[3];
+        playerData.m_storage.m_storageItem = new Item[10];
         playerData.m_storage.m_storageItem[0] = new Item();
-        playerData.m_storage.m_storageItem[1] = new Item();
-        playerData.m_storage.m_storageItem[2] = new Item();
+        playerData.m_storage.m_storageItem[0].m_itemNumber = 0;
+        playerData.m_storage.m_storageItem[0].InitItem();
 
+
+        playerData.currentUnits = new UnitSaveData[4];
 
         playerData.currentUnits[0] = new UnitSaveData();
         playerData.currentUnits[0].unitName = "Dwarf_01";
@@ -168,7 +170,9 @@ public class PlayerDataManager : MonoBehaviour
 
     public void AddItemToStorage(int storageSlotNumber)
     {
-        playerData.m_storage.m_storageItem[storageSlotNumber].m_itemName = "test"; 
+        playerData.m_storage.m_storageItem[storageSlotNumber].m_itemName = "test" + storageSlotNumber.ToString();
+        playerData.m_storage.m_storageItem[storageSlotNumber].m_itemNumber = storageSlotNumber;
+        playerData.m_storage.m_storageItem[storageSlotNumber].InitItem();
     }
 
 }

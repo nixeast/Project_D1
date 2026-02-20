@@ -134,6 +134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96bcf0e1725704652988dc9d6999798b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tmp_slotName: {fileID: 7311913866616029285}
+  m_storageSlotNumber: 0
+  m_storageSlotName: 
 --- !u!1 &6872497156445105083
 GameObject:
   m_ObjectHideFlags: 0

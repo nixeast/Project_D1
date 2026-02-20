@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite m_testSprite;
     [SerializeField] private ItemSlotButton[] m_slotButtons;
 
-    private int storageItemCount = 0;
+    private int m_currentStorageItemCount = 0;
 
     private void Awake()
     {
@@ -137,10 +137,12 @@ public class UIManager : MonoBehaviour
         {
             //slotButton.setIconImage(m_testSprite);
             btn_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(m_testSprite);
+            Debug.Log("find longSword");
         }
         else
         {
             btn_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
+            Debug.Log("can't find longSword");
         }
     }
 
@@ -185,14 +187,52 @@ public class UIManager : MonoBehaviour
 
     public void CreateStorageItem()
     {
-        Debug.Log("CreateStorageItem");
+        if(m_currentStorageItemCount < m_playerDataManager.GetPlayerData().m_storage.m_storageItem.Length)
+        {
 
-        GameObject itemObj = Instantiate(storageSlotPrefab);
-        itemObj.transform.SetParent(scrollViewContent_storage,false);
-        itemObj.GetComponent<StorageSlotButton>().m_storageSlotNumber = storageItemCount;
-        UpdateStorageSaveData(storageItemCount);
-        storageItemCount++;
+            Debug.Log("CreateStorageItem");
+
+            GameObject itemObj = Instantiate(storageSlotPrefab);
+            itemObj.transform.SetParent(scrollViewContent_storage,false);
+            itemObj.GetComponent<StorageSlotButton>().m_storageSlotNumber = m_currentStorageItemCount;
+            itemObj.GetComponent<StorageSlotButton>().m_storageSlotName = m_currentStorageItemCount.ToString();
+            itemObj.GetComponent<StorageSlotButton>().InitStorageSlotButton(m_currentStorageItemCount);
+            UpdateStorageSaveData(m_currentStorageItemCount);
+            m_currentStorageItemCount++;
+            Debug.Log("Create storageSlots: " + m_currentStorageItemCount);
+        }
     }
+
+    public void LoadStorageItem()
+    {
+        int nStorageLength;
+        int nCount = 0;
+        //int nStorageSlotNumber = 0;
+        nStorageLength = m_playerDataManager.GetPlayerData().m_storage.m_storageItem.Length;
+        Debug.Log("LoadStorageItem length: " + nStorageLength);
+        if(nStorageLength > 0)
+        {
+            for(int i=0; i < nStorageLength; i++)
+            {
+                if(m_playerDataManager.GetPlayerData().m_storage.m_storageItem[i].m_empty != true)
+                {
+                    GameObject itemObj = Instantiate(storageSlotPrefab);
+                    itemObj.transform.SetParent(scrollViewContent_storage, false);
+                    itemObj.GetComponent<StorageSlotButton>().m_storageSlotNumber = m_playerDataManager.GetPlayerData().m_storage.m_storageItem[i].m_itemNumber;
+                    itemObj.GetComponent<StorageSlotButton>().m_storageSlotName = m_playerDataManager.GetPlayerData().m_storage.m_storageItem[i].m_itemName;
+                    itemObj.GetComponent<StorageSlotButton>().InitStorageSlotButton(m_playerDataManager.GetPlayerData().m_storage.m_storageItem[i].m_itemNumber);
+                    //nStorageSlotNumber++;
+                    nCount++;
+                    Debug.Log("slot Num: " + i);
+                }
+            }
+            m_currentStorageItemCount = nCount;
+            Debug.Log("Create storageSlots: " + m_currentStorageItemCount);
+        }
+
+
+    }
+
 
     public void UpdateStorageSaveData(int slotNumnber)
     {
@@ -207,5 +247,11 @@ public class UIManager : MonoBehaviour
     public void HideStoragePanel()
     {
         panel_storage.SetActive(false);
+    }
+
+    public void ShowStoragePanel()
+    {
+        panel_storage.SetActive(true);
+        LoadStorageItem();
     }
 }

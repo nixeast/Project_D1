@@ -11,5 +11,11 @@ public class Item
     public int m_attackValue;
     public int m_defenseValue;
     public int m_moraleValue;
+    public bool m_empty = true;
+
+    public void InitItem()
+    {
+        m_empty = false;
+    }
     
 }
