@@ -9,5 +9,7 @@ public class PlayerData
     public int nGold;
 
     public UnitSaveData[] currentUnits;
+    //public Item[] m_storageItem;
+    public StorageSaveData m_storage;
 
 }

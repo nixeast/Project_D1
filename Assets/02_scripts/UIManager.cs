@@ -9,8 +9,11 @@ public class UIManager : MonoBehaviour
 {
 
     public GameObject panel_characterInfo;
+    public GameObject panel_storage;
     public RectTransform scrollViewContent_unitCard;
+    public RectTransform scrollViewContent_storage;
     public GameObject unitCardPrefab;
+    public GameObject storageSlotPrefab;
     public PlayerDataManager m_playerDataManager;
     public UnitPortraitDatabase m_unitPortraitDatabase;
     public UnitCard m_selectedUnitCard;
@@ -28,6 +31,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Sprite m_testSprite;
     [SerializeField] private ItemSlotButton[] m_slotButtons;
+
+    private int storageItemCount = 0;
 
     private void Awake()
     {
@@ -176,5 +181,31 @@ public class UIManager : MonoBehaviour
     public void SetItemToUnit(int slotNumber)
     {
 
+    }
+
+    public void CreateStorageItem()
+    {
+        Debug.Log("CreateStorageItem");
+
+        GameObject itemObj = Instantiate(storageSlotPrefab);
+        itemObj.transform.SetParent(scrollViewContent_storage,false);
+        itemObj.GetComponent<StorageSlotButton>().m_storageSlotNumber = storageItemCount;
+        UpdateStorageSaveData(storageItemCount);
+        storageItemCount++;
+    }
+
+    public void UpdateStorageSaveData(int slotNumnber)
+    {
+        m_playerDataManager.AddItemToStorage(slotNumnber);
+    }
+
+    public void DeleteStorageItem()
+    {
+        Debug.Log("DeleteStorageItem");
+    }
+
+    public void HideStoragePanel()
+    {
+        panel_storage.SetActive(false);
     }
 }

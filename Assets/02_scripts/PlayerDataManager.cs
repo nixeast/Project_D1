@@ -15,14 +15,17 @@ public class PlayerDataManager : MonoBehaviour
         playerData = new PlayerData();
         playerData.nGold = 0;
         playerData.currentUnits = new UnitSaveData[4];
+        playerData.m_storage = new StorageSaveData();
+        playerData.m_storage.m_storageItem = new Item[3];
+        playerData.m_storage.m_storageItem[0] = new Item();
+        playerData.m_storage.m_storageItem[1] = new Item();
+        playerData.m_storage.m_storageItem[2] = new Item();
+
 
         playerData.currentUnits[0] = new UnitSaveData();
         playerData.currentUnits[0].unitName = "Dwarf_01";
         playerData.currentUnits[0].level = 1;
         playerData.currentUnits[0].upgrade = 1;
-        
-        
-
 
         playerData.currentUnits[0].m_armor = null;
         playerData.currentUnits[0].m_charm_01 = null;
@@ -161,6 +164,11 @@ public class PlayerDataManager : MonoBehaviour
     public void DeleteItem()
     {
         playerData.currentUnits[0].m_weapon = null;
+    }
+
+    public void AddItemToStorage(int storageSlotNumber)
+    {
+        playerData.m_storage.m_storageItem[storageSlotNumber].m_itemName = "test"; 
     }
 
 }
