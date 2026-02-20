@@ -31,18 +31,22 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Sprite m_testSprite;
     [SerializeField] private ItemSlotButton[] m_slotButtons;
+    //[SerializeField] private StorageSlotButton[] m_StorageSlotButtons;
+    [SerializeField] private List<StorageSlotButton> m_StorageSlotButtons;
 
     private int m_currentStorageItemCount = 1;
 
     private void Awake()
     {
         SubscribeSlotButton();
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
         LoadStorageItem();
+        SubscribeStorageSlotButton();
     }
 
     // Update is called once per frame
@@ -64,7 +68,29 @@ public class UIManager : MonoBehaviour
             m_slotButtons[i].AddOnClicked(OnSlotButtonClicked);
             Debug.Log("SubscribeSlotButton success..");
         }
+    }
 
+    private void SubscribeStorageSlotButton()
+    {
+        if(m_StorageSlotButtons == null)
+        {
+            Debug.Log("SubscribeStorageSlotButton failed..");
+            return;
+        }
+
+        int nLength;
+        nLength = m_StorageSlotButtons.Count;
+
+        for (int i = 0; i < nLength; i++)
+        {
+            m_StorageSlotButtons[i].AddOnClicked(OnStorageSlotButtonClicked);
+            Debug.Log("SubscribeStorageSlotButton success..");
+        }
+    }
+
+    private void OnStorageSlotButtonClicked(StorageSlotButton storageSlotButton)
+    {
+        Debug.Log("OnStorageSlotButtonClicked..");
     }
 
     private void OnSlotButtonClicked(ItemSlotButton slotButton)
@@ -73,6 +99,12 @@ public class UIManager : MonoBehaviour
         //m_playerDataManager.GenerateItem();
         ApplySpriteToSlot(slotButton);
         PlayerUnitDataUpdate();
+    }
+
+    public void AddStorageButtonToList(StorageSlotButton storageSlotBtn)
+    {
+        m_StorageSlotButtons.Add(storageSlotBtn);
+        Debug.Log("AddStorageButtonToList..");
     }
 
     private void ApplySpriteToSlot(ItemSlotButton slotButton)
@@ -212,6 +244,9 @@ public class UIManager : MonoBehaviour
             itemObj.GetComponent<StorageSlotButton>().m_storageSlotNumber = m_currentStorageItemCount;
             itemObj.GetComponent<StorageSlotButton>().m_storageSlotName = m_currentStorageItemCount.ToString();
             itemObj.GetComponent<StorageSlotButton>().InitStorageSlotButton(m_currentStorageItemCount);
+            AddStorageButtonToList(itemObj.GetComponent<StorageSlotButton>());
+            SubscribeStorageSlotButton();
+
             UpdateStorageSaveData(m_currentStorageItemCount);
             Debug.Log("Create storageSlots: " + m_currentStorageItemCount);
             m_currentStorageItemCount++;
@@ -240,6 +275,7 @@ public class UIManager : MonoBehaviour
                     itemObj.GetComponent<StorageSlotButton>().m_storageSlotNumber = m_playerDataManager.GetPlayerData().m_storage.m_storageItem[i].m_itemNumber;
                     itemObj.GetComponent<StorageSlotButton>().m_storageSlotName = m_playerDataManager.GetPlayerData().m_storage.m_storageItem[i].m_itemName;
                     itemObj.GetComponent<StorageSlotButton>().InitStorageSlotButton(m_playerDataManager.GetPlayerData().m_storage.m_storageItem[i].m_itemNumber);
+                    AddStorageButtonToList(itemObj.GetComponent<StorageSlotButton>());
                     //nStorageSlotNumber++;
                     nCount++;
                     Debug.Log("slot Num: " + i);
@@ -255,8 +291,6 @@ public class UIManager : MonoBehaviour
 
     }
 
-
-
     public void DeleteStorageItem()
     {
         Debug.Log("DeleteStorageItem");
@@ -271,5 +305,10 @@ public class UIManager : MonoBehaviour
     {
         panel_storage.SetActive(true);
         //LoadStorageItem();
+    }
+
+    public void PrintStorageSlotInfo()
+    {
+
     }
 }

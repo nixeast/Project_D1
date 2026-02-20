@@ -2281,6 +2281,7 @@ MonoBehaviour:
   m_testSprite: {fileID: 21300000, guid: 0d6a88ba9c373404482d15bf93782bab, type: 3}
   m_slotButtons:
   - {fileID: 249311457}
+  m_StorageSlotButtons: []
 --- !u!4 &447805057
 Transform:
   m_ObjectHideFlags: 0

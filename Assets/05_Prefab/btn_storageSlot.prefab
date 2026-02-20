@@ -137,6 +137,7 @@ MonoBehaviour:
   tmp_slotName: {fileID: 7311913866616029285}
   m_storageSlotNumber: 0
   m_storageSlotName: 
+  m_button: {fileID: 4329223325164238688}
 --- !u!1 &6872497156445105083
 GameObject:
   m_ObjectHideFlags: 0
