@@ -1646,7 +1646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1654,7 +1654,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2279,7 +2279,7 @@ MonoBehaviour:
   btn_slotAccessory_01: {fileID: 2069946381}
   btn_slotAccessory_02: {fileID: 19326685}
   m_testSprite: {fileID: 21300000, guid: 0d6a88ba9c373404482d15bf93782bab, type: 3}
-  m_slotButtons:
+  m_unitItemSlotButtons:
   - {fileID: 249311457}
   m_StorageSlotButtons: []
 --- !u!4 &447805057

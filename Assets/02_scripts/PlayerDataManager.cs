@@ -20,6 +20,7 @@ public class PlayerDataManager : MonoBehaviour
         playerData.m_storage.m_storageItem = new Item[10];
         playerData.m_storage.m_storageItem[0] = new Item();
         playerData.m_storage.m_storageItem[0].m_itemNumber = 0;
+        playerData.m_storage.m_storageItem[0].m_itemName = "longSword";
         playerData.m_storage.m_storageItem[0].InitItem();
 
 
@@ -162,10 +163,10 @@ public class PlayerDataManager : MonoBehaviour
         Debug.Log("[Current Unit 4] : " + playerData.currentUnits[3].unitName);
     }
 
-    public void GenerateItem()
+    public void GenerateItem(StorageSlotButton currentStorageSlot)
     {
         playerData.currentUnits[0].m_weapon = new Item();
-        playerData.currentUnits[0].m_weapon.m_itemName = "longSword";
+        playerData.currentUnits[0].m_weapon.m_itemName = currentStorageSlot.m_storageSlotName;
         playerData.currentUnits[0].m_weapon.m_attackValue = 45;
     }
 
@@ -189,6 +190,7 @@ public class PlayerDataManager : MonoBehaviour
     {
         //playerData.m_storage.m_storageItem[storageSlotNumber].InitItem();
         playerData.m_storage.m_storageItem[storageSlotNumber].m_empty = true;
+        playerData.m_storage.m_storageItem[storageSlotNumber].m_itemName = "";
 
     }
 

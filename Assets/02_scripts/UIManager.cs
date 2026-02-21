@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     public PlayerDataManager m_playerDataManager;
     public UnitPortraitDatabase m_unitPortraitDatabase;
     public UnitCard m_selectedUnitCard;
+    private StorageSlotButton m_currentSelectedStorageSlotBtn;
 
     public TMP_Text tmp_currentUnitName;
     public TMP_Text tmp_currentUnitHealth;
@@ -36,7 +37,7 @@ public class UIManager : MonoBehaviour
     public Button btn_slotAccessory_02;
 
     [SerializeField] private Sprite m_testSprite;
-    [SerializeField] private ItemSlotButton[] m_slotButtons;
+    [SerializeField] private ItemSlotButton[] m_unitItemSlotButtons;
     //[SerializeField] private StorageSlotButton[] m_StorageSlotButtons;
     [SerializeField] private List<StorageSlotButton> m_StorageSlotButtons;
 
@@ -63,15 +64,15 @@ public class UIManager : MonoBehaviour
 
     private void SubscribeSlotButton()
     {
-        if (m_slotButtons == null)
+        if (m_unitItemSlotButtons == null)
         {
             Debug.Log("SubscribeSlotButton failed..");
             return;
         }
 
-        for(int i = 0; i < m_slotButtons.Length; i++)
+        for(int i = 0; i < m_unitItemSlotButtons.Length; i++)
         {
-            m_slotButtons[i].AddOnClicked(OnSlotButtonClicked);
+            m_unitItemSlotButtons[i].AddOnClicked(OnSlotButtonClicked);
             Debug.Log("SubscribeSlotButton success..");
         }
     }
@@ -97,14 +98,49 @@ public class UIManager : MonoBehaviour
     private void OnStorageSlotButtonClicked(StorageSlotButton storageSlotButton)
     {
         Debug.Log("OnStorageSlotButtonClicked..");
+        //m_unitItemSlotButtons[0].gameObject.SetActive(false);
+        Color tempColor = m_unitItemSlotButtons[0].getButtonImage().color;
+        tempColor.a = 0.3f;
+        m_unitItemSlotButtons[0].getButtonImage().color = tempColor;
+        m_currentSelectedStorageSlotBtn = storageSlotButton;
     }
 
     private void OnSlotButtonClicked(ItemSlotButton slotButton)
     {
-        Debug.Log("OnSlotButtonClicked..");
-        //m_playerDataManager.GenerateItem();
-        ApplySpriteToSlot(slotButton);
-        PlayerUnitDataUpdate();
+        if(m_currentSelectedStorageSlotBtn != null)
+        {
+            //ApplySpriteToSlot(slotButton);
+            if(slotButton.getIconSprite() != null)
+            {
+                m_playerDataManager.DeleteItem();
+                slotButton.resetIconImage();
+            }
+            else
+            {
+                m_playerDataManager.GenerateItem(m_currentSelectedStorageSlotBtn);
+                slotButton.setIconImage(m_testSprite);
+
+                m_playerDataManager.RemoveItemFromStorageData(m_currentSelectedStorageSlotBtn.m_storageSlotNumber);
+                Destroy(m_currentSelectedStorageSlotBtn.gameObject);
+                m_currentSelectedStorageSlotBtn = null;
+            }
+
+            RefreshUnitStats();
+            PlayerUnitDataUpdate();
+
+            Debug.Log("copy storage item to unit");
+            
+            Debug.Log("clear currentSelectedStorageSlot");
+            
+            Color tempColor = m_unitItemSlotButtons[0].getButtonImage().color;
+            tempColor.a = 1.0f;
+            m_unitItemSlotButtons[0].getButtonImage().color = tempColor;
+                
+        }
+
+        //test assign item to unitSlot
+        // ApplySpriteToSlot(slotButton);
+        // PlayerUnitDataUpdate();
     }
 
     public void AddStorageButtonToList(StorageSlotButton storageSlotBtn)
@@ -134,7 +170,7 @@ public class UIManager : MonoBehaviour
         }
         else if (slotButton.getIconSprite() == null)
         {
-            m_playerDataManager.GenerateItem();
+            m_playerDataManager.GenerateItem(m_currentSelectedStorageSlotBtn);
             slotButton.setIconImage(m_testSprite);
         }
         RefreshUnitStats();
@@ -168,24 +204,29 @@ public class UIManager : MonoBehaviour
 
     public void RefreshUnitStats()
     {
-        tmp_currentUnitHealth.text = m_selectedUnitCard.m_unitSaveData.m_health.ToString();
-        tmp_currentUnitDefense.text = m_selectedUnitCard.m_unitSaveData.m_defense.ToString();
-        tmp_currentUnitMorale.text = m_selectedUnitCard.m_unitSaveData.m_morale.ToString();
-
-        int attackValueResult;
-        if(m_selectedUnitCard.m_unitSaveData.m_weapon != null)
+        if(m_selectedUnitCard != null)
         {
-            attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack + m_selectedUnitCard.m_unitSaveData.m_weapon.m_attackValue;
-        }
-        else
-        {
-            attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack;
-        }
-        tmp_currentUnitAttack.text = attackValueResult.ToString();
+            tmp_currentUnitHealth.text = m_selectedUnitCard.m_unitSaveData.m_health.ToString();
+            tmp_currentUnitDefense.text = m_selectedUnitCard.m_unitSaveData.m_defense.ToString();
+            tmp_currentUnitMorale.text = m_selectedUnitCard.m_unitSaveData.m_morale.ToString();
 
-        //Debug.Log("m_selectedUnitCard: " + m_selectedUnitCard.name);
+            int attackValueResult;
+            if(m_selectedUnitCard.m_unitSaveData.m_weapon != null)
+            {
+                attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack + m_selectedUnitCard.m_unitSaveData.m_weapon.m_attackValue;
+            }
+            else
+            {
+                attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack;
+            }
+            tmp_currentUnitAttack.text = attackValueResult.ToString();
 
-        SetSpriteByItemName("longSword");
+            //Debug.Log("m_selectedUnitCard: " + m_selectedUnitCard.name);
+
+            SetSpriteByItemName("longSword");
+            
+        }
+
     }
 
     public void SetSpriteByItemName(string itemName)

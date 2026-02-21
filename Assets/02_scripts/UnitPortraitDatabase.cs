@@ -9,13 +9,13 @@ public class UnitPortraitDatabase : MonoBehaviour
     private TextAsset m_portraitPathCsv;
 
     private Dictionary<string,Sprite> m_portraitByName;
-    private bool m_isLoaded;
+    //private bool m_isLoaded;
 
     public Sprite tempSP;
 
     void Awake()
     {
-        m_isLoaded = false;
+        //m_isLoaded = false;
         m_portraitByName = new Dictionary<string, Sprite>(128);
         LoadFromCsv();
         
@@ -49,8 +49,8 @@ public class UnitPortraitDatabase : MonoBehaviour
             m_portraitByName.Add(unitName,sp);
         }
 
-        m_isLoaded = true; 
-        Debug.Log("load from csv completed..");
+        //m_isLoaded = true; 
+        //Debug.Log("load from csv completed..");
 
     }
 
