@@ -107,6 +107,18 @@ public class UIManager : MonoBehaviour
         Debug.Log("AddStorageButtonToList..");
     }
 
+    public void RemoveStorageButtonFromList()
+    {
+        int nLastIndex;
+        nLastIndex = m_StorageSlotButtons.Count - 1;
+        GameObject removeTarget;
+        removeTarget = m_StorageSlotButtons[nLastIndex].gameObject;
+
+        m_StorageSlotButtons.RemoveAt(nLastIndex);
+        Destroy(removeTarget);
+        m_currentStorageItemCount--;
+    }
+
     private void ApplySpriteToSlot(ItemSlotButton slotButton)
     {
         if (slotButton.getIconSprite() != null)
@@ -293,7 +305,15 @@ public class UIManager : MonoBehaviour
 
     public void DeleteStorageItem()
     {
-        Debug.Log("DeleteStorageItem");
+        if(m_currentStorageItemCount > 0)
+        {
+            Debug.Log("DeleteStorageItem");
+            RemoveStorageButtonFromList();
+        }
+        else
+        {
+            Debug.Log("no storage item..");
+        }
     }
 
     public void HideStoragePanel()
