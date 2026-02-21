@@ -132,6 +132,7 @@ public class PlayerDataManager : MonoBehaviour
 
         m_uiManager.ClearStorageSlotButtons();
         m_uiManager.LoadStorageItem();
+        m_uiManager.SubscribeStorageSlotButton();
 
     }
 

@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void SubscribeStorageSlotButton()
+    public void SubscribeStorageSlotButton()
     {
         if(m_StorageSlotButtons == null)
         {
