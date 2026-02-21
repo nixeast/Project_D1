@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 
+public enum eDataUpdateType
+{
+    Default = 0,
+    Add = 1,
+    Remove = 2,
+}
 public class UIManager : MonoBehaviour
 {
 
@@ -116,7 +122,7 @@ public class UIManager : MonoBehaviour
 
         m_StorageSlotButtons.RemoveAt(nLastIndex);
         Destroy(removeTarget);
-        m_currentStorageItemCount--;
+        
     }
 
     private void ApplySpriteToSlot(ItemSlotButton slotButton)
@@ -259,14 +265,36 @@ public class UIManager : MonoBehaviour
             AddStorageButtonToList(itemObj.GetComponent<StorageSlotButton>());
             SubscribeStorageSlotButton();
 
-            UpdateStorageSaveData(m_currentStorageItemCount);
+            UpdateStorageSaveData(m_currentStorageItemCount, eDataUpdateType.Add);
             Debug.Log("Create storageSlots: " + m_currentStorageItemCount);
             m_currentStorageItemCount++;
         }
     }
-    public void UpdateStorageSaveData(int slotNumnber)
+    public void UpdateStorageSaveData(int slotNumnber, eDataUpdateType type)
     {
-        m_playerDataManager.AddItemToStorage(slotNumnber);
+        if(type == eDataUpdateType.Add)
+        {
+            m_playerDataManager.AddItemToStorageData(slotNumnber);
+        }
+        else if(type == eDataUpdateType.Remove)
+        {
+            int nLastIndex = slotNumnber - 1;
+            m_playerDataManager.RemoveItemFromStorageData(nLastIndex);
+        }
+
+    }
+
+    public void ClearStorageSlotButtons()
+    {
+        
+        int nLength = m_StorageSlotButtons.Count;
+        for (int i = 0; i < nLength; i++)
+        {
+            Destroy(m_StorageSlotButtons[i].gameObject);
+        }
+        Debug.Log("storage cleared..");
+        m_StorageSlotButtons.Clear();
+        Debug.Log("m_StorageSlotButtons count: " + m_StorageSlotButtons.Count);
     }
 
     public void LoadStorageItem()
@@ -308,7 +336,9 @@ public class UIManager : MonoBehaviour
         if(m_currentStorageItemCount > 0)
         {
             Debug.Log("DeleteStorageItem");
+            UpdateStorageSaveData(m_currentStorageItemCount, eDataUpdateType.Remove);
             RemoveStorageButtonFromList();
+            m_currentStorageItemCount--;
         }
         else
         {

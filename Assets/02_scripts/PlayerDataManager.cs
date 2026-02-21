@@ -130,6 +130,7 @@ public class PlayerDataManager : MonoBehaviour
         playerData = JsonUtility.FromJson<PlayerData>(json);
         Debug.Log("[load]" + savePath + "\n" + json);
 
+        m_uiManager.ClearStorageSlotButtons();
         m_uiManager.LoadStorageItem();
 
     }
@@ -172,7 +173,7 @@ public class PlayerDataManager : MonoBehaviour
         playerData.currentUnits[0].m_weapon = null;
     }
 
-    public void AddItemToStorage(int storageSlotNumber)
+    public void AddItemToStorageData(int storageSlotNumber)
     {
         playerData.m_storage.m_storageItem[storageSlotNumber] = new Item();
         playerData.m_storage.m_storageItem[storageSlotNumber].m_itemNumber = storageSlotNumber;
@@ -181,6 +182,13 @@ public class PlayerDataManager : MonoBehaviour
 
         //playerData.m_storage.m_storageItem[storageSlotNumber].m_itemNumber = storageSlotNumber;
         //playerData.m_storage.m_storageItem[storageSlotNumber].InitItem();
+    }
+
+    public void RemoveItemFromStorageData(int storageSlotNumber)
+    {
+        //playerData.m_storage.m_storageItem[storageSlotNumber].InitItem();
+        playerData.m_storage.m_storageItem[storageSlotNumber].m_empty = true;
+
     }
 
 }
