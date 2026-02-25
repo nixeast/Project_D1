@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public enum eGamePlayState
 {
@@ -176,6 +177,9 @@ public class GameManager : MonoBehaviour
         currentSelectedUnit.isCloseCombat = true;
         attackTarget.assignedUnit.isCloseCombat = true;
         MakeCloseCombatIcon(currentSelectedUnit, attackTarget);
+
+        currentSelectedUnit.ChangeMoveRange();
+
         Debug.Log(attackTarget.assignedUnit + " is in closeCombatState");
     }
 
@@ -318,44 +322,48 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void InactiveMoveTargets()
-    {
-        float fLength = (float)Math.Sqrt(m_movableTiles.Count);
-        float fMiddle = (float)fLength / 2.0f;
-        int nMiddleY = Mathf.CeilToInt(fMiddle);
-        int nMiddleX = Mathf.CeilToInt(fMiddle);
+    //public void InactiveMoveTargets()
+    //{
+    //    float fLength = (float)Math.Sqrt(m_movableTiles.Count);
+    //    float fMiddle = (float)fLength / 2.0f;
+    //    int nMiddleY = Mathf.CeilToInt(fMiddle);
+    //    int nMiddleX = Mathf.CeilToInt(fMiddle);
 
-        Debug.Log("moveTiles fLength / nMiddleX: " + fLength + "/" + nMiddleX);
+    //    Debug.Log("moveTiles fLength / nMiddleX: " + fLength + "/" + nMiddleX);
 
-        int nCount = 0;
-        for(int i=0; i < nMiddleY; i++)
-        {
-            if(nCount < nMiddleX)
-            {
+    //    int nCount = 0;
+    //    for(int i=0; i < nMiddleY; i++)
+    //    {
+    //        if(nCount < nMiddleX)
+    //        {
 
-            }
-            else if(nCount == nMiddleX)
-            {
+    //        }
+    //        else if(nCount == nMiddleX)
+    //        {
                 
-            }
-            else if(nCount > nMiddleX)
-            {
+    //        }
+    //        else if(nCount > nMiddleX)
+    //        {
                  
-            }
-        }
+    //        }
+    //    }
         
 
-    }
+    //}
 
     public void RemoveMoveTargetTiles()
     {
         int nCount = m_movableTiles.Count;
+
         for(int i=0 ; i < nCount ; i++)
         {
             //Destroy(moveTargets[i]);
             Destroy(m_movableTiles[i].gameObject);
-            Debug.Log("RemoveMoveTargetTiles..");
         }
+
+        m_movableTiles.Clear();
+
+        Debug.Log("RemoveMoveTargetTiles, m_movableTiles cleared..");
     }
 
     public void RemoveAttackTargetTiles()
@@ -374,7 +382,7 @@ public class GameManager : MonoBehaviour
         {
             RemoveAttackTargetTiles();
 
-            MakeMoveTargets(selectedUnit, 1);
+            MakeMoveTargets(selectedUnit, selectedUnit.stat_moveRange_modified);
         }
         else if(selectedUnit.currentControlMode == unitControlMode.Attack)
         {
@@ -383,6 +391,22 @@ public class GameManager : MonoBehaviour
             MakeAttackTargets(selectedUnit);
         }
 
+    }
+
+    public void ShowMovableArea(Unit selectedUnit)
+    {
+        ResetPositions();
+
+        RemoveAttackTargetTiles();
+        MakeMoveTargets(selectedUnit, selectedUnit.stat_moveRange);
+    }
+
+    public void ShowAttackableArea(Unit selectedUnit)
+    {
+        ResetPositions();
+
+        RemoveMoveTargetTiles();
+        MakeAttackTargets(selectedUnit);
     }
 
     public void MakeAttackTargets(Unit selectedUnit)

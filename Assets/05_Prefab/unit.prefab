@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3578645706863797812}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,5 +175,6 @@ MonoBehaviour:
   stat_health: 0
   stat_attack: 0
   stat_defense: 0
+  stat_moveRange: 0
   m_spriteRenderer: {fileID: 0}
   isCloseCombat: 0

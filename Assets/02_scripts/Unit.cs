@@ -21,6 +21,8 @@ public class Unit : MonoBehaviour
     public int stat_health;
     public int stat_attack;
     public int stat_defense;
+    public int stat_moveRange;
+    public int stat_moveRange_modified;
     public SpriteRenderer m_spriteRenderer;
     public bool isCloseCombat;
 
@@ -29,10 +31,12 @@ public class Unit : MonoBehaviour
     {
         currentPosition = this.transform.position;
         currentControlMode = unitControlMode.None;
+        stat_moveRange_modified = stat_moveRange;
 
         stat_health = 50;
         stat_attack = 33;
         stat_defense = 0;
+        stat_moveRange = 2;
            
     }
 
@@ -41,7 +45,13 @@ public class Unit : MonoBehaviour
     {
         
     }
-    
+
+    public void ChangeMoveRange()
+    {
+        //isCloseCombat = true;
+        stat_moveRange_modified = stat_moveRange / 2;
+    }
+
     private void OnMouseDown()
     {
         if (GameManager.instance.currentSelectedUnit == null)
@@ -59,10 +69,19 @@ public class Unit : MonoBehaviour
     {
         currentControlMode = unitControlMode.Move;
         GameManager.instance.SelectUnit(this);
-        GameManager.instance.MakeMoveTargets(this, 2);
-        GameManager.instance.InactiveMoveTargets();
 
-        Debug.Log("[mode] " + currentControlMode);
+        if(isCloseCombat == false)
+        {
+            GameManager.instance.MakeMoveTargets(this, stat_moveRange);
+        }
+        else
+        {
+            GameManager.instance.MakeMoveTargets(this, stat_moveRange_modified);
+        }
+        
+        //GameManager.instance.InactiveMoveTargets();
+
+        //Debug.Log("[mode] " + currentControlMode);
     }
 
     public void ControlModeChange()
@@ -70,12 +89,16 @@ public class Unit : MonoBehaviour
         if (currentControlMode == unitControlMode.Move)
         {
             currentControlMode = unitControlMode.Attack;
-            GameManager.instance.ChangeUnitControlMode(this);
+            //GameManager.instance.ChangeUnitControlMode(this);
+            GameManager.instance.ShowAttackableArea(this);
+            
         }
         else if (currentControlMode == unitControlMode.Attack)
         {
             currentControlMode = unitControlMode.Move;
-            GameManager.instance.ChangeUnitControlMode(this);
+            //GameManager.instance.ChangeUnitControlMode(this);
+            GameManager.instance.ShowMovableArea(this);
+
         }
     }
 
