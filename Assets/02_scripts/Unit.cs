@@ -22,6 +22,7 @@ public class Unit : MonoBehaviour
     public int stat_attack;
     public int stat_defense;
     public SpriteRenderer m_spriteRenderer;
+    public bool isCloseCombat;
 
     // Start is called before the first frame update
     void Start()
@@ -43,34 +44,39 @@ public class Unit : MonoBehaviour
     
     private void OnMouseDown()
     {
-        if(GameManager.instance==null)
-        {
-            Debug.Log("game manger null..");
-        }
-
         if (GameManager.instance.currentSelectedUnit == null)
         {
-            currentControlMode = unitControlMode.Move;
-            GameManager.instance.SelectUnit(this);
-            GameManager.instance.MakeMoveTargets(this);
-            Debug.Log("[mode] " + currentControlMode);
+            SelectThisUnit();
         }
         else if (GameManager.instance.currentSelectedUnit == this)
         {
-            if(currentControlMode == unitControlMode.Move)
-            {
-                currentControlMode = unitControlMode.Attack;
-                GameManager.instance.ChangeUnitControlMode(this);
-            }
-            else if(currentControlMode == unitControlMode.Attack)
-            {
-                currentControlMode = unitControlMode.Move;
-                GameManager.instance.ChangeUnitControlMode(this);
-            }
-            
-            Debug.Log("[mode] " + currentControlMode);
+            ControlModeChange();
+            //Debug.Log("[mode] " + currentControlMode);
         }
         
+    }
+    public void SelectThisUnit()
+    {
+        currentControlMode = unitControlMode.Move;
+        GameManager.instance.SelectUnit(this);
+        GameManager.instance.MakeMoveTargets(this, 2);
+        GameManager.instance.InactiveMoveTargets();
+
+        Debug.Log("[mode] " + currentControlMode);
+    }
+
+    public void ControlModeChange()
+    {
+        if (currentControlMode == unitControlMode.Move)
+        {
+            currentControlMode = unitControlMode.Attack;
+            GameManager.instance.ChangeUnitControlMode(this);
+        }
+        else if (currentControlMode == unitControlMode.Attack)
+        {
+            currentControlMode = unitControlMode.Move;
+            GameManager.instance.ChangeUnitControlMode(this);
+        }
     }
 
     public void DeadCheck()

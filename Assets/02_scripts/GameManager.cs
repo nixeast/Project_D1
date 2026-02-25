@@ -5,6 +5,7 @@ using System.IO;
 using System.Net.Http.Headers;
 using System;
 using TMPro;
+using UnityEngine.UI;
 
 public enum eGamePlayState
 {
@@ -24,7 +25,14 @@ public class GameManager : MonoBehaviour
     public TMP_Text tmp_maxStartUnit;
     public TMP_Text tmp_curentStartUnit;
     public RectTransform scrollViewContent_unitCard;
+    
+    public Button btn_startBattle;
+    public GameObject panel_unitCardList;
+    public GameObject panel_battleInfo;
     public GameObject tileMap_startingPoints;
+
+    public GameObject m_closeCombatIcon;
+
     public GameObject m_unitCardPrefab;
     public GameObject m_unitObject;
     public Unit m_testUnit;
@@ -34,15 +42,17 @@ public class GameManager : MonoBehaviour
     public UnitCard m_selectedUnitCard;
     private int m_maxStartUnitCount;
     private int m_currentStartUnitCount;
+
+    public List<Vector3> m_movableTilePositions = new List<Vector3>();
+    public List<MoveTarget> m_movableTiles = new List<MoveTarget>();
     public GameObject tile_moveTarget_true;
     public GameObject tile_attackTarget_true;
-
     Vector3[] movePositions = new Vector3[4];
-    Vector3[] attackPositions = new Vector3[4];
-    
     GameObject[] moveTargets = new GameObject[4];
+    Vector3[] attackPositions = new Vector3[4];
     GameObject[] attackTargets = new GameObject[4];
-    
+
+
     private List<UnitCard> m_unitCardList = new List<UnitCard>();
 
     private void Awake()
@@ -60,9 +70,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         MakeMovablePositions();
+        MakeAttackablePositions();
         SetGamePlayState(eGamePlayState.SetupBattleUnit);
         LoadUnitCard();
         tmp_maxStartUnit.text = m_maxStartUnitCount.ToString();
+        btn_startBattle.onClick.AddListener(StartBattle);
         Debug.Log("<color=yellow>start battleMap Scene</color>");
     }
 
@@ -93,6 +105,11 @@ public class GameManager : MonoBehaviour
         movePositions[2] = new Vector3(0f, 1.0f, 0f);
         movePositions[3] = new Vector3(0f, -1.0f, 0f);
 
+
+    }
+
+    public void MakeAttackablePositions()
+    {
         attackPositions[0] = new Vector3(1.0f, 0f, 0f);
         attackPositions[1] = new Vector3(-1.0f, 0f, 0f);
         attackPositions[2] = new Vector3(0f, 1.0f, 0f);
@@ -134,20 +151,42 @@ public class GameManager : MonoBehaviour
         
         currentSelectedUnit = null;
         RemoveMoveTargetTiles();
-        ResetPositions();
+        //ResetPositions();
+
+        
     }
 
     public void AttackUnit(AttackTarget currentAttackTarget)
     {
-        Debug.Log("attack unit : " + currentAttackTarget.assignedUnit);
+        //Debug.Log("attack unit : " + currentAttackTarget.assignedUnit);
         currentAttackTarget.assignedUnit.stat_health -= currentSelectedUnit.stat_attack;
+
+        AssignCloseCombatState(currentAttackTarget);
         currentAttackTarget.assignedUnit.DeadCheck();
-        Debug.Log("enemy hp : " + currentAttackTarget.assignedUnit.stat_health);
+        Debug.Log(currentAttackTarget.assignedUnit + "-> hp : " + currentAttackTarget.assignedUnit.stat_health);
 
         currentSelectedUnit = null;
+
         RemoveAttackTargetTiles();
-        //RemoveMoveTargetTiles();
         ResetPositions();
+    }
+
+    public void AssignCloseCombatState(AttackTarget attackTarget)
+    {
+        currentSelectedUnit.isCloseCombat = true;
+        attackTarget.assignedUnit.isCloseCombat = true;
+        MakeCloseCombatIcon(currentSelectedUnit, attackTarget);
+        Debug.Log(attackTarget.assignedUnit + " is in closeCombatState");
+    }
+
+    public void MakeCloseCombatIcon(Unit damageCauser, AttackTarget target)
+    {
+        Vector3 pos_damageCauser = damageCauser.gameObject.transform.position;
+        Vector3 pos_target = target.assignedUnit.gameObject.transform.position;
+        Vector3 pos_middle = (pos_damageCauser + pos_target) / 2;
+
+        Instantiate(m_closeCombatIcon, pos_middle, Quaternion.identity);
+
     }
 
     public void ResetPositions()
@@ -177,27 +216,145 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void MakeMoveTargets(Unit selectedUnit)
+    //public void MakeMoveTargets(Unit selectedUnit, int nMoveLevel)
+    //{
+    //    //setup length
+    //    int nLength = (nMoveLevel * 2) + 1;
+    //    int nLengthX = nLength;
+    //    int nLengthY = nLength;
+
+    //    float fLengthX = (float)nLengthX;
+    //    float fLengthY = (float)nLengthY;
+
+    //    int nMiddleX = Mathf.CeilToInt(fLengthX / 2);
+    //    int nMiddleY = Mathf.CeilToInt(fLengthY / 2);
+
+    //    //int nSize = nLength * nLength;
+
+    //    float targetPosX = selectedUnit.gameObject.transform.position.x - nMoveLevel;
+    //    float targetPosY = selectedUnit.gameObject.transform.position.y + nMoveLevel;
+
+    //    //create posistions
+    //    int nCountX = 0;
+    //    int nCountY = 0;
+    //    GameObject tempGameObj;
+
+    //    int nCount = 0;
+
+    //    while (nCountY < nMiddleY)
+    //    {
+    //        while(nCountX < nLengthX)
+    //        {
+    //            Vector3 tempPos = new Vector3(targetPosX, targetPosY, 0f);
+    //            m_movableTilePositions.Add(tempPos);
+
+    //            tempGameObj = Instantiate(tile_moveTarget_true);
+    //            tempGameObj.transform.position = tempPos;
+    //            m_movableTiles.Add(tempGameObj.GetComponent<MoveTarget>());
+
+    //            if(tempGameObj.transform.position == selectedUnit.gameObject.transform.position)
+    //            {
+    //                tempGameObj.SetActive(false);
+    //            }
+
+    //            if(nCountX < nMiddleX)
+    //            {
+    //                nCount = nCountX;
+    //                tempGameObj.SetActive(false);
+    //            }
+    //            else if(nCountX == nMiddleX)
+    //            {
+
+    //            }
+    //            else if(nCountX > nMiddleX)
+    //            {
+
+    //            }
+
+
+    //            nCountX++;
+    //            targetPosX++;
+    //        }
+
+    //        nCountX = 0;
+    //        targetPosX = selectedUnit.gameObject.transform.position.x - nMoveLevel;
+
+    //        nCountY++;
+    //        targetPosY--;
+    //    }
+    //}
+
+    public void MakeMoveTargets(Unit selectedUnit, int nMoveLevel)
     {
-        //Debug.Log("make moveTargetTiles..");
+        // 유닛 위치는 정수 격자라고 했으니 int로 고정
+        Vector3 unitPos = selectedUnit.gameObject.transform.position;
+        float cx = unitPos.x;
+        float cy = unitPos.y;
 
-        for(int i=0 ; i < 4 ; i++)
+        for (int dy = -nMoveLevel; dy <= nMoveLevel; dy++)
         {
-            movePositions[i] = movePositions[i] + selectedUnit.gameObject.transform.position;
-        }
+            int dxLimit = nMoveLevel - Mathf.Abs(dy);
 
-        for(int i=0 ; i < 4 ; i++)
-        {
-            moveTargets[i] = Instantiate(tile_moveTarget_true,movePositions[i],Quaternion.identity);
+            for (int dx = -dxLimit; dx <= dxLimit; dx++)
+            {
+                float tx = cx + dx;
+                float ty = cy + dy;
+
+                Vector3 tempPos = new Vector3(tx, ty, 0f);
+
+                m_movableTilePositions.Add(tempPos);
+
+                GameObject tempGameObj = Instantiate(tile_moveTarget_true);
+                tempGameObj.transform.position = tempPos;
+
+                m_movableTiles.Add(tempGameObj.GetComponent<MoveTarget>());
+
+                // 중심칸은 비활성 (float 비교 대신 dx/dy로 판정)
+                if (dx == 0 && dy == 0)
+                {
+                    tempGameObj.SetActive(false);
+                }
+            }
         }
+    }
+
+    public void InactiveMoveTargets()
+    {
+        float fLength = (float)Math.Sqrt(m_movableTiles.Count);
+        float fMiddle = (float)fLength / 2.0f;
+        int nMiddleY = Mathf.CeilToInt(fMiddle);
+        int nMiddleX = Mathf.CeilToInt(fMiddle);
+
+        Debug.Log("moveTiles fLength / nMiddleX: " + fLength + "/" + nMiddleX);
+
+        int nCount = 0;
+        for(int i=0; i < nMiddleY; i++)
+        {
+            if(nCount < nMiddleX)
+            {
+
+            }
+            else if(nCount == nMiddleX)
+            {
+                
+            }
+            else if(nCount > nMiddleX)
+            {
+                 
+            }
+        }
+        
 
     }
 
     public void RemoveMoveTargetTiles()
     {
-        for(int i=0 ; i < 4 ; i++)
+        int nCount = m_movableTiles.Count;
+        for(int i=0 ; i < nCount ; i++)
         {
-            Destroy(moveTargets[i]);
+            //Destroy(moveTargets[i]);
+            Destroy(m_movableTiles[i].gameObject);
+            Debug.Log("RemoveMoveTargetTiles..");
         }
     }
 
@@ -217,7 +374,7 @@ public class GameManager : MonoBehaviour
         {
             RemoveAttackTargetTiles();
 
-            MakeMoveTargets(selectedUnit);
+            MakeMoveTargets(selectedUnit, 1);
         }
         else if(selectedUnit.currentControlMode == unitControlMode.Attack)
         {
@@ -332,6 +489,16 @@ public class GameManager : MonoBehaviour
     public int getMaxStartUnitCount()
     {
         return m_maxStartUnitCount;
+    }
+
+    public void StartBattle()
+    {
+        m_currentGameState = eGamePlayState.Battle;
+        //scrollViewContent_unitCard.gameObject.SetActive(false);
+        panel_unitCardList.SetActive(false);
+        panel_battleInfo.SetActive(false);
+        tileMap_startingPoints.SetActive(false);
+        Debug.Log("StartBattle");
     }
 
 }
