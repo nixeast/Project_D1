@@ -11,7 +11,7 @@ public class UnitPortraitDatabase : MonoBehaviour
     private Dictionary<string,Sprite> m_portraitByName;
     //private bool m_isLoaded;
 
-    public Sprite tempSP;
+    public Sprite m_outSprite;
 
     void Awake()
     {
@@ -56,9 +56,9 @@ public class UnitPortraitDatabase : MonoBehaviour
 
     public Sprite GetPortraitSprite(string currentUnitName)
     {
-        if(m_portraitByName.TryGetValue(currentUnitName, out tempSP) != false)
+        if(m_portraitByName.TryGetValue(currentUnitName, out m_outSprite) != false)
         {
-            return tempSP;
+            return m_outSprite;
         }
 
         Debug.Log("couldn't find portraitByName : " + currentUnitName);

@@ -54,6 +54,7 @@ public class UIManager : MonoBehaviour
     {
         LoadStorageItem();
         SubscribeStorageSlotButton();
+        Debug.Log("<color=yellow>start lobbyScene</color>");
     }
 
     // Update is called once per frame
