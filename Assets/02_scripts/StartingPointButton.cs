@@ -20,7 +20,32 @@ public class StartingPointButton : MonoBehaviour
     private void OnMouseDown()
     {
         //Debug.Log("starting point clicked..");
-        Instantiate(GameManager.instance.m_testUnit, this.gameObject.transform.position, Quaternion.identity);
-        m_spriteRenderer.sprite = null;
+
+        if(GameManager.instance.getCurrentStartUnitCount() < GameManager.instance.getMaxStartUnitCount())
+        {
+            MakeUnitByUnitCard();
+        }
+        
+    }
+
+    public void MakeUnitByUnitCard()
+    {
+
+        UnitCard card;
+        Sprite unitPortrait;
+        int playerUnitNumber;
+        GameObject tempUnit;
+
+        card = GameManager.instance.m_selectedUnitCard;
+        unitPortrait = GameManager.instance.GetPortraitByName(card.m_unitName);
+        playerUnitNumber = card.m_playerUnitNumber;
+
+        tempUnit = Instantiate(GameManager.instance.m_unitObject, this.transform.position, Quaternion.identity);
+        tempUnit.GetComponent<SpriteRenderer>().sprite = unitPortrait;
+        card.isInBattleField = true;
+        card.m_portraitSlot.color = Color.gray;
+        GameManager.instance.AddCurrentStartUnitCount();
+        GameManager.instance.UpdateStartUnitCount();
+
     }
 }

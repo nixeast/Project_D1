@@ -21,6 +21,7 @@ public class Unit : MonoBehaviour
     public int stat_health;
     public int stat_attack;
     public int stat_defense;
+    public SpriteRenderer m_spriteRenderer;
 
     // Start is called before the first frame update
     void Start()

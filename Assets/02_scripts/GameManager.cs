@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Net.Http.Headers;
+using System;
+using TMPro;
 
 public enum eGamePlayState
 {
@@ -14,35 +16,40 @@ public enum eGamePlayState
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameRoot m_gameRoot;
-    private PlayerData m_playerData;
-    public UnitPortraitDatabase m_unitPortraitDatabase;
-    public GameObject tileMap_startingPoints;
     public static GameManager instance {get; private set;}
-    public Unit currentSelectedUnit;
-    public Unit m_testUnit;
+    [SerializeField] private GameRoot m_gameRoot;
+    public UnitPortraitDatabase m_unitPortraitDatabase;
+    public eGamePlayState m_currentGameState = default;
 
+    public TMP_Text tmp_maxStartUnit;
+    public TMP_Text tmp_curentStartUnit;
+    public RectTransform scrollViewContent_unitCard;
+    public GameObject tileMap_startingPoints;
+    public GameObject m_unitCardPrefab;
+    public GameObject m_unitObject;
+    public Unit m_testUnit;
+    public Sprite m_tempSprite;
+    private PlayerData m_playerData;
+    public Unit currentSelectedUnit;
+    public UnitCard m_selectedUnitCard;
+    private int m_maxStartUnitCount;
+    private int m_currentStartUnitCount;
     public GameObject tile_moveTarget_true;
     public GameObject tile_attackTarget_true;
-
-    public eGamePlayState m_currentGameState = default;
-    //public PlayerDataManager m_playerDataManager;
-    //private PlayerData m_playerData;
-    //private string m_savePath;
-
-    public GameObject m_unitCardPrefab;
-    public RectTransform scrollViewContent_unitCard;
 
     Vector3[] movePositions = new Vector3[4];
     Vector3[] attackPositions = new Vector3[4];
     
     GameObject[] moveTargets = new GameObject[4];
     GameObject[] attackTargets = new GameObject[4];
+    
+    private List<UnitCard> m_unitCardList = new List<UnitCard>();
 
     private void Awake()
     {
         instance = this;
         LoadGameRoot();
+        m_maxStartUnitCount = 4;
 
         //m_savePath = Path.Combine(Application.persistentDataPath,"m_playerData.json");
         //m_playerData = new PlayerData();
@@ -55,6 +62,7 @@ public class GameManager : MonoBehaviour
         MakeMovablePositions();
         SetGamePlayState(eGamePlayState.SetupBattleUnit);
         LoadUnitCard();
+        tmp_maxStartUnit.text = m_maxStartUnitCount.ToString();
         Debug.Log("<color=yellow>start battleMap Scene</color>");
     }
 
@@ -103,6 +111,20 @@ public class GameManager : MonoBehaviour
         currentSelectedUnit = currentUnit;
         Debug.Log("select unit..");
         //Debug.Log(currentSelectedUnit);
+    }
+
+    public void SelectUnitCard(UnitCard unitCard)
+    {
+        m_selectedUnitCard = unitCard;
+
+        if(unitCard != null)
+        {
+            Debug.Log("UnitCard is selected");
+        }
+        else
+        {
+            Debug.Log("Selected UnitCard is null");
+        }
     }
 
     public void MoveUnit(MoveTarget currentMoveTarget)
@@ -249,11 +271,67 @@ public class GameManager : MonoBehaviour
             cardObj.GetComponent<UnitCard>().text_playerUnitNumber.text = i.ToString();
             Sprite tempSprite = m_unitPortraitDatabase.GetPortraitSprite(tempUnitName);
             cardObj.GetComponent<UnitCard>().m_portraitSlot.sprite = tempSprite;
-
-
+            cardObj.GetComponent<UnitCard>().SetGameManager(this);
+            cardObj.GetComponent<UnitCard>().InitUnitCardSelectButton();
+            m_unitCardList.Add(cardObj.GetComponent<UnitCard>());
 
         }
 
+    }
+
+    public Sprite GetPortraitByName(string unitName)
+    {
+        m_tempSprite = m_unitPortraitDatabase.GetPortraitSprite(unitName);
+
+        if(m_tempSprite == null)
+        {
+            Debug.Log("GetPortraitByName Failed..");
+        }
+        else
+        {
+            Debug.Log("unitName: " + unitName);
+            Debug.Log("GetPortraitByName Success..");
+        }
+
+        return m_tempSprite;
+    }
+
+    public void ResetAllUnitCardHighlight()
+    {
+        int nCount = m_unitCardList.Count;
+        for(int i=0; i < nCount; i++)
+        {
+            if(m_unitCardList[i].isInBattleField == false)
+            {
+                m_unitCardList[i].m_portraitSlot.color = Color.white;
+            }
+            
+            m_unitCardList[i].isSelected = false;
+        }
+    }
+
+    public void AddCurrentStartUnitCount()
+    {
+        m_currentStartUnitCount++;
+    }
+    public void SubstractCurrentStartUnitCount()
+    {
+        m_currentStartUnitCount--;
+    }
+
+    public void UpdateStartUnitCount()
+    {
+        tmp_curentStartUnit.text = m_currentStartUnitCount.ToString();
+    }
+
+    public int getCurrentStartUnitCount()
+    {
+        return m_currentStartUnitCount;
+    }
+
+    public int getMaxStartUnitCount()
+    {
+        return m_maxStartUnitCount;
     }
 
 }
