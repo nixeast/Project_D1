@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
     public void SelectUnit(Unit currentUnit)
     {
         currentSelectedUnit = currentUnit;
-        Debug.Log("select unit..");
+        Debug.Log("select unit : " + currentUnit.m_spriteRenderer.sprite.name);
         //Debug.Log(currentSelectedUnit);
     }
 
@@ -147,13 +147,29 @@ public class GameManager : MonoBehaviour
 
     public void MoveUnit(MoveTarget currentMoveTarget)
     {
-        Debug.Log("move unit..");
+        
         currentSelectedUnit.gameObject.transform.position = currentMoveTarget.gameObject.transform.position;
+        
+        if(currentSelectedUnit.e_currentUnitState == eUnitState.CloseCombat)
+        {
+            currentSelectedUnit.e_currentUnitState = eUnitState.Default;
+
+            int nOpponentUnitCount = 0;
+            nOpponentUnitCount = currentSelectedUnit.m_closeCombatOpponents.Count;
+            for (int i = 0; i < nOpponentUnitCount; i++)
+            {
+                currentSelectedUnit.m_closeCombatOpponents[i].m_closeCombatOpponents.Remove(currentSelectedUnit);
+                if(currentSelectedUnit.m_closeCombatOpponents[i].m_closeCombatOpponents.Count == 0)
+                {
+                    currentSelectedUnit.m_closeCombatOpponents[i].e_currentUnitState = eUnitState.Default;
+                }
+            }
+
+            currentSelectedUnit.m_closeCombatOpponents.Clear();
+        }
         
         currentSelectedUnit = null;
         RemoveMoveTargetTiles();
-        //ResetPositions();
-
         
     }
 
@@ -161,10 +177,20 @@ public class GameManager : MonoBehaviour
     {
         //Debug.Log("attack unit : " + currentAttackTarget.assignedUnit);
         currentAttackTarget.assignedUnit.stat_health -= currentSelectedUnit.stat_attack;
-
-        AssignCloseCombatState(currentAttackTarget);
-        currentAttackTarget.assignedUnit.DeadCheck();
         Debug.Log(currentAttackTarget.assignedUnit + "-> hp : " + currentAttackTarget.assignedUnit.stat_health);
+
+        currentAttackTarget.assignedUnit.m_closeCombatOpponents.Add(currentSelectedUnit);
+        currentSelectedUnit.m_closeCombatOpponents.Add(currentAttackTarget.assignedUnit);
+        AssignCloseCombatState(currentAttackTarget);
+
+        bool isDead = false;
+        isDead = currentAttackTarget.assignedUnit.DeadCheck();
+        if(isDead == true)
+        {
+            currentSelectedUnit.e_currentUnitState = eUnitState.Default;
+            Debug.Log("unit state changed : ->default");
+        }
+        
 
         currentSelectedUnit = null;
 
@@ -175,7 +201,9 @@ public class GameManager : MonoBehaviour
     public void AssignCloseCombatState(AttackTarget attackTarget)
     {
         currentSelectedUnit.isCloseCombat = true;
+        currentSelectedUnit.e_currentUnitState = eUnitState.CloseCombat;
         attackTarget.assignedUnit.isCloseCombat = true;
+        attackTarget.assignedUnit.e_currentUnitState = eUnitState.CloseCombat;
         MakeCloseCombatIcon(currentSelectedUnit, attackTarget);
 
         currentSelectedUnit.ChangeMoveRange();
@@ -290,7 +318,7 @@ public class GameManager : MonoBehaviour
 
     public void MakeMoveTargets(Unit selectedUnit, int nMoveLevel)
     {
-        // À¯´Ö À§Ä¡´Â Á¤¼ö °ÝÀÚ¶ó°í ÇßÀ¸´Ï int·Î °íÁ¤
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ intï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector3 unitPos = selectedUnit.gameObject.transform.position;
         float cx = unitPos.x;
         float cy = unitPos.y;
@@ -313,7 +341,7 @@ public class GameManager : MonoBehaviour
 
                 m_movableTiles.Add(tempGameObj.GetComponent<MoveTarget>());
 
-                // Áß½ÉÄ­Àº ºñÈ°¼º (float ºñ±³ ´ë½Å dx/dy·Î ÆÇÁ¤)
+                // ï¿½ß½ï¿½Ä­ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½ (float ï¿½ï¿½ ï¿½ï¿½ï¿½ dx/dyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
                 if (dx == 0 && dy == 0)
                 {
                     tempGameObj.SetActive(false);

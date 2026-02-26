@@ -172,9 +172,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentControlMode: 0
+  m_name: 
   stat_health: 0
   stat_attack: 0
   stat_defense: 0
   stat_moveRange: 0
-  m_spriteRenderer: {fileID: 0}
+  stat_moveRange_modified: 0
+  m_spriteRenderer: {fileID: 8888594027370597941}
   isCloseCombat: 0
+  e_currentUnitState: 0
