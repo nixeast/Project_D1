@@ -8,6 +8,12 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 
+public enum eTurnOwner
+{
+    Default = 0,
+    Player = 1,
+    Enemy = 2,
+}
 public enum eGamePlayState
 {
     Default = 0,
@@ -53,8 +59,14 @@ public class GameManager : MonoBehaviour
     Vector3[] attackPositions = new Vector3[4];
     GameObject[] attackTargets = new GameObject[4];
 
-
     private List<UnitCard> m_unitCardList = new List<UnitCard>();
+
+    private eTurnOwner m_currentTurnOwner;
+    public Button btn_turnOver;
+    public GameObject panel_currentTurn;
+    public TMP_Text tmp_currentTurn;
+    public TMP_Text tmp_turnOwner;
+    private int m_currentTurn;
 
     private void Awake()
     {
@@ -76,6 +88,11 @@ public class GameManager : MonoBehaviour
         LoadUnitCard();
         tmp_maxStartUnit.text = m_maxStartUnitCount.ToString();
         btn_startBattle.onClick.AddListener(StartBattle);
+        btn_turnOver.onClick.AddListener(SwitchTurnOwner);
+        m_currentTurnOwner = eTurnOwner.Player;
+        m_currentTurn = 1;
+        tmp_turnOwner.text = "player";
+        tmp_currentTurn.text = m_currentTurn.ToString();
         Debug.Log("<color=yellow>start battleMap Scene</color>");
     }
 
@@ -551,6 +568,25 @@ public class GameManager : MonoBehaviour
         panel_battleInfo.SetActive(false);
         tileMap_startingPoints.SetActive(false);
         Debug.Log("StartBattle");
+    }
+
+    public void SwitchTurnOwner()
+    {
+        if(m_currentTurnOwner == eTurnOwner.Player)
+        {
+            tmp_turnOwner.text = "enemy";
+            m_currentTurnOwner = eTurnOwner.Enemy;
+        }
+        else if(m_currentTurnOwner == eTurnOwner.Enemy)
+        {
+            m_currentTurn++;
+            tmp_currentTurn.text = m_currentTurn.ToString();
+            tmp_turnOwner.text = "player";
+            m_currentTurnOwner = eTurnOwner.Player;
+        }
+
+        Debug.Log(m_currentTurnOwner);
+
     }
 
 }
