@@ -68,6 +68,10 @@ public class GameManager : MonoBehaviour
     public TMP_Text tmp_turnOwner;
     private int m_currentTurn;
 
+    public List<Unit> m_playerUnits = new List<Unit>();
+    public List<Unit> m_enemyUnits = new List<Unit>();
+
+
     private void Awake()
     {
         instance = this;
@@ -206,6 +210,9 @@ public class GameManager : MonoBehaviour
         {
             currentSelectedUnit.e_currentUnitState = eUnitState.Default;
             Debug.Log("unit state changed : ->default");
+
+            BattleWinCheck();
+            BattleLoseCheck();
         }
         
 
@@ -587,6 +594,22 @@ public class GameManager : MonoBehaviour
 
         Debug.Log(m_currentTurnOwner);
 
+    }
+
+    public void BattleWinCheck()
+    {
+        if(m_enemyUnits.Count == 0)
+        {
+            Debug.Log("player win..");
+        }
+    }
+
+    public void BattleLoseCheck()
+    {
+        if (m_playerUnits.Count == 0)
+        {
+            Debug.Log("enemy win..");
+        }
     }
 
 }
