@@ -9,6 +9,7 @@ public class UnitSaveData
     public string unitName;
     public int level;
     public int upgrade;
+    public int m_unitOriginalNumber;
 
     public Item m_weapon;
     public Item m_armor;

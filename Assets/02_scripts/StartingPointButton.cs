@@ -35,17 +35,28 @@ public class StartingPointButton : MonoBehaviour
         Sprite unitPortrait;
         int playerUnitNumber;
         GameObject tempUnit;
+        
+        if(GameManager.instance.m_selectedUnitCard != null)
+        {
+            card = GameManager.instance.m_selectedUnitCard;
+            unitPortrait = GameManager.instance.GetPortraitByName(card.m_unitName);
+            playerUnitNumber = card.m_playerUnitNumber;
+            tempUnit = Instantiate(GameManager.instance.m_unitObject, this.transform.position, Quaternion.identity);
+            tempUnit.GetComponent<SpriteRenderer>().sprite = unitPortrait;
 
-        card = GameManager.instance.m_selectedUnitCard;
-        unitPortrait = GameManager.instance.GetPortraitByName(card.m_unitName);
-        playerUnitNumber = card.m_playerUnitNumber;
+            tempUnit.GetComponent<Unit>().m_unitSaveData = card.m_unitSaveData;
+            tempUnit.GetComponent<Unit>().m_name = card.m_unitSaveData.unitName;
 
-        tempUnit = Instantiate(GameManager.instance.m_unitObject, this.transform.position, Quaternion.identity);
-        tempUnit.GetComponent<SpriteRenderer>().sprite = unitPortrait;
-        card.isInBattleField = true;
-        card.m_portraitSlot.color = Color.gray;
-        GameManager.instance.AddCurrentStartUnitCount();
-        GameManager.instance.UpdateStartUnitCount();
+            Debug.Log("unit name : " + tempUnit.GetComponent<Unit>().m_name);
+            Debug.Log("created unit original num : " + tempUnit.GetComponent<Unit>().m_unitSaveData.m_unitOriginalNumber);
+
+            card.isInBattleField = true;
+            card.m_portraitSlot.color = Color.gray;
+            GameManager.instance.AddCurrentStartUnitCount();
+            GameManager.instance.UpdateStartUnitCount();
+            
+        }
+
 
     }
 }

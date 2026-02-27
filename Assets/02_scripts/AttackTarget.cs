@@ -21,9 +21,9 @@ public class AttackTarget : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag(enemyTag))
+        if (other.CompareTag(enemyTag) || other.CompareTag("Player"))
         {
-            Debug.Log("enemy detected..");
+            Debug.Log("attack target detected..");
             //Destroy(gameObject);
             //this.gameObject.SetActive(false);
             

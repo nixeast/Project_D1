@@ -37,6 +37,8 @@ public class Unit : MonoBehaviour
     public eUnitState e_currentUnitState = eUnitState.Default;
     public List<Unit> m_closeCombatOpponents = new List<Unit>();
 
+    public UnitSaveData m_unitSaveData;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +50,15 @@ public class Unit : MonoBehaviour
         stat_defense = 0;
         stat_moveRange = 2;
         stat_moveRange_modified = stat_moveRange;
+        
+        if(this.gameObject.tag == "enemy")
+        {
+            AssignUnitToEnemyList();
+        }
+        else if(this.gameObject.tag == "Player")
+        {
+            AssignUnitToPlayerUnitList();
+        }
            
     }
 
@@ -55,6 +66,19 @@ public class Unit : MonoBehaviour
     void Update()
     {
         
+    }
+    
+    public void AssignUnitToEnemyList()
+    {
+        GameManager.instance.m_enemyUnits.Add(this);
+    }
+    
+    public void AssignUnitToPlayerUnitList()
+    {
+        if(GameManager.instance.m_playerUnits.Contains(this) == false)
+        {
+            GameManager.instance.m_playerUnits.Add(this);
+        }
     }
 
     public void ChangeMoveRange()
@@ -122,12 +146,21 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public bool DeadCheck()
+    public bool DeadCheck(Unit targetUnit)
     {
         if(stat_health <= 0)
         {
-            Debug.Log(this.gameObject + " is dead..");
+            if(this.gameObject.tag == "enemy")
+            {
+                GameManager.instance.m_enemyUnits.Remove(this);
+            }
+            else if(this.gameObject.tag == "Player")
+            {
+                GameManager.instance.m_playerUnits.Remove(this);
+            }
+            
             Destroy(this.gameObject);
+            Debug.Log(this.gameObject + " is dead..");
             return true;
         }
 

@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameRoot m_gameRoot;
     public UnitPortraitDatabase m_unitPortraitDatabase;
     public eGamePlayState m_currentGameState = default;
+    public BattleResultManager m_battleResultManager;
 
     public TMP_Text tmp_maxStartUnit;
     public TMP_Text tmp_curentStartUnit;
@@ -70,6 +71,8 @@ public class GameManager : MonoBehaviour
 
     public List<Unit> m_playerUnits = new List<Unit>();
     public List<Unit> m_enemyUnits = new List<Unit>();
+
+    [SerializeField] GameObject panel_battleResult;
 
 
     private void Awake()
@@ -205,7 +208,7 @@ public class GameManager : MonoBehaviour
         AssignCloseCombatState(currentAttackTarget);
 
         bool isDead = false;
-        isDead = currentAttackTarget.assignedUnit.DeadCheck();
+        isDead = currentAttackTarget.assignedUnit.DeadCheck(currentAttackTarget.assignedUnit);
         if(isDead == true)
         {
             currentSelectedUnit.e_currentUnitState = eUnitState.Default;
@@ -499,6 +502,8 @@ public class GameManager : MonoBehaviour
             //cardObj.GetComponent<UnitCard>().InitUnitCard(this, m_playerData.currentUnits[i].unitName, m_playerData.currentUnits[i]);
             
             cardObj.GetComponent<UnitCard>().m_unitName = m_playerData.currentUnits[i].unitName;
+            cardObj.GetComponent<UnitCard>().m_unitSaveData = m_playerData.currentUnits[i];
+
             string tempUnitName = cardObj.GetComponent<UnitCard>().m_unitName;
             cardObj.GetComponent<UnitCard>().m_playerUnitNumber = i;
             cardObj.GetComponent<UnitCard>().text_playerUnitNumber.text = i.ToString();
@@ -574,7 +579,18 @@ public class GameManager : MonoBehaviour
         panel_unitCardList.SetActive(false);
         panel_battleInfo.SetActive(false);
         tileMap_startingPoints.SetActive(false);
+        
         Debug.Log("StartBattle");
+        Debug.Log("player unit list");
+
+        int nLength = m_playerUnits.Count;
+        int nCount = 0;
+        while(nCount < nLength)
+        {
+            Debug.Log(m_playerUnits[nCount].m_name);
+            nCount++;
+        }
+
     }
 
     public void SwitchTurnOwner()
@@ -600,6 +616,8 @@ public class GameManager : MonoBehaviour
     {
         if(m_enemyUnits.Count == 0)
         {
+            panel_battleResult.SetActive(true);
+            m_battleResultManager.MakeWinResult();
             Debug.Log("player win..");
         }
     }
@@ -608,6 +626,8 @@ public class GameManager : MonoBehaviour
     {
         if (m_playerUnits.Count == 0)
         {
+            panel_battleResult.SetActive(true);
+            m_battleResultManager.MakeLoseResult();
             Debug.Log("enemy win..");
         }
     }

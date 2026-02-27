@@ -54,7 +54,16 @@ public class UIManager : MonoBehaviour
     {
         LoadStorageItem();
         SubscribeStorageSlotButton();
-        Debug.Log("<color=yellow>start lobbyScene</color>");
+
+        int nLength = m_playerDataManager.GetPlayerData().currentUnits.Length;
+        for (int i = 0; i < nLength; i ++)
+        {
+            int nTemp;
+            nTemp =  m_playerDataManager.GetPlayerData().currentUnits[i].m_unitOriginalNumber;
+            Debug.Log("playerUnit0" + (i + 1).ToString() + " originalNumber : " + nTemp);
+        }
+
+            Debug.Log("<color=yellow>start lobbyScene</color>");
     }
 
     // Update is called once per frame

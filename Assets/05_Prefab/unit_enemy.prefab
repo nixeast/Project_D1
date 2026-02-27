@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2433025699324313872}
   - component: {fileID: 8159680318431418654}
   m_Layer: 0
-  m_Name: unit
-  m_TagString: Untagged
+  m_Name: unit_enemy
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 93d8817e4a75d43fd8d5a68bf078f34f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f043727397de54c11aaa49a5af4f1edd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -181,3 +181,4 @@ MonoBehaviour:
   m_spriteRenderer: {fileID: 8888594027370597941}
   isCloseCombat: 0
   e_currentUnitState: 0
+  m_closeCombatOpponents: []
