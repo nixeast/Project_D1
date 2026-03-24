@@ -32,7 +32,7 @@ public class Doom : MonoBehaviour
         
     }
     
-    public void UpdateDoomUI()
+    public void UpdateDoom()
     {
         UpdateDoomLevelBar();
         UpdateDoomLevel();
@@ -76,6 +76,22 @@ public class Doom : MonoBehaviour
         {
             m_doomLevel = eDoomLevel.Critical;
             text_doomLevel.text = "Critical";
+        }
+    }
+    
+    public void AddDoomEffect()
+    {
+        if(m_doomLevel == eDoomLevel.Stable)
+        {
+            //add purifyingBreath
+        }
+        else if(m_doomLevel == eDoomLevel.Threat)
+        {
+            //add plagueTile
+        }
+        else if(m_doomLevel == eDoomLevel.Critical)
+        {
+            //add ringOfCorruption, plagueSpread
         }
     }
 

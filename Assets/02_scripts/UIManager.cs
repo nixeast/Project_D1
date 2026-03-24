@@ -81,7 +81,7 @@ public class UIManager : MonoBehaviour
         TestDoomList();
         m_doomList[0].IncreaseDoomValue(eDoomType.PlagueOfContamination, 76);
         //m_doomList[0].DecreaseDoomValue(eDoomType.PlagueOfContamination, 50);
-        m_doomList[0].UpdateDoomUI();
+        m_doomList[0].UpdateDoom();
     }
 
     public void InitDoomList()
@@ -102,23 +102,7 @@ public class UIManager : MonoBehaviour
             Debug.Log(m_doomList[i].m_doomName);
         }
     }
-    
-    // public void UpdateDoomList()
-    // {
-    //     m_doomList[0].UpdateDoomUI();
-    // }
-    
-    // public void IncreaseDoomValue(eDoomType doomType, int Amount)
-    // {
-    //     int nDoomNumber = (int)doomType;
-    //     m_doomList[nDoomNumber].m_doomValue += Amount;
-    // }
-    
-    // public void DecreaseDoomValue(eDoomType doomType, int Amount)
-    // {
-    //     int nDoomNumber = (int)doomType;
-    //     m_doomList[nDoomNumber].m_doomValue -= Amount;
-    // }
+
 
     private void SubscribeSlotButton()
     {
