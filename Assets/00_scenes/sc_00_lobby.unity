@@ -15302,8 +15302,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_doomName: plagueOfContamination
-  m_doomLevel: 0
+  m_doomValue: 0
   m_doomLevelBar: {fileID: 25860250}
+  m_doomLevel: 0
+  text_doomLevel: {fileID: 442322601}
 --- !u!1 &861899696
 GameObject:
   m_ObjectHideFlags: 0
