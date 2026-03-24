@@ -11,6 +11,16 @@ public enum eDataUpdateType
     Add = 1,
     Remove = 2,
 }
+
+public enum eDoomType
+{
+    PlagueOfContamination = 0,
+    RiftStoneMutation = 1,
+    SubterraneanTunnels = 2,
+    SoulHarvest = 3,
+    GearsOfCalamity = 4,
+}
+
 public class UIManager : MonoBehaviour
 {
 
@@ -43,10 +53,13 @@ public class UIManager : MonoBehaviour
 
     private int m_currentStorageItemCount = 1;
 
+    //private int m_doomCount = 5;
+    public Doom[] m_doomList;
+
     private void Awake()
     {
         SubscribeSlotButton();
-        
+        InitDoomList();
     }
 
     // Start is called before the first frame update
@@ -64,12 +77,47 @@ public class UIManager : MonoBehaviour
         }
 
             Debug.Log("<color=yellow>start lobbyScene</color>");
+
+        TestDoomList();
+        IncreaseDoomValue(eDoomType.PlagueOfContamination, 75);
+        DecreaseDoomValue(eDoomType.PlagueOfContamination, 50);
+        UpdateDoomList();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InitDoomList()
     {
-        
+        // int nCount = m_doomList.Length;
+        // for (int i = 0; i < nCount; i++)
+        // {
+        //     m_doomList[i] = new Doom();
+        //     m_doomList[i].m_doomName = "plague of contamination";            
+        // }
+    }
+    
+    public void TestDoomList()
+    {
+        int nCount = m_doomList.Length;
+        for (int i = 0; i < nCount; i++)
+        {
+            Debug.Log(m_doomList[i].m_doomName);
+        }
+    }
+    
+    public void UpdateDoomList()
+    {
+        m_doomList[0].m_doomLevelBar.fillAmount = m_doomList[0].m_doomValue * 0.01f;
+    }
+    
+    public void IncreaseDoomValue(eDoomType doomType, int Amount)
+    {
+        int nDoomNumber = (int)doomType;
+        m_doomList[nDoomNumber].m_doomValue += Amount;
+    }
+    
+    public void DecreaseDoomValue(eDoomType doomType, int Amount)
+    {
+        int nDoomNumber = (int)doomType;
+        m_doomList[nDoomNumber].m_doomValue -= Amount;
     }
 
     private void SubscribeSlotButton()
