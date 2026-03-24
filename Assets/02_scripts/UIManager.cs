@@ -79,9 +79,9 @@ public class UIManager : MonoBehaviour
             Debug.Log("<color=yellow>start lobbyScene</color>");
 
         TestDoomList();
-        IncreaseDoomValue(eDoomType.PlagueOfContamination, 75);
-        DecreaseDoomValue(eDoomType.PlagueOfContamination, 50);
-        UpdateDoomList();
+        m_doomList[0].IncreaseDoomValue(eDoomType.PlagueOfContamination, 76);
+        //m_doomList[0].DecreaseDoomValue(eDoomType.PlagueOfContamination, 50);
+        m_doomList[0].UpdateDoomUI();
     }
 
     public void InitDoomList()
@@ -103,22 +103,22 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    public void UpdateDoomList()
-    {
-        m_doomList[0].m_doomLevelBar.fillAmount = m_doomList[0].m_doomValue * 0.01f;
-    }
+    // public void UpdateDoomList()
+    // {
+    //     m_doomList[0].UpdateDoomUI();
+    // }
     
-    public void IncreaseDoomValue(eDoomType doomType, int Amount)
-    {
-        int nDoomNumber = (int)doomType;
-        m_doomList[nDoomNumber].m_doomValue += Amount;
-    }
+    // public void IncreaseDoomValue(eDoomType doomType, int Amount)
+    // {
+    //     int nDoomNumber = (int)doomType;
+    //     m_doomList[nDoomNumber].m_doomValue += Amount;
+    // }
     
-    public void DecreaseDoomValue(eDoomType doomType, int Amount)
-    {
-        int nDoomNumber = (int)doomType;
-        m_doomList[nDoomNumber].m_doomValue -= Amount;
-    }
+    // public void DecreaseDoomValue(eDoomType doomType, int Amount)
+    // {
+    //     int nDoomNumber = (int)doomType;
+    //     m_doomList[nDoomNumber].m_doomValue -= Amount;
+    // }
 
     private void SubscribeSlotButton()
     {
