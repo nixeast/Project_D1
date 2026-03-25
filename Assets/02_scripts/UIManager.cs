@@ -53,13 +53,15 @@ public class UIManager : MonoBehaviour
 
     private int m_currentStorageItemCount = 1;
 
-    //private int m_doomCount = 5;
     public Doom[] m_doomList;
+
+    public TMP_Text tmp_value_dwarfGold;
+    public TMP_Text tmp_value_dwarfHonor;
+    public TMP_Text tmp_value_forgedEssence;
 
     private void Awake()
     {
         SubscribeSlotButton();
-        InitDoomList();
     }
 
     // Start is called before the first frame update
@@ -78,31 +80,19 @@ public class UIManager : MonoBehaviour
 
             Debug.Log("<color=yellow>start lobbyScene</color>");
 
-        TestDoomList();
         m_doomList[0].IncreaseDoomValue(eDoomType.PlagueOfContamination, 76);
-        //m_doomList[0].DecreaseDoomValue(eDoomType.PlagueOfContamination, 50);
         m_doomList[0].UpdateDoom();
+
+        updateDwarfResourcesText();
+        m_playerDataManager.AddDwarfHonor(200);
     }
 
-    public void InitDoomList()
+    public void updateDwarfResourcesText()
     {
-        // int nCount = m_doomList.Length;
-        // for (int i = 0; i < nCount; i++)
-        // {
-        //     m_doomList[i] = new Doom();
-        //     m_doomList[i].m_doomName = "plague of contamination";            
-        // }
+        tmp_value_dwarfGold.text = m_playerDataManager.GetPlayerData().nDwarfGold.ToString();
+        tmp_value_dwarfHonor.text = m_playerDataManager.GetPlayerData().nDwarfHonor.ToString();
+        tmp_value_forgedEssence.text = m_playerDataManager.GetPlayerData().nForgedEssence.ToString();
     }
-    
-    public void TestDoomList()
-    {
-        int nCount = m_doomList.Length;
-        for (int i = 0; i < nCount; i++)
-        {
-            Debug.Log(m_doomList[i].m_doomName);
-        }
-    }
-
 
     private void SubscribeSlotButton()
     {

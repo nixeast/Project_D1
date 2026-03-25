@@ -14,13 +14,38 @@ public class PlayerDataManager : MonoBehaviour
         savePath = Path.Combine(Application.persistentDataPath,"playerData.json");
 
         playerData = new PlayerData();
-        playerData.nGold = 0;
+        InintDwarfResourcesData();
 
         CreateStarterStorage();
         CreateStarterUnits();
 
     }
-    
+
+    public void InintDwarfResourcesData()
+    {
+        playerData.nDwarfGold = 100;
+        playerData.nDwarfHonor = 100;
+        playerData.nForgedEssence = 100;
+    }
+
+    public void AddDwarfGold(int nGold)
+    {
+        playerData.nDwarfGold += nGold;
+        m_uiManager.updateDwarfResourcesText();
+    }
+
+    public void AddDwarfHonor(int nHonor)
+    {
+        playerData.nDwarfHonor += nHonor;
+        m_uiManager.updateDwarfResourcesText();
+    }
+
+    public void AddForgedEssence(int nForgedEssence)
+    {
+        playerData.nForgedEssence += nForgedEssence;
+        m_uiManager.updateDwarfResourcesText();
+    }
+
     public void CreateStarterStorage()
     {
         playerData.m_storage = new StorageSaveData();
@@ -69,12 +94,12 @@ public class PlayerDataManager : MonoBehaviour
 
     public int GetGold()
     {
-        return playerData.nGold;
+        return playerData.nDwarfGold;
     }
 
     public void SetGold(int value)
     {
-        playerData.nGold = value;
+        playerData.nDwarfGold = value;
     }
 
     public string GetSavePath()
@@ -123,13 +148,13 @@ public class PlayerDataManager : MonoBehaviour
 
     public void AddGold(int value)
     {
-        playerData.nGold += value;
-        Debug.Log("[Gold]" + playerData.nGold);
+        playerData.nDwarfGold += value;
+        Debug.Log("[Gold]" + playerData.nDwarfGold);
     }
 
     public void ShowData()
     {
-        Debug.Log("[Current Gold] : " + playerData.nGold);
+        Debug.Log("[Current Gold] : " + playerData.nDwarfGold);
         Debug.Log("[Current Unit length] : " + playerData.currentUnits.Length);
         Debug.Log("[Current Unit 1] : " + playerData.currentUnits[0].unitName);
         Debug.Log("[Current Unit 2] : " + playerData.currentUnits[1].unitName);

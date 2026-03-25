@@ -6,7 +6,9 @@ using System;
 [Serializable]
 public class PlayerData
 {
-    public int nGold;
+    public int nDwarfGold;
+    public int nDwarfHonor;
+    public int nForgedEssence;
 
     public UnitSaveData[] currentUnits;
     //public Item[] m_storageItem;
