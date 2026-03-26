@@ -26,16 +26,23 @@ public class UIManager : MonoBehaviour
 
     public GameObject panel_characterInfo;
     public GameObject panel_storage;
+    
     public GameObject panel_recruit;
+    public GameObject prefab_recruitCard;
+    public string m_selectedRecruitUnitName;
+    public bool isRecruitUnitSelected;
+
     public RectTransform scrollViewContent_unitCard;
     public RectTransform scrollViewContent_storage;
     public RectTransform scrollViewContent_recruit;
     public GameObject unitCardPrefab;
-    public GameObject prefab_recruitCard;
+    
+    
     public GameObject storageSlotPrefab;
     public PlayerDataManager m_playerDataManager;
     public UnitPortraitDatabase m_unitPortraitDatabase;
     public UnitCard m_selectedUnitCard;
+    public List<GameObject> m_currentUnitCardList;
     private StorageSlotButton m_currentSelectedStorageSlotBtn;
 
     public TMP_Text tmp_currentUnitName;
@@ -73,11 +80,11 @@ public class UIManager : MonoBehaviour
         LoadStorageItem();
         SubscribeStorageSlotButton();
 
-        int nLength = m_playerDataManager.GetPlayerData().currentUnits.Length;
+        int nLength = m_playerDataManager.GetPlayerData().m_currentUnits.Count;
         for (int i = 0; i < nLength; i ++)
         {
             int nTemp;
-            nTemp =  m_playerDataManager.GetPlayerData().currentUnits[i].m_unitOriginalNumber;
+            nTemp =  m_playerDataManager.GetPlayerData().m_currentUnits[i].m_unitOriginalNumber;
             Debug.Log("playerUnit0" + (i + 1).ToString() + " originalNumber : " + nTemp);
         }
 
@@ -94,6 +101,22 @@ public class UIManager : MonoBehaviour
         RefreshUnitCard();
     }
     
+    public void RecruitSelectedUnit()
+    {
+        if(isRecruitUnitSelected == true)
+        {
+            //add new unitCard to unitCardList
+            isRecruitUnitSelected = false;
+            Debug.Log("recruit success");
+
+            m_playerDataManager.CreateUnit();
+        }
+        else
+        {
+            Debug.Log("no selected recruitCard");
+        }
+    }
+    
     public void CreateRecruitCard()
     {
         for (int i = 0; i < 3; i++)
@@ -101,6 +124,9 @@ public class UIManager : MonoBehaviour
             GameObject cardObj = Instantiate(prefab_recruitCard);
             cardObj.transform.SetParent(scrollViewContent_recruit, false);
             RecruitCard recruitObj = cardObj.GetComponent<RecruitCard>();
+
+            recruitObj.m_uiManager = this;
+
             recruitObj.m_unitName = i.ToString();
             recruitObj.m_unitType = "warrior";
             recruitObj.m_unitTrait = "trait_" + i.ToString();
@@ -335,31 +361,69 @@ public class UIManager : MonoBehaviour
 
     public void RefreshUnitCard()
     {
-        PlayerData playerData = m_playerDataManager.GetPlayerData();
+        PlayerData playerData = LoadUnitCradInfo();
         
         int unitCardCount = 0;
+        unitCardCount = CountUnitCardLength(playerData);
+
+        ClearUnitCards();
+
+        CreateUnitCards(playerData, unitCardCount);
+
+        
+    }
+    
+    public void CreateUnitCards(PlayerData playerData, int unitCardCount)
+    {
+        for(int i=0; i<unitCardCount; i++)
+        {
+            GameObject cardObj = Instantiate(unitCardPrefab);
+            m_currentUnitCardList.Add(cardObj);
+            cardObj.transform.SetParent(scrollViewContent_unitCard, false);
+            cardObj.GetComponent<UnitCard>().InitUnitCard(this, playerData.m_currentUnits[i].unitName, playerData.m_currentUnits[i]);
+            //cardObj.GetComponent<UnitCard>().m_unitName = playerData.currentUnits[i].unitName;
+            cardObj.GetComponent<UnitCard>().m_playerUnitNumber = i;
+            cardObj.GetComponent<UnitCard>().text_playerUnitNumber.text = i.ToString();
+        }
+    }
+    
+    public void ClearUnitCards()
+    {
+        int nListCount = 0;
+        nListCount = m_currentUnitCardList.Count;
+        for (int i = 0; i < nListCount; i++)
+        {
+            Destroy(m_currentUnitCardList[i].gameObject);
+        }
+        m_currentUnitCardList.Clear();
+    }
+    
+    public int CountUnitCardLength(PlayerData playerData)
+    {
+        if(playerData != null)
+        {
+            return playerData.m_currentUnits.Count;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+    public PlayerData LoadUnitCradInfo()
+    {
+        PlayerData playerData = m_playerDataManager.GetPlayerData();
 
         if(playerData != null)
         {
-            unitCardCount = playerData.currentUnits.Length;
-            Debug.Log("unitCardCount: " + unitCardCount);
+            
+            return playerData;
         }
         else
         {
             Debug.Log("playerData is null..");
+            return null;
         }
-
-        for(int i=0; i<unitCardCount; i++)
-        {
-            GameObject cardObj = Instantiate(unitCardPrefab);
-            cardObj.transform.SetParent(scrollViewContent_unitCard, false);
-            cardObj.GetComponent<UnitCard>().InitUnitCard(this, playerData.currentUnits[i].unitName, playerData.currentUnits[i]);
-            //cardObj.GetComponent<UnitCard>().m_unitName = playerData.currentUnits[i].unitName;
-            cardObj.GetComponent<UnitCard>().m_playerUnitNumber = i;
-            cardObj.GetComponent<UnitCard>().text_playerUnitNumber.text = i.ToString();
-
-        }
-
     }
 
     public void SetItemToUnit(int slotNumber)

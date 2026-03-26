@@ -20,8 +20,8 @@ public class RecruitCard : MonoBehaviour
 
     //public Image image_portrait_unit;
     public Image image_icon_trait;
-
     public Button btn_portrait_unit;
+    public UIManager m_uiManager;
 
     // Start is called before the first frame update
     void Start()
@@ -33,5 +33,11 @@ public class RecruitCard : MonoBehaviour
     void Update()
     {
         
+    }
+    
+    public void AssignSelectedUnit()
+    {
+        m_uiManager.isRecruitUnitSelected = true;
+        m_uiManager.m_selectedRecruitUnitName = m_unitName;
     }
 }

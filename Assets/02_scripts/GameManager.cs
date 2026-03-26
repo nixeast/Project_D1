@@ -486,7 +486,7 @@ public class GameManager : MonoBehaviour
 
         if(m_playerData != null)
         {
-            unitCardCount = m_playerData.currentUnits.Length;
+            unitCardCount = m_playerData.m_currentUnits.Count;
             Debug.Log("unitCardCount: " + unitCardCount);
         }
         else
@@ -501,8 +501,8 @@ public class GameManager : MonoBehaviour
 
             //cardObj.GetComponent<UnitCard>().InitUnitCard(this, m_playerData.currentUnits[i].unitName, m_playerData.currentUnits[i]);
             
-            cardObj.GetComponent<UnitCard>().m_unitName = m_playerData.currentUnits[i].unitName;
-            cardObj.GetComponent<UnitCard>().m_unitSaveData = m_playerData.currentUnits[i];
+            cardObj.GetComponent<UnitCard>().m_unitName = m_playerData.m_currentUnits[i].unitName;
+            cardObj.GetComponent<UnitCard>().m_unitSaveData = m_playerData.m_currentUnits[i];
 
             string tempUnitName = cardObj.GetComponent<UnitCard>().m_unitName;
             cardObj.GetComponent<UnitCard>().m_playerUnitNumber = i;

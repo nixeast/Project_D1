@@ -1,5 +1,5 @@
-// using System.Collections;
-// using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 // using UnityEngine;
 using System;
 
@@ -10,7 +10,9 @@ public class PlayerData
     public int nDwarfHonor;
     public int nForgedEssence;
 
-    public UnitSaveData[] currentUnits;
+    //public UnitSaveData[] currentUnits;
+    public List<UnitSaveData> m_currentUnits;
+
     //public Item[] m_storageItem;
     public StorageSaveData m_storage;
 

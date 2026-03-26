@@ -8,6 +8,7 @@ public class PlayerDataManager : MonoBehaviour
     [SerializeField] UIManager m_uiManager;
     private PlayerData playerData;
     private string savePath;
+    public int m_maxUnitNumber;
 
     void Awake()
     {
@@ -15,8 +16,10 @@ public class PlayerDataManager : MonoBehaviour
 
         playerData = new PlayerData();
         InintDwarfResourcesData();
-
+        
         CreateStarterStorage();
+
+        m_maxUnitNumber = 20;
         CreateStarterUnits();
 
     }
@@ -56,33 +59,72 @@ public class PlayerDataManager : MonoBehaviour
         playerData.m_storage.m_storageItem[0].InitItem();
     }
     
+    public void CreateUnit()
+    {
+        int nCurrentUnitsLength = 0;
+        nCurrentUnitsLength = playerData.m_currentUnits.Count;
+        
+    }
+    
+    public void InitUnitArray()
+    {
+        //playerData.currentUnits = new UnitSaveData[m_maxUnitNumber];
+
+    }
+    
     public void CreateStarterUnits()
     {
+        // InitUnitArray();
         int nCount = 4;
-        
-        playerData.currentUnits = new UnitSaveData[nCount];
+
+        // for (int i = 0; i < nCount; i++)
+        // {
+        //     int nUnitSpriteNumber = i + 1;
+        //     int nUnitLevelNumber = i + 1;
+        //     int nUnitUpgradeNumber = i + 1;
+
+        //     playerData.currentUnits[i] = new UnitSaveData();
+        //     playerData.currentUnits[i].unitName = "Dwarf_0" + nUnitSpriteNumber.ToString();
+        //     playerData.currentUnits[i].level = nUnitLevelNumber;
+        //     playerData.currentUnits[i].upgrade = nUnitUpgradeNumber;
+        //     playerData.currentUnits[i].m_unitOriginalNumber = i;
+
+        //     playerData.currentUnits[i].m_weapon = null;
+        //     playerData.currentUnits[i].m_armor = null;
+        //     playerData.currentUnits[i].m_charm_01 = null;
+        //     playerData.currentUnits[i].m_charm_02 = null;
+
+        //     playerData.currentUnits[i].m_health = 10;
+        //     playerData.currentUnits[i].m_attack = 10;
+        //     playerData.currentUnits[i].m_defense = 10;
+        //     playerData.currentUnits[i].m_morale = 10;
+        // }
 
         for (int i = 0; i < nCount; i++)
         {
+            UnitSaveData newData = new UnitSaveData();
+            
             int nUnitSpriteNumber = i + 1;
             int nUnitLevelNumber = i + 1;
             int nUnitUpgradeNumber = i + 1;
+
+            newData.unitName = "Dwarf_0" + nUnitSpriteNumber.ToString();
+            newData.level = nUnitLevelNumber;
+            newData.upgrade = nUnitUpgradeNumber;
+            newData.m_unitOriginalNumber = i;
+
+            newData.m_weapon = null;
+            newData.m_armor = null;
+            newData.m_charm_01 = null;
+            newData.m_charm_02 = null;
+
+            newData.m_health = 10;
+            newData.m_attack = 10;
+            newData.m_defense = 10;
+            newData.m_morale = 10;
             
-            playerData.currentUnits[i] = new UnitSaveData();
-            playerData.currentUnits[i].unitName = "Dwarf_0" + nUnitSpriteNumber.ToString();
-            playerData.currentUnits[i].level = nUnitLevelNumber;
-            playerData.currentUnits[i].upgrade = nUnitUpgradeNumber;
-            playerData.currentUnits[i].m_unitOriginalNumber = i;
-
-            playerData.currentUnits[i].m_weapon = null;
-            playerData.currentUnits[i].m_armor = null;
-            playerData.currentUnits[i].m_charm_01 = null;
-            playerData.currentUnits[i].m_charm_02 = null;
-
-            playerData.currentUnits[i].m_health = 10;
-            playerData.currentUnits[i].m_attack = 10;
-            playerData.currentUnits[i].m_defense = 10;
-            playerData.currentUnits[i].m_morale = 10;
+            playerData.m_currentUnits.Add(newData);
+            Debug.Log(i);
         }
 
     }
@@ -155,23 +197,23 @@ public class PlayerDataManager : MonoBehaviour
     public void ShowData()
     {
         Debug.Log("[Current Gold] : " + playerData.nDwarfGold);
-        Debug.Log("[Current Unit length] : " + playerData.currentUnits.Length);
-        Debug.Log("[Current Unit 1] : " + playerData.currentUnits[0].unitName);
-        Debug.Log("[Current Unit 2] : " + playerData.currentUnits[1].unitName);
-        Debug.Log("[Current Unit 3] : " + playerData.currentUnits[2].unitName);
-        Debug.Log("[Current Unit 4] : " + playerData.currentUnits[3].unitName);
+        Debug.Log("[Current Unit length] : " + playerData.m_currentUnits.Count);
+        // Debug.Log("[Current Unit 1] : " + playerData.currentUnits[0].unitName);
+        // Debug.Log("[Current Unit 2] : " + playerData.currentUnits[1].unitName);
+        // Debug.Log("[Current Unit 3] : " + playerData.currentUnits[2].unitName);
+        // Debug.Log("[Current Unit 4] : " + playerData.currentUnits[3].unitName);
     }
 
     public void GenerateItem(StorageSlotButton currentStorageSlot)
     {
-        playerData.currentUnits[0].m_weapon = new Item();
-        playerData.currentUnits[0].m_weapon.m_itemName = currentStorageSlot.m_storageSlotName;
-        playerData.currentUnits[0].m_weapon.m_attackValue = 45;
+        // playerData.currentUnits[0].m_weapon = new Item();
+        // playerData.currentUnits[0].m_weapon.m_itemName = currentStorageSlot.m_storageSlotName;
+        // playerData.currentUnits[0].m_weapon.m_attackValue = 45;
     }
 
     public void DeleteItem()
     {
-        playerData.currentUnits[0].m_weapon = null;
+        //playerData.currentUnits[0].m_weapon = null;
     }
 
     public void AddItemToStorageData(int storageSlotNumber)
