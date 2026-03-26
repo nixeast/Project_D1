@@ -6160,6 +6160,7 @@ MonoBehaviour:
   panel_storage: {fileID: 861899696}
   panel_recruit: {fileID: 780379841}
   prefab_recruitCard: {fileID: 295800288726259365, guid: 5883861c6770b43bba5812f36d79bbfa, type: 3}
+  m_selectedRecruitCard: {fileID: 0}
   m_selectedRecruitUnitName: 
   isRecruitUnitSelected: 0
   scrollViewContent_unitCard: {fileID: 1318989509}
@@ -28422,7 +28423,7 @@ MonoBehaviour:
     nDwarfGold: 0
     nDwarfHonor: 0
     nForgedEssence: 0
-    currentUnits: []
+    m_currentUnits: []
     m_storage:
       m_storageItem: []
   m_playerDataManager: {fileID: 1193486663}

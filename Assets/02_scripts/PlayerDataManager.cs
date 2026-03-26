@@ -26,7 +26,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public void InintDwarfResourcesData()
     {
-        playerData.nDwarfGold = 100;
+        playerData.nDwarfGold = 0;
         playerData.nDwarfHonor = 100;
         playerData.nForgedEssence = 100;
     }

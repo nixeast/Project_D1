@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     
     public GameObject panel_recruit;
     public GameObject prefab_recruitCard;
+    public RecruitCard m_selectedRecruitCard;
     public string m_selectedRecruitUnitName;
     public bool isRecruitUnitSelected;
 
@@ -103,21 +104,52 @@ public class UIManager : MonoBehaviour
     
     public void RecruitSelectedUnit()
     {
-        if(isRecruitUnitSelected == true)
-        {
-            //add new unitCard to unitCardList
-            isRecruitUnitSelected = false;
-            Debug.Log("recruit success");
+        bool bCostCheck = RecruitCostCheck();
+        bool bSelectionCheck = RecruitSelectionCheck();
 
+        if (bCostCheck == true && bSelectionCheck == true)
+        {
             m_playerDataManager.CreateUnit();
             RefreshUnitCard();
+
+            isRecruitUnitSelected = false;
+
+            int nGoldCost = m_selectedRecruitCard.m_goldCost * -1;
+            m_playerDataManager.AddDwarfGold(nGoldCost);
+            
+            Debug.Log("recruit success");
+        }
+    }
+
+    public bool RecruitCostCheck()
+    {
+        int nPlayerGold = m_playerDataManager.GetPlayerData().nDwarfGold;
+        int nRecruitGoldCost = m_selectedRecruitCard.m_goldCost;
+
+        if (nPlayerGold >= nRecruitGoldCost)
+        {
+            return true;
+        }
+        else
+        {
+            Debug.Log("not enough gold");
+            return false;
+        }    
+    }
+
+    public bool RecruitSelectionCheck()
+    {
+        if (isRecruitUnitSelected == true)
+        {
+            return true;
         }
         else
         {
             Debug.Log("no selected recruitCard");
+            return false;
         }
     }
-    
+
     public void CreateRecruitCard()
     {
         for (int i = 0; i < 3; i++)

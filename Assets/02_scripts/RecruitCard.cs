@@ -39,5 +39,6 @@ public class RecruitCard : MonoBehaviour
     {
         m_uiManager.isRecruitUnitSelected = true;
         m_uiManager.m_selectedRecruitUnitName = m_unitName;
+        m_uiManager.m_selectedRecruitCard = this;
     }
 }
