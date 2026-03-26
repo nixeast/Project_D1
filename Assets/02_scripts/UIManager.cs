@@ -90,6 +90,8 @@ public class UIManager : MonoBehaviour
         m_playerDataManager.AddDwarfHonor(200);
 
         CreateRecruitCard();
+
+        RefreshUnitCard();
     }
     
     public void CreateRecruitCard()
@@ -98,6 +100,23 @@ public class UIManager : MonoBehaviour
         {
             GameObject cardObj = Instantiate(prefab_recruitCard);
             cardObj.transform.SetParent(scrollViewContent_recruit, false);
+            RecruitCard recruitObj = cardObj.GetComponent<RecruitCard>();
+            recruitObj.m_unitName = i.ToString();
+            recruitObj.m_unitType = "warrior";
+            recruitObj.m_unitTrait = "trait_" + i.ToString();
+            recruitObj.m_goldCost = i;
+            recruitObj.m_honorCost = i;
+
+            recruitObj.text_unitName.text = recruitObj.m_unitName;
+            recruitObj.text_unitType.text = recruitObj.m_unitType;
+            recruitObj.text_unitTrait.text = recruitObj.m_unitTrait;
+            recruitObj.text_goldCost.text = recruitObj.m_goldCost.ToString();
+            recruitObj.text_honorCost.text = recruitObj.m_honorCost.ToString();
+
+            string path = "UnitPortraits/" + "unit_dwarf_01";
+            Sprite newSprite = Resources.Load<Sprite>(path);
+            recruitObj.btn_portrait_unit.image.sprite = newSprite;
+
         }
 
     }

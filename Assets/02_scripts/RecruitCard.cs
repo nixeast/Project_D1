@@ -18,8 +18,10 @@ public class RecruitCard : MonoBehaviour
     public TMP_Text text_goldCost;
     public TMP_Text text_honorCost;
 
-    public Image image_portrait_unit;
+    //public Image image_portrait_unit;
     public Image image_icon_trait;
+
+    public Button btn_portrait_unit;
 
     // Start is called before the first frame update
     void Start()
