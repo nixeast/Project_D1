@@ -110,6 +110,7 @@ public class UIManager : MonoBehaviour
             Debug.Log("recruit success");
 
             m_playerDataManager.CreateUnit();
+            RefreshUnitCard();
         }
         else
         {

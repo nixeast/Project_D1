@@ -61,9 +61,32 @@ public class PlayerDataManager : MonoBehaviour
     
     public void CreateUnit()
     {
-        int nCurrentUnitsLength = 0;
-        nCurrentUnitsLength = playerData.m_currentUnits.Count;
-        
+        //int nCurrentUnitsLength = 0;
+        //nCurrentUnitsLength = playerData.m_currentUnits.Count;
+
+        UnitSaveData newData = new UnitSaveData();
+
+        int nUnitSpriteNumber = 9;
+        int nUnitLevelNumber = 9;
+        int nUnitUpgradeNumber = 9;
+
+        newData.unitName = "Dwarf_0" + nUnitSpriteNumber.ToString();
+        newData.level = nUnitLevelNumber;
+        newData.upgrade = nUnitUpgradeNumber;
+        newData.m_unitOriginalNumber = 9;
+
+        newData.m_weapon = null;
+        newData.m_armor = null;
+        newData.m_charm_01 = null;
+        newData.m_charm_02 = null;
+
+        newData.m_health = 13;
+        newData.m_attack = 13;
+        newData.m_defense = 13;
+        newData.m_morale = 13;
+
+        playerData.m_currentUnits.Add(newData);
+
     }
     
     public void InitUnitArray()
@@ -74,31 +97,7 @@ public class PlayerDataManager : MonoBehaviour
     
     public void CreateStarterUnits()
     {
-        // InitUnitArray();
         int nCount = 4;
-
-        // for (int i = 0; i < nCount; i++)
-        // {
-        //     int nUnitSpriteNumber = i + 1;
-        //     int nUnitLevelNumber = i + 1;
-        //     int nUnitUpgradeNumber = i + 1;
-
-        //     playerData.currentUnits[i] = new UnitSaveData();
-        //     playerData.currentUnits[i].unitName = "Dwarf_0" + nUnitSpriteNumber.ToString();
-        //     playerData.currentUnits[i].level = nUnitLevelNumber;
-        //     playerData.currentUnits[i].upgrade = nUnitUpgradeNumber;
-        //     playerData.currentUnits[i].m_unitOriginalNumber = i;
-
-        //     playerData.currentUnits[i].m_weapon = null;
-        //     playerData.currentUnits[i].m_armor = null;
-        //     playerData.currentUnits[i].m_charm_01 = null;
-        //     playerData.currentUnits[i].m_charm_02 = null;
-
-        //     playerData.currentUnits[i].m_health = 10;
-        //     playerData.currentUnits[i].m_attack = 10;
-        //     playerData.currentUnits[i].m_defense = 10;
-        //     playerData.currentUnits[i].m_morale = 10;
-        // }
 
         for (int i = 0; i < nCount; i++)
         {

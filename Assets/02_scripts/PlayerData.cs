@@ -11,7 +11,7 @@ public class PlayerData
     public int nForgedEssence;
 
     //public UnitSaveData[] currentUnits;
-    public List<UnitSaveData> m_currentUnits;
+    public List<UnitSaveData> m_currentUnits = new List<UnitSaveData>();
 
     //public Item[] m_storageItem;
     public StorageSaveData m_storage;
