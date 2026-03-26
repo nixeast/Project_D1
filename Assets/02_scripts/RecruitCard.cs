@@ -22,6 +22,7 @@ public class RecruitCard : MonoBehaviour
     public Image image_icon_trait;
     public Button btn_portrait_unit;
     public UIManager m_uiManager;
+    public Image image_soldOut;
 
     // Start is called before the first frame update
     void Start()

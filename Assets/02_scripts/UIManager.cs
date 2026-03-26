@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     public RecruitCard m_selectedRecruitCard;
     public string m_selectedRecruitUnitName;
     public bool isRecruitUnitSelected;
+    public List<RecruitCard> m_recruitCardList = new List<RecruitCard>();
 
     public RectTransform scrollViewContent_unitCard;
     public RectTransform scrollViewContent_storage;
@@ -98,7 +99,6 @@ public class UIManager : MonoBehaviour
         m_playerDataManager.AddDwarfHonor(200);
 
         CreateRecruitCard();
-
         RefreshUnitCard();
     }
     
@@ -116,7 +116,9 @@ public class UIManager : MonoBehaviour
 
             int nGoldCost = m_selectedRecruitCard.m_goldCost * -1;
             m_playerDataManager.AddDwarfGold(nGoldCost);
-            
+
+            m_selectedRecruitCard.image_soldOut.gameObject.SetActive(true);
+
             Debug.Log("recruit success");
         }
     }
@@ -150,6 +152,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ResetRecruitCardList()
+    {
+        DeleteAllRecruitCards();
+        CreateRecruitCard();
+    }
+
+    public void DeleteAllRecruitCards()
+    {
+        if(m_recruitCardList.Count > 0)
+        {
+            int nCount = m_recruitCardList.Count;
+            for(int i = 0; i < nCount; i++)
+            {
+                Destroy(m_recruitCardList[i].gameObject);
+            }
+            m_recruitCardList.Clear();
+        }
+    }
+
     public void CreateRecruitCard()
     {
         for (int i = 0; i < 3; i++)
@@ -175,6 +196,8 @@ public class UIManager : MonoBehaviour
             string path = "UnitPortraits/" + "unit_dwarf_01";
             Sprite newSprite = Resources.Load<Sprite>(path);
             recruitObj.btn_portrait_unit.image.sprite = newSprite;
+
+            m_recruitCardList.Add(recruitObj);
 
         }
 
