@@ -29,7 +29,9 @@ public class UIManager : MonoBehaviour
     public GameObject panel_recruit;
     public RectTransform scrollViewContent_unitCard;
     public RectTransform scrollViewContent_storage;
+    public RectTransform scrollViewContent_recruit;
     public GameObject unitCardPrefab;
+    public GameObject prefab_recruitCard;
     public GameObject storageSlotPrefab;
     public PlayerDataManager m_playerDataManager;
     public UnitPortraitDatabase m_unitPortraitDatabase;
@@ -86,6 +88,18 @@ public class UIManager : MonoBehaviour
 
         updateDwarfResourcesText();
         m_playerDataManager.AddDwarfHonor(200);
+
+        CreateRecruitCard();
+    }
+    
+    public void CreateRecruitCard()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject cardObj = Instantiate(prefab_recruitCard);
+            cardObj.transform.SetParent(scrollViewContent_recruit, false);
+        }
+
     }
     
     public void ShowRecruitPanel()

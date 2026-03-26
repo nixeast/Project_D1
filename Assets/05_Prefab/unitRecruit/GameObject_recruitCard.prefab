@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1117553282892023061}
+  - component: {fileID: 2023035358191181377}
   m_Layer: 5
   m_Name: GameObject_recruitCard
   m_TagString: Untagged
@@ -40,6 +41,30 @@ RectTransform:
   m_AnchoredPosition: {x: 200, y: -280}
   m_SizeDelta: {x: 400, y: 560}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2023035358191181377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295800288726259365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff31f012ce674698a8f670cf29bc504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_unitName: 
+  m_unitType: 
+  m_unitTrait: 
+  m_goldCost: 0
+  m_honorCost: 0
+  text_unitName: {fileID: 7689752808205536743}
+  text_unitType: {fileID: 5668742253583905746}
+  text_unitTrait: {fileID: 8569069495492566897}
+  text_goldCost: {fileID: 715015309536881917}
+  text_honorCost: {fileID: 4092490379202536396}
+  image_portrait_unit: {fileID: 6092415437455281834}
+  image_icon_trait: {fileID: 8485491261547264327}
 --- !u!1 &314251203450580887
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +124,7 @@ GameObject:
   - component: {fileID: 4472603618622248479}
   - component: {fileID: 6898344801975424382}
   m_Layer: 5
-  m_Name: Text_requiredHonor
+  m_Name: Title_requiredHonor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,7 +467,7 @@ GameObject:
   - component: {fileID: 9212782562018688468}
   - component: {fileID: 2947500419509246187}
   m_Layer: 5
-  m_Name: Text_goldCost
+  m_Name: Title_goldCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

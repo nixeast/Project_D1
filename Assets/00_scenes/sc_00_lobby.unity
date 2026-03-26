@@ -6161,7 +6161,9 @@ MonoBehaviour:
   panel_recruit: {fileID: 780379841}
   scrollViewContent_unitCard: {fileID: 1318989509}
   scrollViewContent_storage: {fileID: 200507179}
+  scrollViewContent_recruit: {fileID: 1037954629}
   unitCardPrefab: {fileID: 7821927496793871874, guid: 9be402876c6813d4a894c4c90a044bb0, type: 3}
+  prefab_recruitCard: {fileID: 295800288726259365, guid: 5883861c6770b43bba5812f36d79bbfa, type: 3}
   storageSlotPrefab: {fileID: 1533276406923276412, guid: 85086239ac76045db93b247501500e01, type: 3}
   m_playerDataManager: {fileID: 1193486663}
   m_unitPortraitDatabase: {fileID: 2009848956}
@@ -17672,6 +17674,11 @@ RectTransform:
   m_AnchoredPosition: {x: -11, y: -209}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &1037954629 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6206804631195816233, guid: c7a6031e4e7c04322ba96ad96c64407b, type: 3}
+  m_PrefabInstance: {fileID: 3767084466571745071}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1047672537
 GameObject:
   m_ObjectHideFlags: 0
