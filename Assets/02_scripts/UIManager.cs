@@ -171,6 +171,7 @@ public class UIManager : MonoBehaviour
     {
         DeleteAllRecruitCards();
         CreateRecruitCard();
+        MakeRecruitID();
     }
 
     public void DeleteAllRecruitCards()
@@ -250,25 +251,10 @@ public class UIManager : MonoBehaviour
             m_recruitCardList[i].btn_portrait_unit.image.sprite = tempData.m_portrait_image;
             m_recruitCardList[i].image_icon_trait.sprite = tempData.m_basicTrait_image;
 
+            m_recruitCardList[i].UpdateUI();
+
         }
         
-        //match info by checking recruitID
-        
-            // recruitObj.m_unitName = i.ToString();
-            // recruitObj.m_unitType = "warrior";
-            // recruitObj.m_unitTrait = "trait_" + i.ToString();
-            // recruitObj.m_goldCost = i;
-            // recruitObj.m_honorCost = i;
-
-            // recruitObj.text_unitName.text = recruitObj.m_unitName;
-            // recruitObj.text_unitType.text = recruitObj.m_unitType;
-            // recruitObj.text_unitTrait.text = recruitObj.m_unitTrait;
-            // recruitObj.text_goldCost.text = recruitObj.m_goldCost.ToString();
-            // recruitObj.text_honorCost.text = recruitObj.m_honorCost.ToString();
-
-            // string path = "UnitPortraits/" + "unit_dwarf_01";
-            // Sprite newSprite = Resources.Load<Sprite>(path);
-            // recruitObj.btn_portrait_unit.image.sprite = newSprite;
             
     }
 
@@ -282,7 +268,6 @@ public class UIManager : MonoBehaviour
 
             recruitObj.m_uiManager = this;
             m_recruitCardList.Add(recruitObj);
-
         }
         
 

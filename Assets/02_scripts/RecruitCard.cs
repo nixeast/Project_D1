@@ -6,12 +6,12 @@ using TMPro;
 
 public class RecruitCard : MonoBehaviour
 {
+    public int m_recruitID;
     public string m_unitName;
     public string m_unitType;
     public string m_unitTrait;
     public int m_goldCost;
     public int m_honorCost;
-    public int m_recruitID;
 
     public TMP_Text text_unitName;
     public TMP_Text text_unitType;
@@ -35,6 +35,17 @@ public class RecruitCard : MonoBehaviour
     void Update()
     {
         
+    }
+    
+    public void UpdateUI()
+    {
+        text_unitName.text = m_unitName;
+        text_unitType.text = m_unitType;
+        text_unitTrait.text = m_unitTrait;
+        text_goldCost.text = m_goldCost.ToString();
+        text_honorCost.text = m_honorCost.ToString();
+        
+
     }
     
     public void AssignSelectedUnit()
