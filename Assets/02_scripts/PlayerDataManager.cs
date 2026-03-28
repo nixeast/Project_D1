@@ -123,7 +123,7 @@ public class PlayerDataManager : MonoBehaviour
             newData.m_morale = 10;
             
             playerData.m_currentUnits.Add(newData);
-            Debug.Log(i);
+            //Debug.Log(i);
         }
 
     }

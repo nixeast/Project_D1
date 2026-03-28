@@ -26,7 +26,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject panel_characterInfo;
     public GameObject panel_storage;
-    
+
+    public UnitRecruitDataBase m_unitRecruitDatabase;
     public GameObject panel_recruit;
     public GameObject prefab_recruitCard;
     public RecruitCard m_selectedRecruitCard;
@@ -81,7 +82,20 @@ public class UIManager : MonoBehaviour
     {
         LoadStorageItem();
         SubscribeStorageSlotButton();
+        updateDwarfResourcesText();
+        
+        CreateRecruitCard();
+        MakeRecruitID();
 
+        RefreshUnitCard();
+
+        //ShowCurrentUnitList();
+        //TestDoomList();
+        //TestDwarfResource();
+    }
+    
+    public void ShowCurrentUnitList()
+    {
         int nLength = m_playerDataManager.GetPlayerData().m_currentUnits.Count;
         for (int i = 0; i < nLength; i ++)
         {
@@ -89,17 +103,18 @@ public class UIManager : MonoBehaviour
             nTemp =  m_playerDataManager.GetPlayerData().m_currentUnits[i].m_unitOriginalNumber;
             Debug.Log("playerUnit0" + (i + 1).ToString() + " originalNumber : " + nTemp);
         }
-
-            Debug.Log("<color=yellow>start lobbyScene</color>");
-
+    }
+    public void TestDoomList()
+    {
         m_doomList[0].IncreaseDoomValue(eDoomType.PlagueOfContamination, 76);
         m_doomList[0].UpdateDoom();
-
-        updateDwarfResourcesText();
+        
+    }
+    
+    public void TestDwarfResource()
+    {
         m_playerDataManager.AddDwarfHonor(200);
-
-        CreateRecruitCard();
-        RefreshUnitCard();
+        
     }
     
     public void RecruitSelectedUnit()
@@ -171,6 +186,92 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void MakeRecruitID()
+    {
+        int nData1 = 25;
+        int nData2 = 25;
+        int nData3 = 25;
+        int nData4 = 25;
+
+        int[] arrResult = new int[3];
+
+        int nCount = 3;
+        for (int i = 0; i < nCount; i++)
+        {
+            arrResult[i] = new int();
+            int nRandNum = 0;
+            nRandNum = Random.Range(0, 100);
+            
+            if(nRandNum < nData1)
+            {
+                arrResult[i] = 0;
+            }
+            else if(nRandNum < nData1+nData2)
+            {
+                arrResult[i] = 1;
+            }
+            else if(nRandNum < nData1+nData2+nData3)
+            {
+                arrResult[i] = 2;
+            }
+            else if(nRandNum < nData1+nData2+nData3+nData4)
+            {
+                arrResult[i] = 3;
+            }
+        }
+
+        AssignRecruitCardInfo(arrResult[0], arrResult[1] + 10, arrResult[2] + 20);
+
+    }
+
+    public void AssignRecruitCardInfo(int recruit_01, int recruit_02, int recruit_03)
+    {
+        int[] nRecruitSlots = new int[3];
+        
+        for (int i = 0; i < 3; i++)
+        {
+            nRecruitSlots[i] = new int();
+        }
+
+        nRecruitSlots[0] = recruit_01;
+        nRecruitSlots[1] = recruit_02;
+        nRecruitSlots[2] = recruit_03;
+
+        for (int i = 0; i < 3; i++)
+        {
+            UnitRecruitData tempData = m_unitRecruitDatabase.GetRecruitData(nRecruitSlots[i]);
+            
+            m_recruitCardList[i].m_recruitID = tempData.m_recruitID;
+            m_recruitCardList[i].m_unitName = tempData.m_unitName;
+            m_recruitCardList[i].m_unitType = tempData.m_unitType;
+            m_recruitCardList[i].m_goldCost = tempData.m_cost_gold;
+            m_recruitCardList[i].m_honorCost = tempData.m_cost_honor;
+            m_recruitCardList[i].m_unitTrait = tempData.m_basicTraitName;
+            m_recruitCardList[i].btn_portrait_unit.image.sprite = tempData.m_portrait_image;
+            m_recruitCardList[i].image_icon_trait.sprite = tempData.m_basicTrait_image;
+
+        }
+        
+        //match info by checking recruitID
+        
+            // recruitObj.m_unitName = i.ToString();
+            // recruitObj.m_unitType = "warrior";
+            // recruitObj.m_unitTrait = "trait_" + i.ToString();
+            // recruitObj.m_goldCost = i;
+            // recruitObj.m_honorCost = i;
+
+            // recruitObj.text_unitName.text = recruitObj.m_unitName;
+            // recruitObj.text_unitType.text = recruitObj.m_unitType;
+            // recruitObj.text_unitTrait.text = recruitObj.m_unitTrait;
+            // recruitObj.text_goldCost.text = recruitObj.m_goldCost.ToString();
+            // recruitObj.text_honorCost.text = recruitObj.m_honorCost.ToString();
+
+            // string path = "UnitPortraits/" + "unit_dwarf_01";
+            // Sprite newSprite = Resources.Load<Sprite>(path);
+            // recruitObj.btn_portrait_unit.image.sprite = newSprite;
+            
+    }
+
     public void CreateRecruitCard()
     {
         for (int i = 0; i < 3; i++)
@@ -180,26 +281,10 @@ public class UIManager : MonoBehaviour
             RecruitCard recruitObj = cardObj.GetComponent<RecruitCard>();
 
             recruitObj.m_uiManager = this;
-
-            recruitObj.m_unitName = i.ToString();
-            recruitObj.m_unitType = "warrior";
-            recruitObj.m_unitTrait = "trait_" + i.ToString();
-            recruitObj.m_goldCost = i;
-            recruitObj.m_honorCost = i;
-
-            recruitObj.text_unitName.text = recruitObj.m_unitName;
-            recruitObj.text_unitType.text = recruitObj.m_unitType;
-            recruitObj.text_unitTrait.text = recruitObj.m_unitTrait;
-            recruitObj.text_goldCost.text = recruitObj.m_goldCost.ToString();
-            recruitObj.text_honorCost.text = recruitObj.m_honorCost.ToString();
-
-            string path = "UnitPortraits/" + "unit_dwarf_01";
-            Sprite newSprite = Resources.Load<Sprite>(path);
-            recruitObj.btn_portrait_unit.image.sprite = newSprite;
-
             m_recruitCardList.Add(recruitObj);
 
         }
+        
 
     }
     
@@ -231,7 +316,7 @@ public class UIManager : MonoBehaviour
         for(int i = 0; i < m_unitItemSlotButtons.Length; i++)
         {
             m_unitItemSlotButtons[i].AddOnClicked(OnSlotButtonClicked);
-            Debug.Log("SubscribeSlotButton success..");
+            //Debug.Log("SubscribeSlotButton success..");
         }
     }
 
@@ -249,7 +334,7 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < nLength; i++)
         {
             m_StorageSlotButtons[i].AddOnClicked(OnStorageSlotButtonClicked);
-            Debug.Log("SubscribeStorageSlotButton success..");
+            //Debug.Log("SubscribeStorageSlotButton success..");
         }
     }
 
@@ -304,7 +389,8 @@ public class UIManager : MonoBehaviour
     public void AddStorageButtonToList(StorageSlotButton storageSlotBtn)
     {
         m_StorageSlotButtons.Add(storageSlotBtn);
-        Debug.Log("AddStorageButtonToList..");
+        //Debug.Log("AddStorageButtonToList..");
+
     }
 
     public void RemoveStorageButtonFromList()
@@ -540,7 +626,7 @@ public class UIManager : MonoBehaviour
         int nCount = 0;
         //int nStorageSlotNumber = 0;
         nStorageLength = m_playerDataManager.GetPlayerData().m_storage.m_storageItem.Length;
-        Debug.Log("LoadStorageItem length: " + nStorageLength);
+        //Debug.Log("LoadStorageItem length: " + nStorageLength);
         if(nStorageLength > 0)
         {
             for(int i=0; i < nStorageLength; i++)
@@ -555,11 +641,11 @@ public class UIManager : MonoBehaviour
                     AddStorageButtonToList(itemObj.GetComponent<StorageSlotButton>());
                     //nStorageSlotNumber++;
                     nCount++;
-                    Debug.Log("slot Num: " + i);
+                    //Debug.Log("slot Num: " + i);
                 }
             }
             m_currentStorageItemCount = nCount;
-            Debug.Log("Create storageSlots: " + m_currentStorageItemCount);
+            //Debug.Log("Create storageSlots: " + m_currentStorageItemCount);
         }
     }
 

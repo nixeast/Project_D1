@@ -11,6 +11,7 @@ public class RecruitCard : MonoBehaviour
     public string m_unitTrait;
     public int m_goldCost;
     public int m_honorCost;
+    public int m_recruitID;
 
     public TMP_Text text_unitName;
     public TMP_Text text_unitType;

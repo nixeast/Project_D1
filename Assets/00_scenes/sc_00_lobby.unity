@@ -6125,6 +6125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel_characterInfo: {fileID: 2031815830}
   panel_storage: {fileID: 861899696}
+  m_unitRecruitDatabase: {fileID: 1007147130}
   panel_recruit: {fileID: 780379841}
   prefab_recruitCard: {fileID: 295800288726259365, guid: 5883861c6770b43bba5812f36d79bbfa, type: 3}
   m_selectedRecruitCard: {fileID: 0}
@@ -17625,6 +17626,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1006214656}
   m_CullTransparentMesh: 1
+--- !u!1 &1007147129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1007147131}
+  - component: {fileID: 1007147130}
+  m_Layer: 0
+  m_Name: UnitRecruitDataBase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1007147130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007147129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81ef8cfe4399a4df8903936428472988, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_recruitInfoPath: {fileID: 4900000, guid: 1eed76f805127436c848b921fa07fd96, type: 3}
+  m_outUnitRecruitData:
+    m_recruitID: 0
+    m_unitName: 
+    m_unitType: 
+    m_unitName_en: 
+    m_unitType_en: 
+    m_portrait_image: {fileID: 0}
+    m_cost_gold: 0
+    m_cost_honor: 0
+    m_basicTraitName: 
+    m_basicTrait_image: {fileID: 0}
+--- !u!4 &1007147131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007147129}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1007382776
 GameObject:
   m_ObjectHideFlags: 0
@@ -37125,4 +37182,5 @@ SceneRoots:
   - {fileID: 1384838103}
   - {fileID: 1193486662}
   - {fileID: 2009848957}
+  - {fileID: 1007147131}
   - {fileID: 1646579050}
