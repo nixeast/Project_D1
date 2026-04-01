@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 public enum eDataUpdateType
 {
@@ -23,10 +24,52 @@ public enum eDoomType
 
 public class UIManager : MonoBehaviour
 {
+    public PlayerDataManager m_playerDataManager;
 
-    public GameObject panel_characterInfo;
-    public GameObject panel_storage;
+    [Header("Mision Data InFo")]
+    public MissionDatabase m_missionDatabase;
+    public int m_currentSelectedMissionNumber;
+    public TMP_Text text_missionType;
+    public TMP_Text text_missionTypeDesc;
+    public TMP_Text text_missionName;
+    public TMP_Text text_missionObjectiveTitle;
+    public TMP_Text text_missionObjective;
+    public Image img_missionDoomIcon;
+    public TMP_Text text_missionDoomName;
+    public RectTransform scrollViewContent_missionEnemyList;
+    public List<GameObject> m_missionEnemyBtnList = new List<GameObject>();
+    public GameObject prefab_enemyUnitCard;
 
+    [Header("Unit Data Information")]
+    public UnitDataBase m_unitDataBase;
+    public TMP_Text tmp_currentUnitName;
+    public TMP_Text tmp_currentUnitHealth;
+    public TMP_Text tmp_currentUnitAttack;
+    public TMP_Text tmp_currentUnitDefense;
+    //public TMP_Text tmp_currentUnitMorale;
+
+    public TMP_Text tmp_currentUnitHit;
+    public TMP_Text tmp_currentUnitEvade;
+    public TMP_Text tmp_currentUnitAp;
+
+    public Image img_currentUnit_trait_01;
+    public Image img_currentUnit_trait_02;
+    public Image img_currentUnit_passive_01;
+    public Image img_currentUnit_passive_02;
+    public Image img_currentUnit_passive_03;
+    public Image img_currentUnit_passive_04;
+    public Image img_currentUnit_active_01;
+    public Image img_currentUnit_active_02;
+    public Image img_currentUnit_active_03;
+
+    public Button btn_currentUnit_slotWeapon;
+    public Button btn_currentUnit_slotArmor;
+    public Button btn_currentUnit_slotAccessory_01;
+    //public Button btn_currentUnit_slotAccessory_02;
+    [SerializeField] private Sprite m_testSprite;
+    public Image img_portrait;
+
+    [Header("Unit Recruit")]
     public UnitRecruitDataBase m_unitRecruitDatabase;
     public GameObject panel_recruit;
     public GameObject prefab_recruitCard;
@@ -34,43 +77,33 @@ public class UIManager : MonoBehaviour
     public string m_selectedRecruitUnitName;
     public bool isRecruitUnitSelected;
     public List<RecruitCard> m_recruitCardList = new List<RecruitCard>();
-
-    public RectTransform scrollViewContent_unitCard;
-    public RectTransform scrollViewContent_storage;
     public RectTransform scrollViewContent_recruit;
+
+    [Header("Unit Card")]
+    public GameObject panel_characterInfo;
+    public RectTransform scrollViewContent_unitCard;
     public GameObject unitCardPrefab;
-    
-    
-    public GameObject storageSlotPrefab;
-    public PlayerDataManager m_playerDataManager;
-    public UnitPortraitDatabase m_unitPortraitDatabase;
     public UnitCard m_selectedUnitCard;
     public List<GameObject> m_currentUnitCardList;
+    public UnitPortraitDatabase m_unitPortraitDatabase;
+
+    [Header("Storage")]
+    public GameObject panel_storage;
+    public RectTransform scrollViewContent_storage;
+    public GameObject storageSlotPrefab;
     private StorageSlotButton m_currentSelectedStorageSlotBtn;
-
-    public TMP_Text tmp_currentUnitName;
-    public TMP_Text tmp_currentUnitHealth;
-    public TMP_Text tmp_currentUnitAttack;
-    public TMP_Text tmp_currentUnitDefense;
-    public TMP_Text tmp_currentUnitMorale;
-
-    public Button btn_slotWeapon;
-    public Button btn_slotArmor;
-    public Button btn_slotAccessory_01;
-    public Button btn_slotAccessory_02;
-
-    [SerializeField] private Sprite m_testSprite;
+    private int m_currentStorageItemCount = 1;
     [SerializeField] private ItemSlotButton[] m_unitItemSlotButtons;
     //[SerializeField] private StorageSlotButton[] m_StorageSlotButtons;
     [SerializeField] private List<StorageSlotButton> m_StorageSlotButtons;
 
-    private int m_currentStorageItemCount = 1;
-
-    public Doom[] m_doomList;
-
+    [Header("Player Resources")]
     public TMP_Text tmp_value_dwarfGold;
     public TMP_Text tmp_value_dwarfHonor;
     public TMP_Text tmp_value_forgedEssence;
+
+    [Header("Doom List")]
+    public Doom[] m_doomList;
 
     private void Awake()
     {
@@ -80,19 +113,73 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_playerDataManager.CreateStarterUnits();
         LoadStorageItem();
         SubscribeStorageSlotButton();
         updateDwarfResourcesText();
         
         CreateRecruitCard();
         MakeRecruitID();
-
         RefreshUnitCard();
 
         //ShowCurrentUnitList();
         //TestDoomList();
         //TestDwarfResource();
     }
+
+    public void OnClickMissionIcon(int nMissionNumber)
+    {
+        m_currentSelectedMissionNumber = nMissionNumber;
+        GameRoot.s_instance.SetMissionNumber(nMissionNumber);
+        ClearEnemyUnitCards();
+        RefreshMissionInfoPanel();
+    }
+
+    public void ClearEnemyUnitCards()
+    {
+        int nCount = m_missionEnemyBtnList.Count;
+        for(int i=0; i < nCount; i++)
+        {
+            Destroy(m_missionEnemyBtnList[i].gameObject);
+        }
+        m_missionEnemyBtnList.Clear();
+    }
+
+    public void RefreshMissionInfoPanel()
+    {
+        MissionData tempData = new MissionData();
+        m_missionDatabase.m_missionDataDic.TryGetValue(m_currentSelectedMissionNumber, out tempData);
+        text_missionType.text = tempData.m_missionTheme;
+        text_missionTypeDesc.text = tempData.m_missionTheme;
+        text_missionName.text = tempData.m_missionName;
+        text_missionObjectiveTitle.text = tempData.m_missionName;
+        text_missionObjective.text = tempData.m_missionName;
+        text_missionDoomName.text = tempData.m_doomName;
+        string path_doomIcon = tempData.m_doomIcon_path;
+        img_missionDoomIcon.sprite = Resources.Load<Sprite>(path_doomIcon);
+
+        int nEnemyCount = tempData.m_enemyTotalCount;
+        for(int i=0; i<nEnemyCount; i++)
+        {
+            GameObject newEnemyCard = Instantiate<GameObject>(prefab_enemyUnitCard, scrollViewContent_missionEnemyList);
+            int nTempID = int.Parse(tempData.m_enemyList_ID[i]);
+            //Debug.Log(nTempID);
+
+            EnemyUnitCard tempEnemyUnitCard = newEnemyCard.GetComponent<EnemyUnitCard>();
+            tempEnemyUnitCard.m_enemyUnitID = int.Parse(tempData.m_enemyList_ID[i]);
+            tempEnemyUnitCard.text_unitName.text = tempData.m_enemyList_ID[i];
+
+            UnitData tempUnitData;
+            m_unitDataBase.m_unitDataDic.TryGetValue(nTempID, out tempUnitData);
+            
+            string path_portrait = tempUnitData.m_PortraitPath;
+            tempEnemyUnitCard.img_enemyPortrait.sprite = Resources.Load<Sprite>(path_portrait);
+            
+            m_missionEnemyBtnList.Add(newEnemyCard);
+        }
+        
+        //enemyCard.transform.SetParent(scrollViewContent_missionEnemyList, false);
+}
     
     public void ShowCurrentUnitList()
     {
@@ -124,17 +211,14 @@ public class UIManager : MonoBehaviour
 
         if (bCostCheck == true && bSelectionCheck == true)
         {
-            m_playerDataManager.CreateUnit();
+            m_playerDataManager.CreateUnit(m_selectedRecruitCard);
             RefreshUnitCard();
 
             isRecruitUnitSelected = false;
-
             int nGoldCost = m_selectedRecruitCard.m_goldCost * -1;
             m_playerDataManager.AddDwarfGold(nGoldCost);
-
             m_selectedRecruitCard.image_soldOut.gameObject.SetActive(true);
-
-            Debug.Log("recruit success");
+            //Debug.Log("recruit success");
         }
     }
 
@@ -309,7 +393,7 @@ public class UIManager : MonoBehaviour
     {
         if(m_StorageSlotButtons == null)
         {
-            Debug.Log("SubscribeStorageSlotButton failed..");
+            //Debug.Log("SubscribeStorageSlotButton failed..");
             return;
         }
 
@@ -437,23 +521,46 @@ public class UIManager : MonoBehaviour
         {
             tmp_currentUnitHealth.text = m_selectedUnitCard.m_unitSaveData.m_health.ToString();
             tmp_currentUnitDefense.text = m_selectedUnitCard.m_unitSaveData.m_defense.ToString();
-            tmp_currentUnitMorale.text = m_selectedUnitCard.m_unitSaveData.m_morale.ToString();
+            //tmp_currentUnitMorale.text = m_selectedUnitCard.m_unitSaveData.m_morale.ToString();
+            tmp_currentUnitHit.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_HIT.ToString();
+            tmp_currentUnitEvade.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_EVA.ToString();
+            tmp_currentUnitAp.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_AP.ToString();
 
-            int attackValueResult;
-            if(m_selectedUnitCard.m_unitSaveData.m_weapon != null)
-            {
-                attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack + m_selectedUnitCard.m_unitSaveData.m_weapon.m_attackValue;
-            }
-            else
-            {
-                attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack;
-            }
+            int attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack;
             tmp_currentUnitAttack.text = attackValueResult.ToString();
 
-            //Debug.Log("m_selectedUnitCard: " + m_selectedUnitCard.name);
+            string tempPath_portrait = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_PortraitPath;
+            string tempPath_trait_01 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_trait_01_path;
+            string tempPath_trait_02 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_trait_02_path;
+            string tempPath_passive_01 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_passiveSkill_01_path;
+            string tempPath_passive_02 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_passiveSkill_02_path;
+            string tempPath_passive_03 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_passiveSkill_03_path;
+            string tempPath_passive_04 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_passiveSkill_04_path;
+            string tempPath_active_01 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_activeSkill_01_path;
+            string tempPath_active_02 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_activeSkill_02_path;
+            string tempPath_active_03 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_activeSkill_03_path;
 
-            SetSpriteByItemName("longSword");
-            
+            img_portrait.sprite = Resources.Load<Sprite>(tempPath_portrait);
+            img_currentUnit_trait_01.sprite = Resources.Load<Sprite>(tempPath_trait_01);
+            img_currentUnit_trait_02.sprite = Resources.Load<Sprite>(tempPath_trait_02);
+            img_currentUnit_passive_01.sprite = Resources.Load<Sprite>(tempPath_passive_01);
+            img_currentUnit_passive_02.sprite = Resources.Load<Sprite>(tempPath_passive_02);
+            img_currentUnit_passive_03.sprite = Resources.Load<Sprite>(tempPath_passive_03);
+            img_currentUnit_passive_04.sprite = Resources.Load<Sprite>(tempPath_passive_04);
+            img_currentUnit_active_01.sprite = Resources.Load<Sprite>(tempPath_active_01);
+            img_currentUnit_active_02.sprite = Resources.Load<Sprite>(tempPath_active_02);
+            img_currentUnit_active_03.sprite = Resources.Load<Sprite>(tempPath_active_03);
+
+            string tempPath_weapon = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_equip_weapon_path;
+            string tempPath_armor = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_equip_armor_path;
+            string tempPath_accessary = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_equip_accessary_path;
+
+            btn_currentUnit_slotWeapon.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(tempPath_weapon);
+            btn_currentUnit_slotArmor.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(tempPath_armor);
+            btn_currentUnit_slotAccessory_01.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(tempPath_accessary);
+
+            // SetSpriteByItemName("longSword");
+
         }
 
     }
@@ -463,19 +570,19 @@ public class UIManager : MonoBehaviour
 
         if(m_selectedUnitCard.m_unitSaveData.m_weapon == null)
         {
-            btn_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
+            //Debug.Log(m_selectedUnitCard.m_unitSaveData.m_weapon);
+            btn_currentUnit_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
             return;
         }
 
         if (m_selectedUnitCard.m_unitSaveData.m_weapon.m_itemName == itemName)
         {
-            //slotButton.setIconImage(m_testSprite);
-            btn_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(m_testSprite);
+            btn_currentUnit_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(m_testSprite);
             Debug.Log("find " + itemName);
         }
         else
         {
-            btn_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
+            btn_currentUnit_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
             Debug.Log("can't find " + itemName);
         }
     }
@@ -489,15 +596,11 @@ public class UIManager : MonoBehaviour
     public void RefreshUnitCard()
     {
         PlayerData playerData = LoadUnitCradInfo();
-        
         int unitCardCount = 0;
         unitCardCount = CountUnitCardLength(playerData);
 
         ClearUnitCards();
-
         CreateUnitCards(playerData, unitCardCount);
-
-        
     }
     
     public void CreateUnitCards(PlayerData playerData, int unitCardCount)

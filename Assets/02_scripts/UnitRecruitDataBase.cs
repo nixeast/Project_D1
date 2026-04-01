@@ -79,7 +79,7 @@ public class UnitRecruitDataBase : MonoBehaviour
             m_recruitDictionary.Add(int.Parse(recruitId), newData);
         }
 
-        Debug.Log("load unitRecruitData success");
+        //Debug.Log("load unitRecruitData success");
     }
     
 }

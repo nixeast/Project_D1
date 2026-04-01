@@ -1,0 +1,17 @@
+UnitID,UnitName,PortraitPath
+1,Dwarf_01,res_portrait_dwarf/portrait_dwarf_Warrior
+2,Dwarf_02,res_portrait_dwarf/portrait_dwarf_Raider
+3,Dwarf_03,res_portrait_dwarf/portrait_dwarf_MarksMan
+4,Dwarf_04,res_portrait_dwarf/portrait_dwarf_RuneCaster
+5,Dwarf_05,res_portrait_dwarf/portrait_dwarf_ArmoredInfantry
+6,Dwarf_06,res_portrait_dwarf/portrait_dwarf_Berserker
+7,Dwarf_07,res_portrait_dwarf/portrait_dwarf_Scout
+8,Dwarf_08,res_portrait_dwarf/portrait_dwarf_Arcanist
+9,Dwarf_09,res_portrait_dwarf/portrait_dwarf_IronWarden
+10,Dwarf_10,res_portrait_dwarf/portrait_dwarf_Slayer
+11,Dwarf_11,res_portrait_dwarf/portrait_dwarf_TunnelStalker
+12,Dwarf_12,res_portrait_dwarf/portrait_dwarf_PurifyingPriest
+101,Skaven_01,UnitPortraits/unit_skaven_01
+102,Skaven_02,UnitPortraits/unit_skaven_02
+103,Skaven_03,UnitPortraits/unit_skaven_03
+104,Skaven_04,UnitPortraits/unit_skaven_04

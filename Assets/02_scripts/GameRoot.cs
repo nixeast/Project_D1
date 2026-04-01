@@ -7,6 +7,7 @@ public class GameRoot : MonoBehaviour
     public static GameRoot s_instance;
     [SerializeField] private PlayerData m_playerData;
     [SerializeField] private PlayerDataManager m_playerDataManager;
+    [SerializeField] private int m_startMissionNumber;
 
     private void Awake()
     {
@@ -19,10 +20,9 @@ public class GameRoot : MonoBehaviour
         LoadPlayerData();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetMissionNumber(int nMissionNumber)
     {
-        
+        m_startMissionNumber = nMissionNumber;
     }
 
     private void LoadPlayerData()

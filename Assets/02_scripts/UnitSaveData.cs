@@ -2,6 +2,7 @@
 //using System.Collections.Generic;
 //using UnityEngine;
 using System;
+using UnityEngine;
 
 [Serializable]
 public class UnitSaveData
@@ -20,6 +21,8 @@ public class UnitSaveData
     public int m_attack;
     public int m_defense;
     public int m_morale;
+
+    public UnitData m_unitOriginData; 
 
    
 }

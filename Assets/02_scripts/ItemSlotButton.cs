@@ -17,7 +17,7 @@ public class ItemSlotButton : MonoBehaviour
         if(m_button != null)
         {
             m_button.onClick.AddListener(OnUnityButtonClicked);
-            Debug.Log("m_button.onClicked.AddListener completed..");
+            //Debug.Log("m_button.onClicked.AddListener completed..");
         }
     }
 
