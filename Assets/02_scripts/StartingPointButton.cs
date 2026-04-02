@@ -5,27 +5,30 @@ using UnityEngine;
 public class StartingPointButton : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer m_spriteRenderer;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public IngameUiManager m_ingameUiManager;
+    public GameObject obj_tilemap_object;
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseDown()
     {
+        Debug.Log("starting point clicked..");
+        // if(GameManager.instance.getCurrentStartUnitCount() < GameManager.instance.getMaxStartUnitCount())
+        // {
+        //     MakeUnitByUnitCard();
+        // }
+        
+        //MakeUnitByUnitCard();
+        
+        if(this.gameObject.tag == "area")
+        {
+            SetUnitcardOnBattleMap();
+        }
         
     }
     
-    private void OnMouseDown()
+    public void SetUnitcardOnBattleMap()
     {
-        //Debug.Log("starting point clicked..");
+        GameObject newUnit = Instantiate(GameManager.instance.m_unitObject, this.gameObject.transform.position, Quaternion.identity, obj_tilemap_object.transform);
 
-        if(GameManager.instance.getCurrentStartUnitCount() < GameManager.instance.getMaxStartUnitCount())
-        {
-            MakeUnitByUnitCard();
-        }
-        
     }
 
     public void MakeUnitByUnitCard()

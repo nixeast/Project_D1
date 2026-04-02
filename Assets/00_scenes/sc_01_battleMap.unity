@@ -7200,6 +7200,7 @@ MonoBehaviour:
   panel_openingScreen: {fileID: 358973307}
   panel_tileInfo: {fileID: 975122950}
   panel_unitcard: {fileID: 1206836169}
+  m_currentPhase: 0
   m_missionNumber: 0
   panel_missionBrief: {fileID: 223857542}
   text_missionName: {fileID: 1823411465}
@@ -7208,6 +7209,8 @@ MonoBehaviour:
   prefab_btn_playerUnitCard: {fileID: 1314661558160163904, guid: 5270f96af05fb4ae0b9f30f82be258ea, type: 3}
   m_playerUnitCardList: []
   scrollViewContent_unitCommand: {fileID: 1710670543}
+  obj_DeployArea: {fileID: 1841890572}
+  m_selectedDeployUnitNum: 0
   m_playerData:
     nDwarfGold: 0
     nDwarfHonor: 0
@@ -7215,6 +7218,7 @@ MonoBehaviour:
     m_currentUnits: []
     m_storage:
       m_storageItem: []
+  m_unitDatabase: {fileID: 0}
 --- !u!1 &498868072
 GameObject:
   m_ObjectHideFlags: 0
@@ -21787,6 +21791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f78908c7159b0499ccf8780713e7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ingameUiManager: {fileID: 492047345}
   targetStage: {fileID: 11400000, guid: fb3cf11f9b45e974886e6e284528097a, type: 2}
   m_terrainPrefabList:
   - {fileID: 8901053067870212552, guid: 0c6f5c6bed16a59449a938612e55be7a, type: 3}
@@ -26732,7 +26737,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1841890573
 Transform:
   m_ObjectHideFlags: 0

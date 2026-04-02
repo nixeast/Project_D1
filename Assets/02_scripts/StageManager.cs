@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    public IngameUiManager m_ingameUiManager;
+
     [Header("StageData Source")]
     public StageData targetStage;
 
@@ -62,9 +64,12 @@ public class StageManager : MonoBehaviour
         {
             s_AreaInfo newArea = targetStage.m_areaList[k];
             GameObject prefab = FindPrefabByName(m_areaPrefabList, newArea.m_name);
+            StartingPointButton tempStartingPoint = prefab.GetComponent<StartingPointButton>();
             if (prefab != null)
             {
                 Vector3 spawnPos = new Vector3(newArea.x, newArea.y, 0);
+                tempStartingPoint.m_ingameUiManager = m_ingameUiManager;
+                tempStartingPoint.obj_tilemap_object = tileRoot_object.gameObject;
                 Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_area);
             }
         }
@@ -79,7 +84,7 @@ public class StageManager : MonoBehaviour
         {
             GameObject p = prefabs[i];
 
-            // ÇÁ¸®ÆÕÀÌ ºñ¾îÀÖ´ÂÁö ¹æ¾î ÄÚµå (CÀÇ NULL Ã¼Å©)
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Úµï¿½ (Cï¿½ï¿½ NULL Ã¼Å©)
             //if (p == null) continue;
 
             if (p.name.Contains(tempName))
@@ -88,7 +93,7 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        Debug.LogWarning($">> [ÇÁ·ÎÁ§Æ®D] ID {tempName}¿¡ ÇØ´çÇÏ´Â ÇÁ¸®ÆÕÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        //Debug.LogWarning($">> [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®D] ID {tempName}ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         return null;
     }
 }

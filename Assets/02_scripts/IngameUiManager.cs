@@ -4,11 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum ePhaseType
+{
+    Default = 0,
+    UnitDeplyment = 1,
+    Battle = 2,
+}
+
 public class IngameUiManager : MonoBehaviour
 {
     public GameObject panel_openingScreen;
     public GameObject panel_tileInfo;
     public GameObject panel_unitcard;
+    public ePhaseType m_currentPhase;
 
     [Header("Mision Data InFo")]
     public int m_missionNumber;
@@ -21,6 +29,8 @@ public class IngameUiManager : MonoBehaviour
     public GameObject prefab_btn_playerUnitCard;
     public List<GameObject> m_playerUnitCardList = new List<GameObject>();
     public RectTransform scrollViewContent_unitCommand;
+    public GameObject obj_DeployArea;
+    public int m_selectedDeployUnitNum;
 
     [Header("Data")]
     private PlayerDataManager m_playerDataManager;
@@ -38,7 +48,24 @@ public class IngameUiManager : MonoBehaviour
         SetMissionBriefContent(m_missionNumber);
         
         InitPlayerUnitCardList();
-
+        SetCurrentPhase(ePhaseType.UnitDeplyment);
+    }
+    
+    public void OnClickDeployUnitCard(int nUnitNumber)
+    {
+        m_selectedDeployUnitNum = nUnitNumber;
+        ShowDeploymentArea();
+        Debug.Log("selected unit id :" + nUnitNumber);
+    }
+    
+    public void ShowDeploymentArea()
+    {
+        obj_DeployArea.SetActive(true);
+    }
+    
+    public void SetCurrentPhase(ePhaseType phaseType)
+    {
+        m_currentPhase = phaseType;
     }
     
     public void InitPlayerUnitCardList()
@@ -56,12 +83,14 @@ public class IngameUiManager : MonoBehaviour
             tempUnitData.m_unitOriginNumber = newOriginNumber;
             tempUnitData.text_unitNumber.text = tempUnitData.m_unitOriginNumber.ToString();
             tempUnitData.img_unitPortrait.sprite = m_unitDatabase.GetUnitPortrait(newOriginNumber);
+
+            tempUnitData.btn_cardButton.onClick.AddListener(() => OnClickDeployUnitCard(newOriginNumber));
+            //tempUnitData.btn_cardButton.onClick.AddListener(ShowDeploymentArea);
+            
+
             m_playerUnitCardList.Add(newCard);
         }
-
-
     }
- 
     
     public void LoadDatas()
     {

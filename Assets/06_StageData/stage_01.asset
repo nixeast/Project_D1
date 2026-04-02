@@ -16,395 +16,147 @@ MonoBehaviour:
   mapWidth: 0
   mapHeight: 0
   m_terrainList:
-  - x: 0
-    y: -5
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
-    y: -4
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
-    y: -3
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
-    y: -2
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
-    y: -1
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
-    y: 0
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
-    y: 1
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
-    y: 2
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
+  - x: 5
     y: 3
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
-    y: 4
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 0
-    y: 5
-    m_terrainID: 2
-    m_name: tile_002_terrain_brickGround
-  - x: 7
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
-    y: -4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: -4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: -4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 6
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 9
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 9
-    y: -4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 9
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 9
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 9
-    y: -1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: 9
     y: 0
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 9
-    y: 1
+  - x: -9
+    y: -1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 9
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 9
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 9
+  - x: -6
     y: 4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 9
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 8
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 7
+  - x: 0
+    y: -2
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: -1
     y: 5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: 6
-    y: 5
+    y: -3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: 5
+  - x: 3
+    y: 1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 5
+  - x: 8
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 2
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -8
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -7
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -4
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -8
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 4
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 1
+    y: -3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -7
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 4
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -7
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 3
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -6
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -4
     y: 4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: -4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 5
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
-    y: -4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
+  - x: -2
     y: 4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 3
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: -4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 4
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 3
+  - x: -8
     y: -5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: 2
     y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -7
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 0
+    y: 0
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: -7
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 7
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 7
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 3
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -1
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -6
+    y: -1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: 2
     y: -4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 2
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 2
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 2
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 2
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 2
+  - x: -6
     y: 1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 2
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 2
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 2
+  - x: 8
     y: 4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
@@ -413,38 +165,54 @@ MonoBehaviour:
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: 1
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 1
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 1
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 1
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 1
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 1
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: 1
     y: -1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 1
+  - x: 7
+    y: -3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -8
     y: -2
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: 1
+  - x: -4
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -5
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 8
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 0
+    y: -4
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: 5
+    y: -3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -6
+    y: -4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 0
+    y: 2
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: -2
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 7
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -5
     y: -3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
@@ -452,107 +220,107 @@ MonoBehaviour:
     y: -4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
+  - x: 3
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -1
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -9
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 9
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -7
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 6
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -5
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -2
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 6
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -4
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -4
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 4
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -2
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 3
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 9
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 8
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 5
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 2
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -2
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 6
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -5
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 5
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
   - x: 1
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
     y: 0
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -1
-    y: -4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: -4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
+  - x: 3
     y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -2
-    y: 5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -3
-    y: 5
+    y: -1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -3
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -3
+  - x: 7
     y: 3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
@@ -560,24 +328,240 @@ MonoBehaviour:
     y: 2
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
+  - x: -8
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 6
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
   - x: -3
     y: 1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -3
-    y: 0
+  - x: 1
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 9
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -9
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 0
+    y: 3
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: 7
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -7
+    y: -2
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -3
-    y: -1
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -8
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -2
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 2
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -8
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 1
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 7
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 5
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 1
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -1
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 8
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 4
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -2
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 7
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -5
+    y: -4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -9
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -6
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 8
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -1
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -8
+    y: -3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -2
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 7
+    y: -4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 3
+    y: 0
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -3
     y: -2
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -3
+  - x: 6
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -4
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 2
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -1
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -6
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -2
     y: -3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -3
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -5
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 6
+    y: -4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -1
+    y: -3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -2
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -5
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 3
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -9
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 9
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -4
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 0
+    y: -5
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: -8
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 5
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -6
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 1
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 9
+    y: -4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 6
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 9
+    y: -3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 9
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 9
+    y: -5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -3
@@ -588,136 +572,68 @@ MonoBehaviour:
     y: -5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: -5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: -4
+  - x: 4
+    y: 5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -4
     y: -3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: -2
+  - x: 8
+    y: -3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: -1
+  - x: -3
+    y: -3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -4
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -6
+  - x: -1
     y: -4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -6
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -6
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -5
     y: 0
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -5
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -5
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -5
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -5
+  - x: 7
     y: 4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -5
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -6
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -6
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -6
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -6
+  - x: -4
     y: 2
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -6
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -6
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -6
+  - x: -1
     y: -1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -5
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -5
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -5
+  - x: 4
     y: -3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -5
+  - x: 8
     y: -4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -5
-    y: -5
+  - x: 0
+    y: -1
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: -9
+    y: 5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -6
-    y: -5
+  - x: 2
+    y: -3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -1
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 4
+    y: -4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -7
@@ -728,128 +644,212 @@ MonoBehaviour:
     y: -4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -7
-    y: -3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -7
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -7
-    y: 0
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -7
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -7
-    y: 1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -7
-    y: 2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -7
+  - x: -9
     y: 3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -7
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -7
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -8
-    y: 5
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -8
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -8
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -8
+  - x: 5
     y: 2
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -8
+  - x: 9
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -9
     y: 1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -8
-    y: 0
+  - x: 3
+    y: -4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -8
-    y: -1
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -8
-    y: -2
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -8
-    y: -3
+  - x: 7
+    y: 2
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -8
     y: -4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -8
+  - x: 1
     y: -5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -9
-    y: -5
+  - x: -6
+    y: -3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -9
     y: -4
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -9
+  - x: 0
+    y: 4
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: 2
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 4
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 4
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -5
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 1
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 3
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -3
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 0
+    y: 5
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: -6
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -2
+    y: -4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 2
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -7
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 5
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 6
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 0
+    y: 1
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: 6
+    y: -2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 8
+    y: 5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -4
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -3
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 2
+    y: 3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -7
     y: -3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -9
-    y: -2
+    y: -3
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -9
+  - x: 5
+    y: -5
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 4
+    y: 2
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 1
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 0
+    y: -3
+    m_terrainID: 2
+    m_name: tile_002_terrain_brickGround
+  - x: -5
+    y: 0
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 8
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 4
     y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 5
+    y: 1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -5
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -4
+    y: -4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 9
+    y: -1
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 3
+    y: -3
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -1
+    y: 4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: 8
+    y: -5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   - x: -9
     y: 0
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -9
+  - x: 5
+    y: -4
+    m_terrainID: 1
+    m_name: tile_001_terrain_stoneGround
+  - x: -8
     y: 1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -9
-    y: 2
+  - x: 6
+    y: 1
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
-  - x: -9
-    y: 3
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -9
-    y: 4
-    m_terrainID: 1
-    m_name: tile_001_terrain_stoneGround
-  - x: -9
-    y: 5
+  - x: -5
+    y: -5
     m_terrainID: 1
     m_name: tile_001_terrain_stoneGround
   m_unitList:
@@ -866,18 +866,6 @@ MonoBehaviour:
     m_unitID: 101
     m_name: tile_101_unit_VerminHurler
   - x: 4
-    y: 3
-    m_unitID: 101
-    m_name: tile_101_unit_VerminHurler
-  - x: 3
-    y: 4
-    m_unitID: 101
-    m_name: tile_101_unit_VerminHurler
-  - x: 4
-    y: 4
-    m_unitID: 100
-    m_name: tile_100_unit_VerminFootman
-  - x: 4
     y: -4
     m_unitID: 100
     m_name: tile_100_unit_VerminFootman
@@ -885,52 +873,64 @@ MonoBehaviour:
     y: 0
     m_unitID: 100
     m_name: tile_100_unit_VerminFootman
-  - x: 7
-    y: -1
+  - x: 4
+    y: 4
     m_unitID: 100
     m_name: tile_100_unit_VerminFootman
-  - x: 7
-    y: 1
-    m_unitID: 100
-    m_name: tile_100_unit_VerminFootman
+  - x: 3
+    y: 4
+    m_unitID: 101
+    m_name: tile_101_unit_VerminHurler
   - x: 6
     y: 0
     m_unitID: 100
     m_name: tile_100_unit_VerminFootman
+  - x: 7
+    y: 1
+    m_unitID: 100
+    m_name: tile_100_unit_VerminFootman
+  - x: 7
+    y: -1
+    m_unitID: 100
+    m_name: tile_100_unit_VerminFootman
+  - x: 4
+    y: 3
+    m_unitID: 101
+    m_name: tile_101_unit_VerminHurler
   m_areaList:
-  - x: -7
-    y: -1
-    m_areaID: 200
-    m_name: tile_200_area_deployPoint
-  - x: -7
-    y: 0
-    m_areaID: 200
-    m_name: tile_200_area_deployPoint
-  - x: -7
+  - x: -1
     y: 1
     m_areaID: 200
     m_name: tile_200_area_deployPoint
-  - x: -6
-    y: -1
-    m_areaID: 200
-    m_name: tile_200_area_deployPoint
-  - x: -6
+  - x: -1
     y: 0
     m_areaID: 200
     m_name: tile_200_area_deployPoint
-  - x: -6
+  - x: -1
+    y: -1
+    m_areaID: 200
+    m_name: tile_200_area_deployPoint
+  - x: -2
     y: 1
     m_areaID: 200
     m_name: tile_200_area_deployPoint
-  - x: -5
-    y: -1
-    m_areaID: 200
-    m_name: tile_200_area_deployPoint
-  - x: -5
+  - x: -2
     y: 0
     m_areaID: 200
     m_name: tile_200_area_deployPoint
-  - x: -5
+  - x: -2
+    y: -1
+    m_areaID: 200
+    m_name: tile_200_area_deployPoint
+  - x: -3
+    y: -1
+    m_areaID: 200
+    m_name: tile_200_area_deployPoint
+  - x: -3
+    y: 0
+    m_areaID: 200
+    m_name: tile_200_area_deployPoint
+  - x: -3
     y: 1
     m_areaID: 200
     m_name: tile_200_area_deployPoint
