@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2473770393104627243}
   - component: {fileID: 1900713853908062695}
   m_Layer: 0
-  m_Name: tile_ground_01
-  m_TagString: groundTile
+  m_Name: tile_002_terrain_brickGround
+  m_TagString: terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: ea585a8ef1c064de88f886150e8e4a56, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 55c4fc99243c47d42ae67a56fe3381fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

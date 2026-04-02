@@ -49,4 +49,9 @@ public class GameRoot : MonoBehaviour
         return m_playerData;
     }
 
+    public int GetStartMissionNumber()
+    {
+        return m_startMissionNumber;
+    }
+
 }

@@ -4,14 +4,28 @@ using UnityEngine;
 
 public class MissionDatabase : MonoBehaviour
 {
+    public static MissionDatabase s_instance;
 
     public TextAsset csv_missionData;
     public Dictionary<int, MissionData> m_missionDataDic = new Dictionary<int, MissionData>();
 
     private void Awake()
     {
+        MakeSingletonPattern();
+
         m_missionDataDic.Clear();
         LoadFromCsv();
+    }
+
+    public void MakeSingletonPattern()
+    {
+        if(s_instance != null && s_instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        s_instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void LoadFromCsv()

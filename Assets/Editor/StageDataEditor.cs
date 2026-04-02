@@ -7,62 +7,78 @@ public class StageDataEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector(); // 기본 UI 출력
+        DrawDefaultInspector();
 
-        StageData data = (StageData)target;
+        StageData newStageData = (StageData)target;
 
         if (GUILayout.Button("SAVE SCENE TO DATA", GUILayout.Height(40)))
         {
-            SaveToData(data);
+            SaveToData(newStageData);
         }
     }
 
-    // --- 데이터를 추출하는 핵심 로직 (절차적 함수) ---
-    void SaveToData(StageData data)
+    void SaveToData(StageData newStageData)
     {
-        // 1. 기존 리스트 비우기 (C의 메모리 초기화 느낌)
-        data.tileList.Clear();
-        data.unitList.Clear();
+        newStageData.m_terrainList.Clear();
+        newStageData.m_unitList.Clear();
+        newStageData.m_areaList.Clear();
 
-        // 2. 씬에 있는 모든 게임 오브젝트를 훑음
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        int nCount = allObjects.Length;
 
-        for (int i = 0; i < allObjects.Length; i++)
+        for (int i = 0; i < nCount; i++)
         {
             GameObject obj = allObjects[i];
 
-            // 타일 저장 (이름이나 태그로 판별)
-            if (obj.CompareTag("groundTile"))
+            if (obj.CompareTag("terrain"))
             {
-                TileInfo t;
-                t.x = (int)obj.transform.position.x;
-                t.y = (int)obj.transform.position.y;
-                t.typeID = GetIDFromName(obj.name); // 이름 기반으로 ID 할당
-                data.tileList.Add(t);
+                s_TerrainInfo tempTerrainInfo;
+
+                tempTerrainInfo.x = (int)obj.transform.position.x;
+                tempTerrainInfo.y = (int)obj.transform.position.y;
+                tempTerrainInfo.m_terrainID = GetIDFromName(obj.name);
+                tempTerrainInfo.m_name = obj.name;
+                newStageData.m_terrainList.Add(tempTerrainInfo);
             }
-            // 유닛 저장
+            
             else if (obj.CompareTag("enemy"))
             {
-                UnitInfo u;
-                u.x = (int)obj.transform.position.x;
-                u.y = (int)obj.transform.position.y;
-                u.unitID = GetIDFromName(obj.name);
-                data.unitList.Add(u);
+                s_UnitInfo tempUnitInfo;
+                tempUnitInfo.x = (int)obj.transform.position.x;
+                tempUnitInfo.y = (int)obj.transform.position.y;
+                tempUnitInfo.m_unitID = GetIDFromName(obj.name);
+                tempUnitInfo.m_name = obj.name;
+                newStageData.m_unitList.Add(tempUnitInfo);
+            }
+
+            else if(obj.CompareTag("area"))
+            {
+                s_AreaInfo tempAreaInfo;
+                tempAreaInfo.x = (int)obj.transform.position.x;
+                tempAreaInfo.y = (int)obj.transform.position.y;
+                tempAreaInfo.m_areaID = GetIDFromName(obj.name);
+                tempAreaInfo.m_name = obj.name;
+                newStageData.m_areaList.Add(tempAreaInfo);
+
             }
         }
 
-        // 유니ti 에디터에 변경사항 알림 (핵심!)
-        EditorUtility.SetDirty(data);
+        // Notice stageData file info modification to UnityEditor (important!)
+        EditorUtility.SetDirty(newStageData);
         AssetDatabase.SaveAssets();
         Debug.Log(">> DATA SAVED SUCCESSFULLY.");
     }
 
-    // 단순 문자열 비교를 통해 정수 ID를 반환하는 헬퍼 함수
     int GetIDFromName(string name)
     {
-        if (name.Contains("Grass")) return 0;
-        if (name.Contains("Stone")) return 1;
-        if (name.Contains("Verminkin")) return 101;
+        if (name.Contains("tile_default")) return 0;
+        if (name.Contains("tile_001")) return 1;
+        if (name.Contains("tile_002")) return 2;
+        if (name.Contains("tile_100")) return 100;
+        if (name.Contains("tile_101")) return 101;
+        if (name.Contains("tile_105")) return 105;
+        if (name.Contains("tile_200")) return 200;
+
         return -1;
     }
 }
