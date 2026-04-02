@@ -4,14 +4,44 @@ using UnityEngine;
 
 public class UnitDataBase : MonoBehaviour
 {
+    public static UnitDataBase s_instance;
     public TextAsset path_csv;
     public Dictionary<int, UnitData> m_unitDataDic = new Dictionary<int, UnitData>();
 
 
     private void Awake()
     {
+        MakeSingletonPattern();
+
         m_unitDataDic.Clear();
         LoadFromCsv();
+    }
+    
+    public void MakeSingletonPattern()
+    {
+        if(s_instance != null && s_instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        s_instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    
+    public Sprite GetUnitPortrait(int nUnitOriginNumber)
+    {
+        UnitData tempData;
+        Sprite newSprite = null;
+        bool isGet = false;
+        isGet = m_unitDataDic.TryGetValue(nUnitOriginNumber, out tempData);
+        
+        if (isGet == true)
+        {
+            string newPath = tempData.m_PortraitPath;
+            newSprite = Resources.Load<Sprite>(newPath);    
+        }
+        
+        return newSprite;
     }
 
     public void LoadFromCsv()

@@ -18,14 +18,55 @@ public class IngameUiManager : MonoBehaviour
 
     [Header("Uniy Deployment")]
     public GameObject panel_deployPhase;
+    public GameObject prefab_btn_playerUnitCard;
+    public List<GameObject> m_playerUnitCardList = new List<GameObject>();
+    public RectTransform scrollViewContent_unitCommand;
 
-    // Start is called before the first frame update
-    void Start()
+    [Header("Data")]
+    private PlayerDataManager m_playerDataManager;
+    public PlayerData m_playerData;
+    public UnitDataBase m_unitDatabase;
+
+    public void Awake()
+    {
+        LoadDatas();
+    }
+
+    public void Start()
     {
         LoadMissionInfo();
         SetMissionBriefContent(m_missionNumber);
+        
+        InitPlayerUnitCardList();
+
+    }
+    
+    public void InitPlayerUnitCardList()
+    {
+        m_playerUnitCardList.Clear();
+
+        m_playerData = m_playerDataManager.GetPlayerData();
+        int nPlayerUnitCount = m_playerData.m_currentUnits.Count;
+        for (int i = 0; i < nPlayerUnitCount; i++)
+        {
+            GameObject newCard = Instantiate(prefab_btn_playerUnitCard, scrollViewContent_unitCommand);
+            PlayerUnitCard tempUnitData = newCard.GetComponent<PlayerUnitCard>();
+            int newOriginNumber = m_playerData.m_currentUnits[i].m_unitOriginalNumber;
+            
+            tempUnitData.m_unitOriginNumber = newOriginNumber;
+            tempUnitData.text_unitNumber.text = tempUnitData.m_unitOriginNumber.ToString();
+            tempUnitData.img_unitPortrait.sprite = m_unitDatabase.GetUnitPortrait(newOriginNumber);
+            m_playerUnitCardList.Add(newCard);
+        }
 
 
+    }
+ 
+    
+    public void LoadDatas()
+    {
+        m_playerDataManager = PlayerDataManager.s_instance;
+        m_unitDatabase = UnitDataBase.s_instance;
     }
 
     public void OnClickBattleStart()
