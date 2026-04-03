@@ -28,13 +28,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameRoot m_gameRoot;
     public UnitPortraitDatabase m_unitPortraitDatabase;
     public eGamePlayState m_currentGameState = default;
+
+    [Header("UnitCommand")]
+    public GameObject tile_moveTarget_true;
+    public GameObject tile_attackTarget_true;
+
+    [Header("Etc")]
     public BattleResultManager m_battleResultManager;
 
     public TMP_Text tmp_maxStartUnit;
     public TMP_Text tmp_curentStartUnit;
     public RectTransform scrollViewContent_unitCard;
     
-    public Button btn_startBattle;
+    //public Button btn_startBattle;
     public GameObject panel_unitCardList;
     public GameObject panel_battleInfo;
     public GameObject tileMap_startingPoints;
@@ -53,8 +59,6 @@ public class GameManager : MonoBehaviour
 
     public List<Vector3> m_movableTilePositions = new List<Vector3>();
     public List<MoveTarget> m_movableTiles = new List<MoveTarget>();
-    public GameObject tile_moveTarget_true;
-    public GameObject tile_attackTarget_true;
     Vector3[] movePositions = new Vector3[4];
     GameObject[] moveTargets = new GameObject[4];
     Vector3[] attackPositions = new Vector3[4];
@@ -94,19 +98,13 @@ public class GameManager : MonoBehaviour
         SetGamePlayState(eGamePlayState.SetupBattleUnit);
         LoadUnitCard();
         tmp_maxStartUnit.text = m_maxStartUnitCount.ToString();
-        btn_startBattle.onClick.AddListener(StartBattle);
+        //btn_startBattle.onClick.AddListener(StartBattle);
         btn_turnOver.onClick.AddListener(SwitchTurnOwner);
         m_currentTurnOwner = eTurnOwner.Player;
         m_currentTurn = 1;
         tmp_turnOwner.text = "player";
         tmp_currentTurn.text = m_currentTurn.ToString();
         Debug.Log("<color=yellow>start battleMap Scene</color>");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void LoadGameRoot()
@@ -171,8 +169,12 @@ public class GameManager : MonoBehaviour
 
     public void MoveUnit(MoveTarget currentMoveTarget)
     {
-        
-        currentSelectedUnit.gameObject.transform.position = currentMoveTarget.gameObject.transform.position;
+        Vector3 newPos;
+        newPos.x = currentMoveTarget.gameObject.transform.position.x;
+        newPos.y = currentMoveTarget.gameObject.transform.position.y;
+        newPos.z = -1.0f;
+
+        currentSelectedUnit.gameObject.transform.position = newPos;
         
         if(currentSelectedUnit.e_currentUnitState == eUnitState.CloseCombat)
         {
@@ -200,8 +202,8 @@ public class GameManager : MonoBehaviour
     public void AttackUnit(AttackTarget currentAttackTarget)
     {
         //Debug.Log("attack unit : " + currentAttackTarget.assignedUnit);
-        currentAttackTarget.assignedUnit.stat_health -= currentSelectedUnit.stat_attack;
-        Debug.Log(currentAttackTarget.assignedUnit + "-> hp : " + currentAttackTarget.assignedUnit.stat_health);
+        currentAttackTarget.assignedUnit.stat_hp -= currentSelectedUnit.stat_atk;
+        Debug.Log(currentAttackTarget.assignedUnit + "-> hp : " + currentAttackTarget.assignedUnit.stat_hp);
 
         currentAttackTarget.assignedUnit.m_closeCombatOpponents.Add(currentSelectedUnit);
         currentSelectedUnit.m_closeCombatOpponents.Add(currentAttackTarget.assignedUnit);
@@ -273,106 +275,89 @@ public class GameManager : MonoBehaviour
         attackPositions[3].y = -1.0f;
 
     }
-
-
-    //public void MakeMoveTargets(Unit selectedUnit, int nMoveLevel)
-    //{
-    //    //setup length
-    //    int nLength = (nMoveLevel * 2) + 1;
-    //    int nLengthX = nLength;
-    //    int nLengthY = nLength;
-
-    //    float fLengthX = (float)nLengthX;
-    //    float fLengthY = (float)nLengthY;
-
-    //    int nMiddleX = Mathf.CeilToInt(fLengthX / 2);
-    //    int nMiddleY = Mathf.CeilToInt(fLengthY / 2);
-
-    //    //int nSize = nLength * nLength;
-
-    //    float targetPosX = selectedUnit.gameObject.transform.position.x - nMoveLevel;
-    //    float targetPosY = selectedUnit.gameObject.transform.position.y + nMoveLevel;
-
-    //    //create posistions
-    //    int nCountX = 0;
-    //    int nCountY = 0;
-    //    GameObject tempGameObj;
-
-    //    int nCount = 0;
-
-    //    while (nCountY < nMiddleY)
-    //    {
-    //        while(nCountX < nLengthX)
-    //        {
-    //            Vector3 tempPos = new Vector3(targetPosX, targetPosY, 0f);
-    //            m_movableTilePositions.Add(tempPos);
-
-    //            tempGameObj = Instantiate(tile_moveTarget_true);
-    //            tempGameObj.transform.position = tempPos;
-    //            m_movableTiles.Add(tempGameObj.GetComponent<MoveTarget>());
-
-    //            if(tempGameObj.transform.position == selectedUnit.gameObject.transform.position)
-    //            {
-    //                tempGameObj.SetActive(false);
-    //            }
-
-    //            if(nCountX < nMiddleX)
-    //            {
-    //                nCount = nCountX;
-    //                tempGameObj.SetActive(false);
-    //            }
-    //            else if(nCountX == nMiddleX)
-    //            {
-
-    //            }
-    //            else if(nCountX > nMiddleX)
-    //            {
-
-    //            }
-
-
-    //            nCountX++;
-    //            targetPosX++;
-    //        }
-
-    //        nCountX = 0;
-    //        targetPosX = selectedUnit.gameObject.transform.position.x - nMoveLevel;
-
-    //        nCountY++;
-    //        targetPosY--;
-    //    }
-    //}
-
-    public void MakeMoveTargets(Unit selectedUnit, int nMoveLevel)
+    public void MakeAttackTargets(Unit selectedUnit, int nUnitAp)
     {
-        // ���� ��ġ�� ���� ���ڶ�� ������ int�� ����
+        int nMaxAttackLimit = nUnitAp + 1;
         Vector3 unitPos = selectedUnit.gameObject.transform.position;
         float cx = unitPos.x;
         float cy = unitPos.y;
 
-        for (int dy = -nMoveLevel; dy <= nMoveLevel; dy++)
+        int unitLayerMask = LayerMask.GetMask("Unit");
+
+        for (int dy = -nMaxAttackLimit; dy <= nMaxAttackLimit; dy++)
         {
-            int dxLimit = nMoveLevel - Mathf.Abs(dy);
+            int dxLimit = nMaxAttackLimit - Mathf.Abs(dy);
 
             for (int dx = -dxLimit; dx <= dxLimit; dx++)
             {
                 float tx = cx + dx;
                 float ty = cy + dy;
 
-                Vector3 tempPos = new Vector3(tx, ty, 0f);
+                if (dx == -dxLimit || dx == dxLimit)
+                {
+                    Vector3 tempPos = new Vector3(tx, ty, -1.0f);
+                    //m_movableTilePositions.Add(tempPos);
 
+                    Vector3 targetTilePos = tempPos;
+                    //bool hasUnit = Physics2D.OverlapPoint(targetTilePos, unitLayerMask);
+
+                    GameObject tempGameObj = Instantiate(tile_attackTarget_true);
+                    tempGameObj.transform.position = tempPos;
+                    m_movableTiles.Add(tempGameObj.GetComponent<MoveTarget>());
+
+                    if (dx == 0 && dy == 0)
+                    {
+                        tempGameObj.SetActive(false);
+
+                    }
+                }
+                
+
+            }
+        }
+    }
+
+    public void MakeMoveTargets(Unit selectedUnit, int nUnitAp)
+    {
+        Vector3 unitPos = selectedUnit.gameObject.transform.position;
+        float cx = unitPos.x;
+        float cy = unitPos.y;
+
+        int unitLayerMask = LayerMask.GetMask("Unit");
+
+        for (int dy = -nUnitAp; dy <= nUnitAp; dy++)
+        {
+            int dxLimit = nUnitAp - Mathf.Abs(dy);
+
+            for (int dx = -dxLimit; dx <= dxLimit; dx++)
+            {
+                float tx = cx + dx;
+                float ty = cy + dy;
+
+                Vector3 tempPos = new Vector3(tx, ty, -1.0f);
                 m_movableTilePositions.Add(tempPos);
 
-                GameObject tempGameObj = Instantiate(tile_moveTarget_true);
-                tempGameObj.transform.position = tempPos;
-
-                m_movableTiles.Add(tempGameObj.GetComponent<MoveTarget>());
-
-                // �߽�ĭ�� ��Ȱ�� (float �� ��� dx/dy�� ����)
-                if (dx == 0 && dy == 0)
+                Vector3 targetTilePos = tempPos;
+                bool hasUnit = Physics2D.OverlapPoint(targetTilePos, unitLayerMask);
+                
+                if (hasUnit == false)
                 {
-                    tempGameObj.SetActive(false);
+                    GameObject tempGameObj = Instantiate(tile_moveTarget_true);
+                    tempGameObj.transform.position = tempPos;
+                    m_movableTiles.Add(tempGameObj.GetComponent<MoveTarget>());
+                    if (dx == 0 && dy == 0)
+                    {
+                        tempGameObj.SetActive(false);
+
+                    }
                 }
+                else
+                {
+                    Debug.Log("overlap checked..");
+
+                }
+
+                
             }
         }
     }
@@ -429,24 +414,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeUnitControlMode(Unit selectedUnit)
-    {
-        ResetPositions();
+    //public void ChangeUnitControlMode(Unit selectedUnit)
+    //{
+    //    ResetPositions();
 
-        if (selectedUnit.currentControlMode == unitControlMode.Move)
-        {
-            RemoveAttackTargetTiles();
+    //    if (selectedUnit.currentControlMode == unitControlMode.Move)
+    //    {
+    //        RemoveAttackTargetTiles();
 
-            MakeMoveTargets(selectedUnit, selectedUnit.stat_moveRange_modified);
-        }
-        else if(selectedUnit.currentControlMode == unitControlMode.Attack)
-        {
-            RemoveMoveTargetTiles();
+    //        MakeMoveTargets(selectedUnit, selectedUnit.stat_moveRange_modified);
+    //    }
+    //    else if(selectedUnit.currentControlMode == unitControlMode.Attack)
+    //    {
+    //        RemoveMoveTargetTiles();
 
-            MakeAttackTargets(selectedUnit);
-        }
+    //        MakeAttackTargets(selectedUnit, );
+    //    }
 
-    }
+    //}
 
     public void ShowMovableArea(Unit selectedUnit)
     {
@@ -461,23 +446,10 @@ public class GameManager : MonoBehaviour
         ResetPositions();
 
         RemoveMoveTargetTiles();
-        MakeAttackTargets(selectedUnit);
+        //MakeAttackTargets(selectedUnit);
     }
 
-    public void MakeAttackTargets(Unit selectedUnit)
-    {
 
-        for (int i = 0; i < 4; i++)
-        {
-            attackPositions[i] = attackPositions[i] + selectedUnit.gameObject.transform.position;
-        }
-
-        for (int i = 0; i < 4; i++)
-        {
-            attackTargets[i] = Instantiate(tile_attackTarget_true, attackPositions[i], Quaternion.identity);
-        }
-
-    }
     
     public void LoadUnitCard()
     {

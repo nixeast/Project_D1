@@ -19,12 +19,11 @@ public class StageManager : MonoBehaviour
     public Transform tileRoot_object;
     public Transform tileRoot_area;
 
-    void Start()
+    public void Awake()
     {
-        if (targetStage != null)
-        {
-            GenerateStage();
-        }
+        GenerateStage();
+        //Debug.Log("generate map");
+
     }
 
     public void GenerateStage()
@@ -46,6 +45,7 @@ public class StageManager : MonoBehaviour
         }
         
         int nUnitCount = targetStage.m_unitList.Count;
+        Debug.Log("nUnitCount: " + nUnitCount);
         for (int j = 0; j < nUnitCount; j++)
         {
             
@@ -54,7 +54,7 @@ public class StageManager : MonoBehaviour
             GameObject prefab = FindPrefabByName(m_unitPrefabList, newUnit.m_name);
             if (prefab != null)
             {
-                Vector3 spawnPos = new Vector3(newUnit.x, newUnit.y, 0);
+                Vector3 spawnPos = new Vector3(newUnit.x, newUnit.y, newUnit.z);
                 Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_object);
             }
         }
@@ -69,7 +69,7 @@ public class StageManager : MonoBehaviour
             {
                 Vector3 spawnPos = new Vector3(newArea.x, newArea.y, 0);
                 tempStartingPoint.m_ingameUiManager = m_ingameUiManager;
-                tempStartingPoint.obj_tilemap_object = tileRoot_object.gameObject;
+                tempStartingPoint.obj_tilemapRoot_object = tileRoot_object.gameObject;
                 Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_area);
             }
         }

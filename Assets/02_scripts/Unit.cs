@@ -22,50 +22,77 @@ public enum eUnitState
 }
 public class Unit : MonoBehaviour
 {
-
     //public GameObject tile_moveTarget_true;
     Vector3 currentPosition;
     public unitControlMode currentControlMode;
-    public string m_name;
-    public int stat_health;
-    public int stat_attack;
-    public int stat_defense;
-    public int stat_moveRange;
-    public int stat_moveRange_modified;
     public SpriteRenderer m_spriteRenderer;
     public bool isCloseCombat;
     public eUnitState e_currentUnitState = eUnitState.Default;
     public List<Unit> m_closeCombatOpponents = new List<Unit>();
-
     public UnitSaveData m_unitSaveData;
+
+    [Header("Unit Stat")]
+    public int m_unitID;
+    public string m_name;
+    public int stat_hp;
+    public int stat_atk;
+    public int stat_def;
+    public int stat_moveRange;
+    public int stat_moveRange_modified;
+    public int stat_ap;
+    public UnitDataBase m_unitDatabase;
+
+    [Header("Unit Command")]
+    public GameManager m_gameManager;
+
+    public void Awake()
+    {
+        m_unitDatabase = GameObject.FindObjectOfType<UnitDataBase>();
+        m_gameManager = GameObject.FindObjectOfType<GameManager>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        
+
         currentPosition = this.transform.position;
         currentControlMode = unitControlMode.None;
 
-        stat_health = 50;
-        stat_attack = 33;
-        stat_defense = 0;
-        stat_moveRange = 2;
-        stat_moveRange_modified = stat_moveRange;
-        
+        AssignUnitToUnitList();
         if(this.gameObject.tag == "enemy")
+        {
+            SetUnitstats(m_unitID);
+        }
+    }
+
+    public void AssignUnitToUnitList()
+    {
+        if (this.gameObject.tag == "enemy")
         {
             AssignUnitToEnemyList();
         }
-        else if(this.gameObject.tag == "Player")
+        else if (this.gameObject.tag == "Player")
         {
             AssignUnitToPlayerUnitList();
         }
-           
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetUnitstats(int nUnitID)
     {
-        
+        UnitData newData;
+        if (m_unitDatabase.m_unitDataDic.TryGetValue(nUnitID, out newData) == true)
+        {
+            m_name = newData.m_UnitName;
+            stat_hp = newData.m_stat_HP;
+            stat_atk = newData.m_stat_ATK;
+            stat_def = newData.m_stat_DEF;
+            stat_ap = newData.m_stat_AP;
+        }else
+        {
+            Debug.Log("no match unitID with unitData");
+        }
+
     }
     
     public void AssignUnitToEnemyList()
@@ -89,66 +116,59 @@ public class Unit : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.instance.currentSelectedUnit == null)
-        {
-            SelectThisUnit();
-        }
-        else if (GameManager.instance.currentSelectedUnit == this)
-        {
-            ControlModeChange();
-            //Debug.Log("[mode] " + currentControlMode);
-        }
-        
+        Debug.Log(m_name + "clicked");
+
+        SelectThisUnit();
+        m_gameManager.MakeMoveTargets(this, stat_ap);
+        m_gameManager.MakeAttackTargets(this, stat_ap);
+
+        //if (GameManager.instance.currentSelectedUnit == null)
+        //{
+        //    SelectThisUnit();
+        //}
+        //else if (GameManager.instance.currentSelectedUnit == this)
+        //{
+        //    ControlModeChange();
+        //}
+
     }
     public void SelectThisUnit()
     {
         currentControlMode = unitControlMode.Move;
-        GameManager.instance.SelectUnit(this);
-
-        // if(isCloseCombat == false)
-        // {
-        //     GameManager.instance.MakeMoveTargets(this, stat_moveRange);
-        // }
-        // else
-        // {
-        //     GameManager.instance.MakeMoveTargets(this, stat_moveRange_modified);
-        // }
+        m_gameManager.SelectUnit(this);
         
-        if(e_currentUnitState == eUnitState.Default)
-        {
-            GameManager.instance.MakeMoveTargets(this, stat_moveRange);
-        }
-        else if(e_currentUnitState == eUnitState.CloseCombat)
-        {
-            GameManager.instance.MakeMoveTargets(this, stat_moveRange/2);
-        }
-        
-        //GameManager.instance.InactiveMoveTargets();
+        //if(e_currentUnitState == eUnitState.Default)
+        //{
+        //    GameManager.instance.MakeMoveTargets(this, stat_moveRange);
+        //}
+        //else if(e_currentUnitState == eUnitState.CloseCombat)
+        //{
+        //    GameManager.instance.MakeMoveTargets(this, stat_moveRange/2);
+        //}
 
-        //Debug.Log("[mode] " + currentControlMode);
     }
 
-    public void ControlModeChange()
-    {
-        if (currentControlMode == unitControlMode.Move)
-        {
-            currentControlMode = unitControlMode.Attack;
-            //GameManager.instance.ChangeUnitControlMode(this);
-            GameManager.instance.ShowAttackableArea(this);
+    //public void ControlModeChange()
+    //{
+    //    if (currentControlMode == unitControlMode.Move)
+    //    {
+    //        currentControlMode = unitControlMode.Attack;
+    //        //GameManager.instance.ChangeUnitControlMode(this);
+    //        GameManager.instance.ShowAttackableArea(this);
             
-        }
-        else if (currentControlMode == unitControlMode.Attack)
-        {
-            currentControlMode = unitControlMode.Move;
-            //GameManager.instance.ChangeUnitControlMode(this);
-            GameManager.instance.ShowMovableArea(this);
+    //    }
+    //    else if (currentControlMode == unitControlMode.Attack)
+    //    {
+    //        currentControlMode = unitControlMode.Move;
+    //        //GameManager.instance.ChangeUnitControlMode(this);
+    //        GameManager.instance.ShowMovableArea(this);
 
-        }
-    }
+    //    }
+    //}
 
     public bool DeadCheck(Unit targetUnit)
     {
-        if(stat_health <= 0)
+        if(stat_hp <= 0)
         {
             if(this.gameObject.tag == "enemy")
             {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4025077036048336113}
   - component: {fileID: 2433025699324313872}
   - component: {fileID: 8159680318431418654}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: tile_100_unit_VerminFootman
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -172,12 +172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentControlMode: 0
-  m_name: 
-  stat_health: 0
-  stat_attack: 0
-  stat_defense: 0
-  stat_moveRange: 0
-  stat_moveRange_modified: 0
   m_spriteRenderer: {fileID: 8888594027370597941}
   isCloseCombat: 0
   e_currentUnitState: 0
@@ -256,3 +250,14 @@ MonoBehaviour:
       m_equip_weapon_path: 
       m_equip_armor_path: 
       m_equip_accessary_path: 
+      m_unitIcon_path: 
+  m_unitID: 100
+  m_name: 
+  stat_hp: 0
+  stat_atk: 0
+  stat_def: 0
+  stat_moveRange: 0
+  stat_moveRange_modified: 0
+  stat_ap: 0
+  m_unitDatabase: {fileID: 0}
+  m_gameManager: {fileID: 0}

@@ -27,7 +27,24 @@ public class UnitDataBase : MonoBehaviour
         s_instance = this;
         DontDestroyOnLoad(gameObject);
     }
-    
+
+    public Sprite GetUnitIconSprite(int nUnitOriginNumber)
+    {
+        UnitData tempData;
+        Sprite newSprite = null;
+        bool isGet = false;
+        isGet = m_unitDataDic.TryGetValue(nUnitOriginNumber, out tempData);
+
+        if (isGet == true)
+        {
+            string newPath = tempData.m_unitIcon_path;
+            newSprite = Resources.Load<Sprite>(newPath);
+        }
+
+        return newSprite;
+    }
+
+
     public Sprite GetUnitPortrait(int nUnitOriginNumber)
     {
         UnitData tempData;
@@ -93,6 +110,8 @@ public class UnitDataBase : MonoBehaviour
             newData.m_equip_weapon_path = dataColums[33];
             newData.m_equip_armor_path = dataColums[34];
             newData.m_equip_accessary_path = dataColums[35];
+
+            newData.m_unitIcon_path = dataColums[36];
 
             m_unitDataDic.Add(newData.m_UnitID, newData);
             //Debug.Log("unitID: " + newData.m_UnitID);

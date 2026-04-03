@@ -46,6 +46,7 @@ public class StageDataEditor : Editor
                 s_UnitInfo tempUnitInfo;
                 tempUnitInfo.x = (int)obj.transform.position.x;
                 tempUnitInfo.y = (int)obj.transform.position.y;
+                tempUnitInfo.z = (int)obj.transform.position.z;
                 tempUnitInfo.m_unitID = GetIDFromName(obj.name);
                 tempUnitInfo.m_name = obj.name;
                 newStageData.m_unitList.Add(tempUnitInfo);

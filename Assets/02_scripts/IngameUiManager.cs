@@ -53,9 +53,13 @@ public class IngameUiManager : MonoBehaviour
     
     public void OnClickDeployUnitCard(int nUnitNumber)
     {
-        m_selectedDeployUnitNum = nUnitNumber;
-        ShowDeploymentArea();
-        Debug.Log("selected unit id :" + nUnitNumber);
+        if (m_currentPhase == ePhaseType.UnitDeplyment)
+        {
+            m_selectedDeployUnitNum = nUnitNumber;
+            ShowDeploymentArea();
+            Debug.Log("selected unit id :" + nUnitNumber);
+
+        }
     }
     
     public void ShowDeploymentArea()
@@ -94,13 +98,22 @@ public class IngameUiManager : MonoBehaviour
     
     public void LoadDatas()
     {
-        m_playerDataManager = PlayerDataManager.s_instance;
+        if(PlayerDataManager.s_instance)
+        {
+            m_playerDataManager = PlayerDataManager.s_instance;
+        }
+        else
+        {
+            Debug.Log("can't find playerDataManager");
+        }
+
         m_unitDatabase = UnitDataBase.s_instance;
     }
 
     public void OnClickBattleStart()
     {
         panel_deployPhase.SetActive(false);
+        SetCurrentPhase(ePhaseType.Battle);
     }
 
     public void LoadMissionInfo()

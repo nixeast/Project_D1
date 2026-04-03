@@ -44,4 +44,6 @@ public class UnitData
     public string m_equip_armor_path;
     public string m_equip_accessary_path;
 
+    public string m_unitIcon_path;
+
 }

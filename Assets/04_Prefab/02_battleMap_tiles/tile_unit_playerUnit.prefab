@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4025077036048336113}
   - component: {fileID: 2433025699324313872}
   - component: {fileID: 8159680318431418654}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: tile_unit_playerUnit
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -172,13 +172,92 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentControlMode: 0
-  m_name: 
-  stat_health: 0
-  stat_attack: 0
-  stat_defense: 0
-  stat_moveRange: 0
-  stat_moveRange_modified: 0
   m_spriteRenderer: {fileID: 8888594027370597941}
   isCloseCombat: 0
   e_currentUnitState: 0
   m_closeCombatOpponents: []
+  m_unitSaveData:
+    unitName: 
+    level: 0
+    upgrade: 0
+    m_unitOriginalNumber: 0
+    m_weapon:
+      m_itemNumber: 0
+      m_itemName: 
+      m_attackValue: 0
+      m_defenseValue: 0
+      m_moraleValue: 0
+      m_empty: 1
+    m_armor:
+      m_itemNumber: 0
+      m_itemName: 
+      m_attackValue: 0
+      m_defenseValue: 0
+      m_moraleValue: 0
+      m_empty: 1
+    m_charm_01:
+      m_itemNumber: 0
+      m_itemName: 
+      m_attackValue: 0
+      m_defenseValue: 0
+      m_moraleValue: 0
+      m_empty: 1
+    m_charm_02:
+      m_itemNumber: 0
+      m_itemName: 
+      m_attackValue: 0
+      m_defenseValue: 0
+      m_moraleValue: 0
+      m_empty: 1
+    m_health: 0
+    m_attack: 0
+    m_defense: 0
+    m_morale: 0
+    m_unitOriginData:
+      m_UnitID: 0
+      m_UnitName: 
+      m_unitType: 
+      m_unitTier: 0
+      m_PortraitPath: 
+      m_level: 0
+      m_stat_HP: 0
+      m_stat_ATK: 0
+      m_stat_DEF: 0
+      m_stat_HIT: 0
+      m_stat_EVA: 0
+      m_stat_AP: 0
+      m_trait_01: 
+      m_trait_02: 
+      m_passiveSkill_01: 
+      m_passiveSkill_02: 
+      m_passiveSkill_03: 
+      m_passiveSkill_04: 
+      m_activeSkill_01: 
+      m_activeSkill_02: 
+      m_activeSkill_03: 
+      m_trait_01_path: 
+      m_trait_02_path: 
+      m_passiveSkill_01_path: 
+      m_passiveSkill_02_path: 
+      m_passiveSkill_03_path: 
+      m_passiveSkill_04_path: 
+      m_activeSkill_01_path: 
+      m_activeSkill_02_path: 
+      m_activeSkill_03_path: 
+      m_equip_weapon: 
+      m_equip_armor: 
+      m_equip_accessary: 
+      m_equip_weapon_path: 
+      m_equip_armor_path: 
+      m_equip_accessary_path: 
+      m_unitIcon_path: 
+  m_unitID: 0
+  m_name: 
+  stat_hp: 0
+  stat_atk: 0
+  stat_def: 0
+  stat_moveRange: 0
+  stat_moveRange_modified: 0
+  stat_ap: 0
+  m_unitDatabase: {fileID: 0}
+  m_gameManager: {fileID: 0}

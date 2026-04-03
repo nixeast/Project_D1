@@ -6,31 +6,17 @@ public class MoveTarget : MonoBehaviour
 {
     public string enemyTag = "enemy";
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(enemyTag))
         {
-            //Debug.Log("enemy detected..");
-            //Destroy(gameObject);
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
         }
     }
 
     private void OnMouseDown()
     {
         GameManager.instance.MoveUnit(this);
-        
     }
 
 }

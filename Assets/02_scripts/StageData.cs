@@ -12,7 +12,7 @@ public struct s_TerrainInfo
 [System.Serializable]
 public struct s_UnitInfo
 {
-    public int x, y;      
+    public int x, y, z;      
     public int m_unitID;
     public string m_name;
 }

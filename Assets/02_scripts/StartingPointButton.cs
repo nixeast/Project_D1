@@ -6,29 +6,37 @@ public class StartingPointButton : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer m_spriteRenderer;
     public IngameUiManager m_ingameUiManager;
-    public GameObject obj_tilemap_object;
+    public GameManager m_gameManager;
+    public GameObject obj_tilemapRoot_object;
+
+    public void Start()
+    {
+        m_gameManager = GameManager.instance;
+    }
 
     private void OnMouseDown()
     {
-        Debug.Log("starting point clicked..");
-        // if(GameManager.instance.getCurrentStartUnitCount() < GameManager.instance.getMaxStartUnitCount())
-        // {
-        //     MakeUnitByUnitCard();
-        // }
-        
-        //MakeUnitByUnitCard();
-        
         if(this.gameObject.tag == "area")
         {
-            SetUnitcardOnBattleMap();
+            CreateUnitcardOnBattleMap();
+            m_ingameUiManager.obj_DeployArea.gameObject.SetActive(false);
         }
-        
     }
     
-    public void SetUnitcardOnBattleMap()
+    public void CreateUnitcardOnBattleMap()
     {
-        GameObject newUnit = Instantiate(GameManager.instance.m_unitObject, this.gameObject.transform.position, Quaternion.identity, obj_tilemap_object.transform);
+        int unitID = m_ingameUiManager.m_selectedDeployUnitNum;
+        GameObject newUnit;
+        Vector3 newPos = this.transform.position;
+        newPos.z = -1.0f;
+        newUnit = Instantiate(m_gameManager.m_unitObject, newPos, Quaternion.identity, obj_tilemapRoot_object.transform);
+        
+        Sprite sp = m_ingameUiManager.m_unitDatabase.GetUnitIconSprite(unitID);
 
+        Unit tempUnit = newUnit.GetComponent<Unit>();
+        tempUnit.m_spriteRenderer.sprite = sp;
+        tempUnit.m_unitID = unitID;
+        tempUnit.SetUnitstats(unitID);
     }
 
     public void MakeUnitByUnitCard()
