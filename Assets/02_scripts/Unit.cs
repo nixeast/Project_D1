@@ -5,11 +5,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public enum unitControlMode
+public enum eUnitControlMode
 {
-    None = 0,
+    Default = 0,
     Move = 1,
-    Attack = 2,
+    MoveEnd = 2,
+    Attack = 3,
 
 }
 
@@ -24,7 +25,7 @@ public class Unit : MonoBehaviour
 {
     //public GameObject tile_moveTarget_true;
     Vector3 currentPosition;
-    public unitControlMode currentControlMode;
+    public eUnitControlMode m_currentControlMode;
     public SpriteRenderer m_spriteRenderer;
     public bool isCloseCombat;
     public eUnitState e_currentUnitState = eUnitState.Default;
@@ -41,6 +42,7 @@ public class Unit : MonoBehaviour
     public int stat_moveRange_modified;
     public int stat_ap;
     public UnitDataBase m_unitDatabase;
+    public bool m_isMoved = false;
 
     [Header("Unit Command")]
     public GameManager m_gameManager;
@@ -57,7 +59,7 @@ public class Unit : MonoBehaviour
         
 
         currentPosition = this.transform.position;
-        currentControlMode = unitControlMode.None;
+        m_currentControlMode = eUnitControlMode.Default;
 
         AssignUnitToUnitList();
         if(this.gameObject.tag == "enemy")
@@ -116,11 +118,27 @@ public class Unit : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log(m_name + "clicked");
+        //Debug.Log(m_name + "clicked");
 
-        SelectThisUnit();
-        m_gameManager.MakeMoveTargets(this, stat_ap);
-        m_gameManager.MakeAttackTargets(this, stat_ap);
+        //SelectThisUnit();
+        m_gameManager.SelectUnit(this);
+
+        if (m_isMoved == false)
+        {
+            m_currentControlMode = eUnitControlMode.Move;
+            m_gameManager.MakeMoveTargets(this, stat_ap);
+        }
+        else
+        {
+            if(m_currentControlMode == eUnitControlMode.MoveEnd)
+            {
+                m_currentControlMode = eUnitControlMode.Default;
+                m_gameManager.RemoveAttackTargetTiles();
+                //m_gameManager.MakeAttackTargets(this);
+            }
+        }
+
+        //m_gameManager.MakeAttackTargets(this, stat_ap);
 
         //if (GameManager.instance.currentSelectedUnit == null)
         //{
@@ -134,8 +152,8 @@ public class Unit : MonoBehaviour
     }
     public void SelectThisUnit()
     {
-        currentControlMode = unitControlMode.Move;
-        m_gameManager.SelectUnit(this);
+        
+        
         
         //if(e_currentUnitState == eUnitState.Default)
         //{

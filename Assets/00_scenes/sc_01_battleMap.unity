@@ -23034,11 +23034,13 @@ MonoBehaviour:
   m_gameRoot: {fileID: 0}
   m_unitPortraitDatabase: {fileID: 11142747}
   m_currentGameState: 0
+  tile_moveTarget_true: {fileID: 8622115037968185663, guid: 9e82ad78f604e4751acbcb3d4802e380, type: 3}
+  tile_moveTarget_false: {fileID: 2479895205856645358, guid: f77356551fd7f7340a439ec8f6ca0423, type: 3}
+  tile_attackTarget: {fileID: 2479895205856645358, guid: d5a4d1e9d6fdd4a7783e41cc57232797, type: 3}
   m_battleResultManager: {fileID: 1730445540}
   tmp_maxStartUnit: {fileID: 1855283473}
   tmp_curentStartUnit: {fileID: 562508153}
   scrollViewContent_unitCard: {fileID: 1332594791}
-  btn_startBattle: {fileID: 1406025505}
   panel_unitCardList: {fileID: 2058902763}
   panel_battleInfo: {fileID: 1265124346}
   tileMap_startingPoints: {fileID: 0}
@@ -23050,9 +23052,7 @@ MonoBehaviour:
   currentSelectedUnit: {fileID: 0}
   m_selectedUnitCard: {fileID: 0}
   m_movableTilePositions: []
-  m_movableTiles: []
-  tile_moveTarget_true: {fileID: 8622115037968185663, guid: 9e82ad78f604e4751acbcb3d4802e380, type: 3}
-  tile_attackTarget_true: {fileID: 2479895205856645358, guid: f77356551fd7f7340a439ec8f6ca0423, type: 3}
+  m_currentMoveTiles: []
   btn_turnOver: {fileID: 946290585}
   panel_currentTurn: {fileID: 93918289}
   tmp_currentTurn: {fileID: 549501176}

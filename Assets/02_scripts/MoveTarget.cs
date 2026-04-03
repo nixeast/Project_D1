@@ -17,6 +17,7 @@ public class MoveTarget : MonoBehaviour
     private void OnMouseDown()
     {
         GameManager.instance.MoveUnit(this);
+        GameManager.instance.RemoveMoveTargetTiles();
     }
 
 }
