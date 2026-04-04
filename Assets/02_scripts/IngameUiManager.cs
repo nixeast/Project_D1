@@ -17,6 +17,7 @@ public class IngameUiManager : MonoBehaviour
     public GameObject panel_tileInfo;
     public GameObject panel_unitcard;
     public ePhaseType m_currentPhase;
+    public GameManager m_gameManager;
 
     [Header("Mision Data InFo")]
     public int m_missionNumber;
@@ -32,6 +33,43 @@ public class IngameUiManager : MonoBehaviour
     public GameObject obj_DeployArea;
     public int m_selectedDeployUnitNum;
 
+    [Header("Combat")]
+    public GameObject panel_combatExpect;
+    public Button btn_combatExpect_Confirm;
+    public Image img_unit_player;
+    public Image img_unit_enemy;
+    public TMP_Text text_unitName_palyer;
+    public TMP_Text text_unitName_enemy;
+    public TMP_Text text_attackName_palyer;
+    public TMP_Text text_attackName_enemy;
+    public TMP_Text text_unitinfo_player_hp;
+    public TMP_Text text_unitinfo_player_atk;
+    public TMP_Text text_unitinfo_player_def;
+    public TMP_Text text_unitinfo_player_hit;
+    public TMP_Text text_unitinfo_player_eva;
+    public TMP_Text text_unitinfo_player_ap;
+    public TMP_Text text_unitinfo_enemy_hp;
+    public TMP_Text text_unitinfo_enemy_atk;
+    public TMP_Text text_unitinfo_enemy_def;
+    public TMP_Text text_unitinfo_enemy_hit;
+    public TMP_Text text_unitinfo_enemy_eva;
+    public TMP_Text text_unitinfo_enemy_ap;
+    public TMP_Text text_hp_playerUnit;
+    public TMP_Text text_hp_enemyUnit;
+    public TMP_Text text_combat_playerUnit_attack;
+    public TMP_Text text_combat_playerUnit_accuracy;
+    public TMP_Text text_combat_playerUnit_critical;
+    public TMP_Text text_combat_enemyUnit_attack;
+    public TMP_Text text_combat_enemyUnit_accuracy;
+    public TMP_Text text_combat_enemyUnit_critical;
+    public Image img_hpBar_playerUnit;
+    public Image img_hpBar_enemyUnit;
+    public Image img_atkCondition_playerUnit;
+    public Image img_atkCondition_enemyUnit;
+    public Unit m_currentCombatAttacker;
+    public Unit m_currentCombatDefender;
+
+
     [Header("Data")]
     private PlayerDataManager m_playerDataManager;
     public PlayerData m_playerData;
@@ -44,13 +82,76 @@ public class IngameUiManager : MonoBehaviour
 
     public void Start()
     {
+        m_gameManager = GameManager.instance;
         LoadMissionInfo();
         SetMissionBriefContent(m_missionNumber);
         
         InitPlayerUnitCardList();
         SetCurrentPhase(ePhaseType.UnitDeplyment);
     }
-    
+
+    public void OnClickConfirmCombatExpect()
+    {
+        Debug.Log(m_currentCombatAttacker.m_name);
+        Debug.Log(m_currentCombatDefender.m_name);
+        StartCoroutine(m_gameManager.StartCombatSequence(m_currentCombatAttacker, m_currentCombatDefender));
+        
+        //panel_combatExpect.SetActive(false);
+    }
+
+    public void UpdateCombatExpectInfo(Unit attacker, Unit defender)
+    {
+        Unit leftUnit;
+        Unit rightUnit;
+
+        leftUnit = attacker;
+        rightUnit = defender;
+        m_currentCombatAttacker = attacker;
+        m_currentCombatDefender = defender;
+
+        if (attacker.gameObject.tag == "enemy")
+        {
+            leftUnit = defender;
+            rightUnit = attacker;
+        }
+
+        UnitData newData;
+        int nLeftUnitID = leftUnit.m_unitID;
+        m_unitDatabase.m_unitDataDic.TryGetValue(nLeftUnitID, out newData);
+
+        img_unit_player.sprite = Resources.Load<Sprite>(newData.m_PortraitPath);
+        text_unitName_palyer.text = leftUnit.m_name.ToString();
+        text_attackName_palyer.text = "normal attack";
+        text_unitinfo_player_hp.text = leftUnit.m_stat_hp.ToString();
+        text_unitinfo_player_atk.text = leftUnit.m_stat_atk.ToString();
+        text_unitinfo_player_def.text = leftUnit.m_stat_def.ToString();
+        text_unitinfo_player_hit.text = leftUnit.m_stat_hit.ToString();
+        text_unitinfo_player_eva.text = leftUnit.m_stat_eva.ToString();
+        text_unitinfo_player_ap.text = leftUnit.m_stat_ap.ToString();
+        text_hp_playerUnit.text = leftUnit.m_stat_hp.ToString();
+        text_combat_playerUnit_attack.text = leftUnit.m_stat_atk.ToString();
+        text_combat_playerUnit_accuracy.text = leftUnit.m_stat_hit.ToString();
+        text_combat_playerUnit_critical.text = leftUnit.m_stat_hit.ToString();
+
+        int nRightUnitID = rightUnit.m_unitID;
+        m_unitDatabase.m_unitDataDic.TryGetValue(nRightUnitID, out newData);
+        img_unit_enemy.sprite = Resources.Load<Sprite>(newData.m_PortraitPath);
+        text_unitName_enemy.text = rightUnit.m_name.ToString();
+        text_attackName_enemy.text = "verminkin attack";
+        text_unitinfo_enemy_hp.text = rightUnit.m_stat_hp.ToString();
+        text_unitinfo_enemy_atk.text = rightUnit.m_stat_atk.ToString();
+        text_unitinfo_enemy_def.text = rightUnit.m_stat_def.ToString();
+        text_unitinfo_enemy_hit.text = rightUnit.m_stat_hit.ToString();
+        text_unitinfo_enemy_eva.text = rightUnit.m_stat_eva.ToString();
+        text_unitinfo_enemy_ap.text = rightUnit.m_stat_ap.ToString();
+        text_hp_enemyUnit.text = rightUnit.m_stat_hp.ToString();
+        text_combat_enemyUnit_attack.text = rightUnit.m_stat_atk.ToString();
+        text_combat_enemyUnit_accuracy.text = rightUnit.m_stat_hit.ToString();
+        text_combat_enemyUnit_critical.text = rightUnit.m_stat_hit.ToString();
+
+
+    }
+
     public void OnClickDeployUnitCard(int nUnitNumber)
     {
         if (m_currentPhase == ePhaseType.UnitDeplyment)

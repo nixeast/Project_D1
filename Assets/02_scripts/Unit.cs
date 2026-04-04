@@ -35,14 +35,17 @@ public class Unit : MonoBehaviour
     [Header("Unit Stat")]
     public int m_unitID;
     public string m_name;
-    public int stat_hp;
-    public int stat_atk;
-    public int stat_def;
-    public int stat_moveRange;
-    public int stat_moveRange_modified;
-    public int stat_ap;
+    public int m_stat_hp;
+    public int m_stat_atk;
+    public int m_stat_def;
+    public int m_stat_hit;
+    public int m_stat_eva;
+    public int m_stat_ap;
+    public int m_stat_moveRange;
+    public int m_stat_moveRange_modified;
     public UnitDataBase m_unitDatabase;
     public bool m_isMoved = false;
+    public bool m_canAttack = true;
 
     [Header("Unit Command")]
     public GameManager m_gameManager;
@@ -85,11 +88,12 @@ public class Unit : MonoBehaviour
         UnitData newData;
         if (m_unitDatabase.m_unitDataDic.TryGetValue(nUnitID, out newData) == true)
         {
-            m_name = newData.m_UnitName;
-            stat_hp = newData.m_stat_HP;
-            stat_atk = newData.m_stat_ATK;
-            stat_def = newData.m_stat_DEF;
-            stat_ap = newData.m_stat_AP;
+            //m_name = newData.m_UnitName;
+            m_name = newData.m_unitType;
+            m_stat_hp = newData.m_stat_HP;
+            m_stat_atk = newData.m_stat_ATK;
+            m_stat_def = newData.m_stat_DEF;
+            m_stat_ap = newData.m_stat_AP;
         }else
         {
             Debug.Log("no match unitID with unitData");
@@ -113,7 +117,7 @@ public class Unit : MonoBehaviour
     public void ChangeMoveRange()
     {
         //isCloseCombat = true;
-        stat_moveRange_modified = stat_moveRange / 2;
+        m_stat_moveRange_modified = m_stat_moveRange / 2;
     }
 
     private void OnMouseDown()
@@ -126,7 +130,7 @@ public class Unit : MonoBehaviour
         if (m_isMoved == false)
         {
             m_currentControlMode = eUnitControlMode.Move;
-            m_gameManager.MakeMoveTargets(this, stat_ap);
+            m_gameManager.MakeMoveTargets(this, m_stat_ap);
         }
         else
         {
@@ -186,7 +190,7 @@ public class Unit : MonoBehaviour
 
     public bool DeadCheck(Unit targetUnit)
     {
-        if(stat_hp <= 0)
+        if(m_stat_hp <= 0)
         {
             if(this.gameObject.tag == "enemy")
             {

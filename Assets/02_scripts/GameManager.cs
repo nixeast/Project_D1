@@ -25,9 +25,11 @@ public enum eGamePlayState
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance {get; private set;}
+
     [SerializeField] private GameRoot m_gameRoot;
     public UnitPortraitDatabase m_unitPortraitDatabase;
     public eGamePlayState m_currentGameState = default;
+    public IngameUiManager m_ingameUiManager;
 
     [Header("UnitCommand")]
     public GameObject tile_moveTarget_true;
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
     public Unit m_testUnit;
     public Sprite m_tempSprite;
     private PlayerData m_playerData;
-    public Unit currentSelectedUnit;
+    public Unit m_currentSelectedUnit;
     public UnitCard m_selectedUnitCard;
     private int m_maxStartUnitCount;
     private int m_currentStartUnitCount;
@@ -150,8 +152,8 @@ public class GameManager : MonoBehaviour
 
     public void SelectUnit(Unit currentUnit)
     {
-        currentSelectedUnit = currentUnit;
-        Debug.Log("select unit : " + currentUnit.m_spriteRenderer.sprite.name);
+        m_currentSelectedUnit = currentUnit;
+        //Debug.Log("select unit : " + currentUnit.m_spriteRenderer.sprite.name);
         //Debug.Log(currentSelectedUnit);
     }
 
@@ -161,11 +163,11 @@ public class GameManager : MonoBehaviour
 
         if(unitCard != null)
         {
-            Debug.Log("UnitCard is selected");
+            //Debug.Log("UnitCard is selected");
         }
         else
         {
-            Debug.Log("Selected UnitCard is null");
+            //Debug.Log("Selected UnitCard is null");
         }
     }
 
@@ -176,52 +178,81 @@ public class GameManager : MonoBehaviour
         newPos.y = currentMoveTarget.gameObject.transform.position.y;
         newPos.z = -1.0f;
 
-        currentSelectedUnit.gameObject.transform.position = newPos;
-        currentSelectedUnit.m_isMoved = true;
-        currentSelectedUnit.m_currentControlMode = eUnitControlMode.MoveEnd;
+        m_currentSelectedUnit.gameObject.transform.position = newPos;
+        m_currentSelectedUnit.m_isMoved = true;
+        m_currentSelectedUnit.m_currentControlMode = eUnitControlMode.MoveEnd;
         
         RemoveMoveTargetTiles();
-        MakeAttackTargets(currentSelectedUnit);
+        MakeAttackTargets(m_currentSelectedUnit);
 
     }
 
-    public void AttackUnit(AttackTarget currentAttackTarget)
+    public void AttackUnit(Unit currentAttackTarget)
     {
-        //Debug.Log("attack unit : " + currentAttackTarget.assignedUnit);
-        currentAttackTarget.assignedUnit.stat_hp -= currentSelectedUnit.stat_atk;
-        Debug.Log(currentAttackTarget.assignedUnit + "-> hp : " + currentAttackTarget.assignedUnit.stat_hp);
+        //currentAttackTarget.stat_hp -= currentSelectedUnit.stat_atk;
+        //Debug.Log(currentAttackTarget + "-> hp : " + currentAttackTarget.stat_hp);
 
-        currentAttackTarget.assignedUnit.m_closeCombatOpponents.Add(currentSelectedUnit);
-        currentSelectedUnit.m_closeCombatOpponents.Add(currentAttackTarget.assignedUnit);
-        AssignCloseCombatState(currentAttackTarget);
-
-        bool isDead = false;
-        isDead = currentAttackTarget.assignedUnit.DeadCheck(currentAttackTarget.assignedUnit);
-        if(isDead == true)
-        {
-            currentSelectedUnit.e_currentUnitState = eUnitState.Default;
-            Debug.Log("unit state changed : ->default");
-
-            BattleWinCheck();
-            BattleLoseCheck();
-        }
-        
-
-        currentSelectedUnit = null;
+        m_ingameUiManager.panel_combatExpect.SetActive(true);
 
         RemoveAttackTargetTiles();
-        ResetPositions();
+        m_ingameUiManager.panel_combatExpect.SetActive(true);
+        m_ingameUiManager.UpdateCombatExpectInfo(m_currentSelectedUnit, currentAttackTarget);
+        
+    }
+
+    public IEnumerator StartCombatSequence(Unit attacker, Unit defender)
+    {
+        if(attacker.m_canAttack == true)
+        {
+            Debug.Log("Start attacker attacks..");
+            defender.m_stat_hp -= attacker.m_stat_atk;
+            m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
+
+        }
+
+        yield return new WaitForSeconds(1.0f);
+
+        if (defender.m_canAttack == true)
+        {
+            Debug.Log("Start defender attacks..");
+
+            attacker.m_stat_hp -= defender.m_stat_atk;
+            m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
+        }
+
+        yield return new WaitForSeconds(1.0f);
+        m_ingameUiManager.panel_combatExpect.SetActive(false);
+
+    }
+
+    public void OnClickEndTurn()
+    {
+        m_currentTurn++;
+
+        int nCount = m_playerUnits.Count;
+        for(int i = 0; i < nCount; i++)
+        {
+            m_playerUnits[i].m_isMoved = false;
+        }
+
+        nCount = m_enemyUnits.Count;
+        for (int i = 0; i < nCount; i++)
+        {
+            m_enemyUnits[i].m_isMoved = false;
+        }
+
+        Debug.Log("turn[" + m_currentTurn + "] Start!");
     }
 
     public void AssignCloseCombatState(AttackTarget attackTarget)
     {
-        currentSelectedUnit.isCloseCombat = true;
-        currentSelectedUnit.e_currentUnitState = eUnitState.CloseCombat;
+        m_currentSelectedUnit.isCloseCombat = true;
+        m_currentSelectedUnit.e_currentUnitState = eUnitState.CloseCombat;
         attackTarget.assignedUnit.isCloseCombat = true;
         attackTarget.assignedUnit.e_currentUnitState = eUnitState.CloseCombat;
-        MakeCloseCombatIcon(currentSelectedUnit, attackTarget);
+        MakeCloseCombatIcon(m_currentSelectedUnit, attackTarget);
 
-        currentSelectedUnit.ChangeMoveRange();
+        m_currentSelectedUnit.ChangeMoveRange();
 
         Debug.Log(attackTarget.assignedUnit + " is in closeCombatState");
     }
@@ -236,31 +267,31 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void ResetPositions()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            movePositions[i].x = 0f;
-            movePositions[i].y = 0f;
-            movePositions[i].z = 0f;
+    //public void ResetPositions()
+    //{
+    //    for (int i = 0; i < 4; i++)
+    //    {
+    //        movePositions[i].x = 0f;
+    //        movePositions[i].y = 0f;
+    //        movePositions[i].z = 0f;
 
-            attackPositions[i].x = 0f;
-            attackPositions[i].y = 0f;
-            attackPositions[i].z = 0f;
+    //        attackPositions[i].x = 0f;
+    //        attackPositions[i].y = 0f;
+    //        attackPositions[i].z = 0f;
 
-        }
+    //    }
 
-        movePositions[0].x = 1.0f;
-        movePositions[1].x = -1.0f;
-        movePositions[2].y = 1.0f;
-        movePositions[3].y = -1.0f;
+    //    movePositions[0].x = 1.0f;
+    //    movePositions[1].x = -1.0f;
+    //    movePositions[2].y = 1.0f;
+    //    movePositions[3].y = -1.0f;
 
-        attackPositions[0].x = 1.0f;
-        attackPositions[1].x = -1.0f;
-        attackPositions[2].y = 1.0f;
-        attackPositions[3].y = -1.0f;
+    //    attackPositions[0].x = 1.0f;
+    //    attackPositions[1].x = -1.0f;
+    //    attackPositions[2].y = 1.0f;
+    //    attackPositions[3].y = -1.0f;
 
-    }
+    //}
     public void MakeAttackTargets(Unit selectedUnit)
     {
         int nMeleAttackRange = 1;
@@ -418,7 +449,7 @@ public class GameManager : MonoBehaviour
 
         m_currentMoveTiles.Clear();
 
-        Debug.Log("m_currentMoveTiles cleared..");
+        //Debug.Log("m_currentMoveTiles cleared..");
     }
 
     public void RemoveAttackTargetTiles()
@@ -430,7 +461,6 @@ public class GameManager : MonoBehaviour
             Destroy(m_currentAttackTiles[i]);
         }
         m_currentAttackTiles.Clear();
-        Debug.Log("m_currentAttackTiles cleared..");
     }
 
     //public void ChangeUnitControlMode(Unit selectedUnit)
@@ -454,15 +484,15 @@ public class GameManager : MonoBehaviour
 
     public void ShowMovableArea(Unit selectedUnit)
     {
-        ResetPositions();
+        //ResetPositions();
 
         RemoveAttackTargetTiles();
-        MakeMoveTargets(selectedUnit, selectedUnit.stat_moveRange);
+        MakeMoveTargets(selectedUnit, selectedUnit.m_stat_moveRange);
     }
 
     public void ShowAttackableArea(Unit selectedUnit)
     {
-        ResetPositions();
+        //ResetPositions();
 
         RemoveMoveTargetTiles();
         //MakeAttackTargets(selectedUnit);

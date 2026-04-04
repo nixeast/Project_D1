@@ -48,7 +48,6 @@ public class StageManager : MonoBehaviour
         Debug.Log("nUnitCount: " + nUnitCount);
         for (int j = 0; j < nUnitCount; j++)
         {
-            
             s_UnitInfo newUnit = targetStage.m_unitList[j];
 
             GameObject prefab = FindPrefabByName(m_unitPrefabList, newUnit.m_name);
@@ -84,16 +83,12 @@ public class StageManager : MonoBehaviour
         {
             GameObject p = prefabs[i];
 
-            // �������� ����ִ��� ��� �ڵ� (C�� NULL üũ)
-            //if (p == null) continue;
-
             if (p.name.Contains(tempName))
             {
                 return p;
             }
         }
 
-        //Debug.LogWarning($">> [������ƮD] ID {tempName}�� �ش��ϴ� �������� ã�� �� �����ϴ�.");
         return null;
     }
 }

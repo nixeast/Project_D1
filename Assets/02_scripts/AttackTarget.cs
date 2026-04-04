@@ -5,31 +5,32 @@ using UnityEngine;
 public class AttackTarget : MonoBehaviour
 {
     public Unit assignedUnit;
-    public string enemyTag = "enemy";
+    public GameManager m_gameManager;
+
+    public void Start()
+    {
+        m_gameManager = GameManager.instance;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag(enemyTag) || other.CompareTag("Player"))
+        if(m_gameManager.m_currentSelectedUnit.gameObject.tag == "enemy" && other.CompareTag("Player"))
         {
-            Debug.Log("attack target detected..");
-            //Destroy(gameObject);
-            //this.gameObject.SetActive(false);
-            
             assignedUnit = other.gameObject.GetComponent<Unit>();
-            if(assignedUnit != null)
-            {
-                Debug.Log("attack target: unit component checked..");
-            }
-            else
-            {
-                Debug.Log("attack target: null");
-            }
+        }
+        else if(m_gameManager.m_currentSelectedUnit.gameObject.tag == "Player" && other.CompareTag("enemy"))
+        {
+            assignedUnit = other.gameObject.GetComponent<Unit>();
         }
     }
 
     private void OnMouseDown()
     {
-        GameManager.instance.AttackUnit(this);
+        if (assignedUnit != null)
+        {
+            m_gameManager.AttackUnit(assignedUnit);
+
+        }
 
     }
 }
