@@ -11,7 +11,6 @@ public enum eUnitControlMode
     Move = 1,
     MoveEnd = 2,
     Attack = 3,
-
 }
 
 public enum eUnitState
@@ -59,8 +58,6 @@ public class Unit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-
         currentPosition = this.transform.position;
         m_currentControlMode = eUnitControlMode.Default;
 
@@ -116,15 +113,11 @@ public class Unit : MonoBehaviour
 
     public void ChangeMoveRange()
     {
-        //isCloseCombat = true;
         m_stat_moveRange_modified = m_stat_moveRange / 2;
     }
 
     private void OnMouseDown()
     {
-        //Debug.Log(m_name + "clicked");
-
-        //SelectThisUnit();
         m_gameManager.SelectUnit(this);
 
         if (m_isMoved == false)
@@ -134,59 +127,13 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            if(m_currentControlMode == eUnitControlMode.MoveEnd)
+            if (m_currentControlMode == eUnitControlMode.MoveEnd)
             {
                 m_currentControlMode = eUnitControlMode.Default;
                 m_gameManager.RemoveAttackTargetTiles();
-                //m_gameManager.MakeAttackTargets(this);
             }
         }
-
-        //m_gameManager.MakeAttackTargets(this, stat_ap);
-
-        //if (GameManager.instance.currentSelectedUnit == null)
-        //{
-        //    SelectThisUnit();
-        //}
-        //else if (GameManager.instance.currentSelectedUnit == this)
-        //{
-        //    ControlModeChange();
-        //}
-
     }
-    public void SelectThisUnit()
-    {
-        
-        
-        
-        //if(e_currentUnitState == eUnitState.Default)
-        //{
-        //    GameManager.instance.MakeMoveTargets(this, stat_moveRange);
-        //}
-        //else if(e_currentUnitState == eUnitState.CloseCombat)
-        //{
-        //    GameManager.instance.MakeMoveTargets(this, stat_moveRange/2);
-        //}
-
-    }
-
-    //public void ControlModeChange()
-    //{
-    //    if (currentControlMode == unitControlMode.Move)
-    //    {
-    //        currentControlMode = unitControlMode.Attack;
-    //        //GameManager.instance.ChangeUnitControlMode(this);
-    //        GameManager.instance.ShowAttackableArea(this);
-            
-    //    }
-    //    else if (currentControlMode == unitControlMode.Attack)
-    //    {
-    //        currentControlMode = unitControlMode.Move;
-    //        //GameManager.instance.ChangeUnitControlMode(this);
-    //        GameManager.instance.ShowMovableArea(this);
-
-    //    }
-    //}
 
     public bool DeadCheck(Unit targetUnit)
     {
@@ -200,9 +147,9 @@ public class Unit : MonoBehaviour
             {
                 GameManager.instance.m_playerUnits.Remove(this);
             }
-            
+
+            Debug.Log(targetUnit.m_name + " is dead..");
             Destroy(this.gameObject);
-            Debug.Log(this.gameObject + " is dead..");
             return true;
         }
 

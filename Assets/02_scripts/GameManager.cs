@@ -153,8 +153,6 @@ public class GameManager : MonoBehaviour
     public void SelectUnit(Unit currentUnit)
     {
         m_currentSelectedUnit = currentUnit;
-        //Debug.Log("select unit : " + currentUnit.m_spriteRenderer.sprite.name);
-        //Debug.Log(currentSelectedUnit);
     }
 
     public void SelectUnitCard(UnitCard unitCard)
@@ -202,27 +200,35 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator StartCombatSequence(Unit attacker, Unit defender)
     {
-        if(attacker.m_canAttack == true)
+        yield return new WaitForSeconds(1.0f);
+
+        if (attacker.m_canAttack == true)
         {
-            Debug.Log("Start attacker attacks..");
             defender.m_stat_hp -= attacker.m_stat_atk;
             m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
-
         }
 
         yield return new WaitForSeconds(1.0f);
 
         if (defender.m_canAttack == true)
         {
-            Debug.Log("Start defender attacks..");
-
-            attacker.m_stat_hp -= defender.m_stat_atk;
-            m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
+            if(defender.m_stat_hp > 0)
+            {
+                attacker.m_stat_hp -= defender.m_stat_atk;
+                m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
+            }
         }
 
         yield return new WaitForSeconds(1.0f);
         m_ingameUiManager.panel_combatExpect.SetActive(false);
 
+        EndCombatPahse(attacker, defender);
+    }
+
+    public void EndCombatPahse(Unit attacker, Unit defender)
+    {
+        attacker.DeadCheck(attacker);
+        defender.DeadCheck(defender);
     }
 
     public void OnClickEndTurn()
@@ -266,32 +272,6 @@ public class GameManager : MonoBehaviour
         Instantiate(m_closeCombatIcon, pos_middle, Quaternion.identity);
 
     }
-
-    //public void ResetPositions()
-    //{
-    //    for (int i = 0; i < 4; i++)
-    //    {
-    //        movePositions[i].x = 0f;
-    //        movePositions[i].y = 0f;
-    //        movePositions[i].z = 0f;
-
-    //        attackPositions[i].x = 0f;
-    //        attackPositions[i].y = 0f;
-    //        attackPositions[i].z = 0f;
-
-    //    }
-
-    //    movePositions[0].x = 1.0f;
-    //    movePositions[1].x = -1.0f;
-    //    movePositions[2].y = 1.0f;
-    //    movePositions[3].y = -1.0f;
-
-    //    attackPositions[0].x = 1.0f;
-    //    attackPositions[1].x = -1.0f;
-    //    attackPositions[2].y = 1.0f;
-    //    attackPositions[3].y = -1.0f;
-
-    //}
     public void MakeAttackTargets(Unit selectedUnit)
     {
         int nMeleAttackRange = 1;
@@ -313,9 +293,9 @@ public class GameManager : MonoBehaviour
                 m_currentAttackTiles.Add(tempGameObj);
             }
 
-                nDrawRange++;
+            nDrawRange++;
         }
-        
+
         nDrawRange = nMeleAttackRange;
         for (int i = 0; i < 1; i++)
         {
@@ -327,7 +307,7 @@ public class GameManager : MonoBehaviour
                 GameObject tempGameObj = Instantiate(tile_attackTarget);
                 tempGameObj.transform.position = drawPos;
                 m_currentAttackTiles.Add(tempGameObj);
-                if(i == 0 && j == 0)
+                if (i == 0 && j == 0)
                 {
                     tempGameObj.SetActive(false);
                 }
@@ -346,12 +326,8 @@ public class GameManager : MonoBehaviour
                 tempGameObj.transform.position = drawPos;
                 m_currentAttackTiles.Add(tempGameObj);
             }
-
             nDrawRange--;
         }
-
-
-
     }
 
     public void MakeMoveTargets(Unit selectedUnit, int nUnitAp)
@@ -372,7 +348,7 @@ public class GameManager : MonoBehaviour
                 float ty = cy + dy;
 
                 Vector3 tempPos = new Vector3(tx, ty, -1.0f);
-                m_movableTilePositions.Add(tempPos);
+                //m_movableTilePositions.Add(tempPos);
 
                 Vector3 targetTilePos = tempPos;
                 bool hasUnit = Physics2D.OverlapPoint(targetTilePos, unitLayerMask);
@@ -408,48 +384,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //public void InactiveMoveTargets()
-    //{
-    //    float fLength = (float)Math.Sqrt(m_movableTiles.Count);
-    //    float fMiddle = (float)fLength / 2.0f;
-    //    int nMiddleY = Mathf.CeilToInt(fMiddle);
-    //    int nMiddleX = Mathf.CeilToInt(fMiddle);
-
-    //    Debug.Log("moveTiles fLength / nMiddleX: " + fLength + "/" + nMiddleX);
-
-    //    int nCount = 0;
-    //    for(int i=0; i < nMiddleY; i++)
-    //    {
-    //        if(nCount < nMiddleX)
-    //        {
-
-    //        }
-    //        else if(nCount == nMiddleX)
-    //        {
-                
-    //        }
-    //        else if(nCount > nMiddleX)
-    //        {
-                 
-    //        }
-    //    }
-        
-
-    //}
-
     public void RemoveMoveTargetTiles()
     {
         int nCount = m_currentMoveTiles.Count;
 
         for(int i=0 ; i < nCount ; i++)
         {
-            //Destroy(moveTargets[i]);
             Destroy(m_currentMoveTiles[i].gameObject);
         }
-
         m_currentMoveTiles.Clear();
-
-        //Debug.Log("m_currentMoveTiles cleared..");
     }
 
     public void RemoveAttackTargetTiles()
@@ -463,42 +406,17 @@ public class GameManager : MonoBehaviour
         m_currentAttackTiles.Clear();
     }
 
-    //public void ChangeUnitControlMode(Unit selectedUnit)
-    //{
-    //    ResetPositions();
-
-    //    if (selectedUnit.currentControlMode == unitControlMode.Move)
-    //    {
-    //        RemoveAttackTargetTiles();
-
-    //        MakeMoveTargets(selectedUnit, selectedUnit.stat_moveRange_modified);
-    //    }
-    //    else if(selectedUnit.currentControlMode == unitControlMode.Attack)
-    //    {
-    //        RemoveMoveTargetTiles();
-
-    //        MakeAttackTargets(selectedUnit, );
-    //    }
-
-    //}
 
     public void ShowMovableArea(Unit selectedUnit)
     {
-        //ResetPositions();
-
         RemoveAttackTargetTiles();
         MakeMoveTargets(selectedUnit, selectedUnit.m_stat_moveRange);
     }
 
     public void ShowAttackableArea(Unit selectedUnit)
     {
-        //ResetPositions();
-
         RemoveMoveTargetTiles();
-        //MakeAttackTargets(selectedUnit);
     }
-
-
     
     public void LoadUnitCard()
     {
@@ -508,7 +426,6 @@ public class GameManager : MonoBehaviour
         if(m_playerData != null)
         {
             unitCardCount = m_playerData.m_currentUnits.Count;
-            Debug.Log("unitCardCount: " + unitCardCount);
         }
         else
         {
@@ -549,7 +466,6 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("unitName: " + unitName);
-            Debug.Log("GetPortraitByName Success..");
         }
 
         return m_tempSprite;
@@ -596,7 +512,6 @@ public class GameManager : MonoBehaviour
     public void StartBattle()
     {
         m_currentGameState = eGamePlayState.Battle;
-        //scrollViewContent_unitCard.gameObject.SetActive(false);
         panel_unitCardList.SetActive(false);
         panel_battleInfo.SetActive(false);
         tileMap_startingPoints.SetActive(false);
