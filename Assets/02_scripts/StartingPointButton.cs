@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StartingPointButton : MonoBehaviour
 {
@@ -37,6 +38,12 @@ public class StartingPointButton : MonoBehaviour
         tempUnit.m_spriteRenderer.sprite = sp;
         tempUnit.m_unitID = unitID;
         tempUnit.SetUnitstats(unitID);
+
+        m_ingameUiManager.m_selectedPlayerUnitCard.gameObject.GetComponent<Button>().enabled = false;
+        Color newColor = m_ingameUiManager.m_selectedPlayerUnitCard.GetComponent<PlayerUnitCard>().img_unitPortrait.color;
+        newColor.a = 0.1f;
+        m_ingameUiManager.m_selectedPlayerUnitCard.GetComponent<PlayerUnitCard>().img_unitPortrait.color = newColor;
+
     }
 
     public void MakeUnitByUnitCard()

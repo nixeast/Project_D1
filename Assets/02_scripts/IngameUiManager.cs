@@ -32,6 +32,7 @@ public class IngameUiManager : MonoBehaviour
     public RectTransform scrollViewContent_unitCommand;
     public GameObject obj_DeployArea;
     public int m_selectedDeployUnitNum;
+    public GameObject m_selectedPlayerUnitCard;
 
     [Header("Combat")]
     public GameObject panel_combatExpect;
@@ -162,7 +163,14 @@ public class IngameUiManager : MonoBehaviour
 
         }
     }
-    
+
+    private void OnClickDeployUnitCard_01(GameObject clickedUnitObj)
+    {
+        //Debug.Log("클릭된 유닛 버튼 이름: " + clickedUnitObj.name);
+        m_selectedPlayerUnitCard = clickedUnitObj;
+
+    }
+
     public void ShowDeploymentArea()
     {
         obj_DeployArea.SetActive(true);
@@ -190,9 +198,10 @@ public class IngameUiManager : MonoBehaviour
             tempUnitData.img_unitPortrait.sprite = m_unitDatabase.GetUnitPortrait(newOriginNumber);
 
             tempUnitData.btn_cardButton.onClick.AddListener(() => OnClickDeployUnitCard(newOriginNumber));
+            tempUnitData.btn_cardButton.onClick.AddListener(() => OnClickDeployUnitCard_01(tempUnitData.btn_cardButton.gameObject));
             //tempUnitData.btn_cardButton.onClick.AddListener(ShowDeploymentArea);
-            
 
+            //m_selectedPlayerUnitCard = newCard;
             m_playerUnitCardList.Add(newCard);
         }
     }
