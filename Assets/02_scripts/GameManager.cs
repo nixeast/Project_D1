@@ -12,7 +12,7 @@ public enum eTurnOwner
 {
     Default = 0,
     Player = 1,
-    Enemy = 2,
+    enemy = 2,
 }
 public enum eGamePlayState
 {
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 
     private List<UnitCard> m_unitCardList = new List<UnitCard>();
 
-    private eTurnOwner m_currentTurnOwner;
+    public eTurnOwner m_currentTurnOwner;
     public Button btn_turnOver;
     public GameObject panel_currentTurn;
     public TMP_Text tmp_currentTurn;
@@ -103,11 +103,14 @@ public class GameManager : MonoBehaviour
         LoadUnitCard();
         tmp_maxStartUnit.text = m_maxStartUnitCount.ToString();
         //btn_startBattle.onClick.AddListener(StartBattle);
-        btn_turnOver.onClick.AddListener(SwitchTurnOwner);
+        //btn_turnOver.onClick.AddListener(SwitchTurnOwner);
+        
         m_currentTurnOwner = eTurnOwner.Player;
         m_currentTurn = 1;
         tmp_turnOwner.text = "player";
         tmp_currentTurn.text = m_currentTurn.ToString();
+        //Debug.Log("current turn owner: " + m_currentTurnOwner);
+
         Debug.Log("<color=yellow>start battleMap Scene</color>");
     }
 
@@ -234,6 +237,7 @@ public class GameManager : MonoBehaviour
     public void OnClickEndTurn()
     {
         m_currentTurn++;
+        SwitchTurnOwner();
 
         int nCount = m_playerUnits.Count;
         for(int i = 0; i < nCount; i++)
@@ -247,7 +251,7 @@ public class GameManager : MonoBehaviour
             m_enemyUnits[i].m_isMoved = false;
         }
 
-        Debug.Log("turn[" + m_currentTurn + "] Start!");
+        //Debug.Log("turn[" + m_currentTurn + "] Start!");
     }
 
     public void AssignCloseCombatState(AttackTarget attackTarget)
@@ -533,18 +537,18 @@ public class GameManager : MonoBehaviour
     {
         if(m_currentTurnOwner == eTurnOwner.Player)
         {
-            tmp_turnOwner.text = "enemy";
-            m_currentTurnOwner = eTurnOwner.Enemy;
+            //tmp_turnOwner.text = "enemy";
+            m_currentTurnOwner = eTurnOwner.enemy;
         }
-        else if(m_currentTurnOwner == eTurnOwner.Enemy)
+        else if (m_currentTurnOwner == eTurnOwner.enemy)
         {
-            m_currentTurn++;
-            tmp_currentTurn.text = m_currentTurn.ToString();
-            tmp_turnOwner.text = "player";
+            //m_currentTurn++;
+            //tmp_currentTurn.text = m_currentTurn.ToString();
+            //tmp_turnOwner.text = "player";
             m_currentTurnOwner = eTurnOwner.Player;
         }
 
-        Debug.Log(m_currentTurnOwner);
+        Debug.Log("turn owner: " + m_currentTurnOwner);
 
     }
 

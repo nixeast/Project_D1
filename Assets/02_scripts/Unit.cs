@@ -119,13 +119,19 @@ public class Unit : MonoBehaviour
     private void OnMouseDown()
     {
         m_gameManager.SelectUnit(this);
+        
+        if(this.gameObject.tag != m_gameManager.m_currentTurnOwner.ToString())
+        {
+            Debug.Log("turn owner missmatch");
+            return;
+        }
 
         if (m_isMoved == false)
         {
             m_currentControlMode = eUnitControlMode.Move;
             m_gameManager.MakeMoveTargets(this, m_stat_ap);
         }
-        else
+        else if(m_isMoved == true)
         {
             if (m_currentControlMode == eUnitControlMode.MoveEnd)
             {
