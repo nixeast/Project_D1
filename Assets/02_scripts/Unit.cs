@@ -48,6 +48,7 @@ public class Unit : MonoBehaviour
 
     [Header("Unit Command")]
     public GameManager m_gameManager;
+    public GameObject m_currentTargetUnit;
 
     public void Awake()
     {
@@ -116,7 +117,7 @@ public class Unit : MonoBehaviour
         m_stat_moveRange_modified = m_stat_moveRange / 2;
     }
 
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         m_gameManager.SelectUnit(this);
         

@@ -9,7 +9,7 @@ public class CameraMovement : MonoBehaviour
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
-        Debug.Log("OnMove inserted..");
+        //Debug.Log("OnMove inserted..");
     }
 
     void Update()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackTarget : MonoBehaviour
 {
-    public Unit assignedUnit;
+    public Unit m_assignedUnit;
     public GameManager m_gameManager;
 
     public void Start()
@@ -16,19 +16,19 @@ public class AttackTarget : MonoBehaviour
     {
         if(m_gameManager.m_currentSelectedUnit.gameObject.tag == "enemy" && other.CompareTag("Player"))
         {
-            assignedUnit = other.gameObject.GetComponent<Unit>();
+            m_assignedUnit = other.gameObject.GetComponent<Unit>();
         }
         else if(m_gameManager.m_currentSelectedUnit.gameObject.tag == "Player" && other.CompareTag("enemy"))
         {
-            assignedUnit = other.gameObject.GetComponent<Unit>();
+            m_assignedUnit = other.gameObject.GetComponent<Unit>();
         }
     }
 
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
-        if (assignedUnit != null)
+        if (m_assignedUnit != null)
         {
-            m_gameManager.AttackUnit(assignedUnit);
+            m_gameManager.AttackUnit(m_assignedUnit);
 
         }
 

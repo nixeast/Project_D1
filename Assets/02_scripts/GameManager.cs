@@ -251,26 +251,117 @@ public class GameManager : MonoBehaviour
             m_enemyUnits[i].m_isMoved = false;
         }
 
+        if(m_currentTurnOwner == eTurnOwner.enemy)
+        {
+            StartCoroutine(CommandEenmyUnits());
+        }
+
         //Debug.Log("turn[" + m_currentTurn + "] Start!");
+    }
+
+    public IEnumerator CommandEenmyUnits()
+    {
+        if (m_currentTurnOwner == eTurnOwner.enemy)
+        {
+            int nCount = m_enemyUnits.Count;
+            for (int i = 0; i < nCount; i++)
+            {
+                //set enemyUnit's target with a player unit
+                m_enemyUnits[i].m_currentTargetUnit = m_playerUnits[0].gameObject;
+
+                //command move to, make moveTiles
+                m_enemyUnits[i].OnMouseDown();
+
+                //find close movetarget tile to targetUnit
+                int nMoveTileCount = m_currentMoveTiles.Count;
+                float fDistance;
+                fDistance = Vector3.Distance(m_currentMoveTiles[0].transform.position, m_enemyUnits[i].m_currentTargetUnit.transform.position);
+                int nCloseMoveTileNumber = 0;
+                for (int j = 0; j < nMoveTileCount; j++)
+                {
+                    float newDistance = Vector3.Distance(m_currentMoveTiles[j].transform.position, m_enemyUnits[i].m_currentTargetUnit.transform.position);
+                    if (newDistance < fDistance)
+                    {
+                        if (m_currentMoveTiles[j].GetComponent<MoveTarget>() == true)
+                        {
+                            fDistance = newDistance;
+                            nCloseMoveTileNumber = j;
+                        }
+
+                    }
+                }
+
+                yield return new WaitForSeconds(1.0f);
+                //Debug.Log("nCount: " + i);
+
+                if (m_currentMoveTiles[nCloseMoveTileNumber].GetComponent<MoveTarget>() == true)
+                {
+                    m_currentMoveTiles[nCloseMoveTileNumber].GetComponent<MoveTarget>().OnMouseDown();
+                }
+                else
+                {
+                    Debug.Log("no move target detected");
+                    RemoveMoveTargetTiles();
+                }
+
+                yield return new WaitForSeconds(1.0f);
+
+                //check attack targets in range
+                int nAttackTargetCount = m_currentAttackTiles.Count;
+                GameObject tempTarget = null;
+                int nTargetAttackTileNum = 0;
+                for (int j = 0; j < nAttackTargetCount; j++)
+                {
+                    if (m_currentAttackTiles[j].GetComponent<AttackTarget>().m_assignedUnit == true)
+                    {
+                        tempTarget = m_currentAttackTiles[j];
+                        nTargetAttackTileNum = j;
+                    }
+                }
+
+                if (tempTarget == null)
+                {
+                    RemoveAttackTargetTiles();
+                }
+                else
+                {
+                    m_currentAttackTiles[nTargetAttackTileNum].GetComponent<AttackTarget>().OnMouseDown();
+                    yield return new WaitForSeconds(2.0f);
+                    //confirm combat button
+                    m_ingameUiManager.OnClickConfirmCombatExpect();
+                }
+
+
+                yield return new WaitForSeconds(10.0f);
+                
+                RemoveAttackTargetTiles();
+
+
+            }
+        }
+
+        yield return new WaitForSeconds(1.0f);
+        OnClickEndTurn();
+
     }
 
     public void AssignCloseCombatState(AttackTarget attackTarget)
     {
         m_currentSelectedUnit.isCloseCombat = true;
         m_currentSelectedUnit.e_currentUnitState = eUnitState.CloseCombat;
-        attackTarget.assignedUnit.isCloseCombat = true;
-        attackTarget.assignedUnit.e_currentUnitState = eUnitState.CloseCombat;
+        attackTarget.m_assignedUnit.isCloseCombat = true;
+        attackTarget.m_assignedUnit.e_currentUnitState = eUnitState.CloseCombat;
         MakeCloseCombatIcon(m_currentSelectedUnit, attackTarget);
 
         m_currentSelectedUnit.ChangeMoveRange();
 
-        Debug.Log(attackTarget.assignedUnit + " is in closeCombatState");
+        Debug.Log(attackTarget.m_assignedUnit + " is in closeCombatState");
     }
 
     public void MakeCloseCombatIcon(Unit damageCauser, AttackTarget target)
     {
         Vector3 pos_damageCauser = damageCauser.gameObject.transform.position;
-        Vector3 pos_target = target.assignedUnit.gameObject.transform.position;
+        Vector3 pos_target = target.m_assignedUnit.gameObject.transform.position;
         Vector3 pos_middle = (pos_damageCauser + pos_target) / 2;
 
         Instantiate(m_closeCombatIcon, pos_middle, Quaternion.identity);
@@ -535,10 +626,11 @@ public class GameManager : MonoBehaviour
 
     public void SwitchTurnOwner()
     {
-        if(m_currentTurnOwner == eTurnOwner.Player)
+        if(m_currentTurnOwner == eTurnOwner.Player) 
         {
             //tmp_turnOwner.text = "enemy";
             m_currentTurnOwner = eTurnOwner.enemy;
+            Debug.Log("enemy turn started");
         }
         else if (m_currentTurnOwner == eTurnOwner.enemy)
         {
@@ -546,9 +638,10 @@ public class GameManager : MonoBehaviour
             //tmp_currentTurn.text = m_currentTurn.ToString();
             //tmp_turnOwner.text = "player";
             m_currentTurnOwner = eTurnOwner.Player;
+            Debug.Log("player turn started");
         }
 
-        Debug.Log("turn owner: " + m_currentTurnOwner);
+        //Debug.Log("turn owner: " + m_currentTurnOwner);
 
     }
 
