@@ -24,12 +24,8 @@ public class Unit : MonoBehaviour
 {
     //public GameObject tile_moveTarget_true;
     Vector3 currentPosition;
-    public eUnitControlMode m_currentControlMode;
-    public SpriteRenderer m_spriteRenderer;
-    public bool isCloseCombat;
-    public eUnitState e_currentUnitState = eUnitState.Default;
-    public List<Unit> m_closeCombatOpponents = new List<Unit>();
-    public UnitSaveData m_unitSaveData;
+    public GameManager m_gameManager;
+    public IngameUiManager m_ingameUiManager;
 
     [Header("Unit Stat")]
     public int m_unitID;
@@ -45,15 +41,25 @@ public class Unit : MonoBehaviour
     public UnitDataBase m_unitDatabase;
     public bool m_isMoved = false;
     public bool m_canAttack = true;
+    public int m_stat_attackRange;
 
     [Header("Unit Command")]
-    public GameManager m_gameManager;
     public GameObject m_currentTargetUnit;
+    public eUnitControlMode m_currentControlMode;
+
+    [Header("Unit Data")]
+    public UnitSaveData m_unitSaveData;
+    public GameObject m_myUnitCard;
+    public SpriteRenderer m_spriteRenderer;
+    public bool isCloseCombat;
+    public eUnitState e_currentUnitState = eUnitState.Default;
+    public List<Unit> m_closeCombatOpponents = new List<Unit>();
 
     public void Awake()
     {
         m_unitDatabase = GameObject.FindObjectOfType<UnitDataBase>();
         m_gameManager = GameObject.FindObjectOfType<GameManager>();
+        m_ingameUiManager = m_gameManager.m_ingameUiManager;
     }
 
     // Start is called before the first frame update
@@ -92,6 +98,7 @@ public class Unit : MonoBehaviour
             m_stat_atk = newData.m_stat_ATK;
             m_stat_def = newData.m_stat_DEF;
             m_stat_ap = newData.m_stat_AP;
+            m_stat_attackRange = newData.m_stat_attackRange;
         }else
         {
             Debug.Log("no match unitID with unitData");
@@ -119,6 +126,25 @@ public class Unit : MonoBehaviour
 
     public void OnMouseDown()
     {
+        if(m_gameManager.m_currentGameState == eGamePlayState.SetupBattleUnit)
+        {
+            //Debug.Log("this is setup state");
+            //return to original state > player unit card
+            this.m_myUnitCard.GetComponent<PlayerUnitCard>().btn_cardButton.enabled = true;
+
+            Color tempColor;
+            tempColor = this.m_myUnitCard.GetComponent<PlayerUnitCard>().img_unitPortrait.color;
+            tempColor.a = 1.0f;
+            this.m_myUnitCard.GetComponent<PlayerUnitCard>().img_unitPortrait.color = tempColor;
+            this.m_myUnitCard.GetComponent<PlayerUnitCard>().m_currentDeployedUnit = null;
+
+            //destroy this unit
+            m_gameManager.m_playerUnits.Remove(this);
+            Destroy(this.gameObject);
+
+            return;
+        }
+
         m_gameManager.SelectUnit(this);
         
         if(this.gameObject.tag != m_gameManager.m_currentTurnOwner.ToString())
@@ -131,13 +157,15 @@ public class Unit : MonoBehaviour
         {
             m_currentControlMode = eUnitControlMode.Move;
             m_gameManager.MakeMoveTargets(this, m_stat_ap);
+            m_ingameUiManager.UpdateUnitControlState(this);
         }
         else if(m_isMoved == true)
         {
-            if (m_currentControlMode == eUnitControlMode.MoveEnd)
+            if (m_currentControlMode == eUnitControlMode.Attack)
             {
                 m_currentControlMode = eUnitControlMode.Default;
                 m_gameManager.RemoveAttackTargetTiles();
+                m_ingameUiManager.UpdateUnitControlState(this);
             }
         }
     }

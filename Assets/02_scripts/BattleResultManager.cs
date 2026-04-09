@@ -38,26 +38,26 @@ public class BattleResultManager : MonoBehaviour
     
     public void RefreshResultUnitSlots()
     {
-        int nbtnSlotCount = GameManager.instance.m_playerUnits.Count;
-        for(int i=0; i<nbtnSlotCount; i++)
-        {
-            Button unitSlot = Instantiate(prefab_resultUnitSlot);
-            unitSlot.transform.SetParent(scrollViewContent_playerUnitSlot, false);
-            unitSlot.GetComponentInChildren<TMP_Text>().text = GameManager.instance.m_playerUnits[i].m_unitSaveData.m_unitOriginalNumber.ToString();
+        //int nbtnSlotCount = GameManager.instance.m_playerUnits.Count;
+        //for(int i=0; i<nbtnSlotCount; i++)
+        //{
+        //    Button unitSlot = Instantiate(prefab_resultUnitSlot);
+        //    unitSlot.transform.SetParent(scrollViewContent_playerUnitSlot, false);
+        //    unitSlot.GetComponentInChildren<TMP_Text>().text = GameManager.instance.m_playerUnits[i].m_unitSaveData.m_unitOriginalNumber.ToString();
 
-            //cardObj.GetComponent<UnitCard>().InitUnitCard(this, m_playerData.currentUnits[i].unitName, m_playerData.currentUnits[i]);
 
-            // cardObj.GetComponent<UnitCard>().m_unitName = m_playerData.currentUnits[i].unitName;
-            // string tempUnitName = cardObj.GetComponent<UnitCard>().m_unitName;
-            // cardObj.GetComponent<UnitCard>().m_playerUnitNumber = i;
-            // cardObj.GetComponent<UnitCard>().text_playerUnitNumber.text = i.ToString();
-            // Sprite tempSprite = m_unitPortraitDatabase.GetPortraitSprite(tempUnitName);
-            // cardObj.GetComponent<UnitCard>().m_portraitSlot.sprite = tempSprite;
-            // cardObj.GetComponent<UnitCard>().SetGameManager(this);
-            // cardObj.GetComponent<UnitCard>().InitUnitCardSelectButton();
-            // m_unitCardList.Add(cardObj.GetComponent<UnitCard>());
+        //    cardObj.GetComponent<UnitCard>().InitUnitCard(this, m_playerData.currentUnits[i].unitName, m_playerData.currentUnits[i]);
+        //    cardObj.GetComponent<UnitCard>().m_unitName = m_playerData.currentUnits[i].unitName;
+        //    string tempUnitName = cardObj.GetComponent<UnitCard>().m_unitName;
+        //    cardObj.GetComponent<UnitCard>().m_playerUnitNumber = i;
+        //    cardObj.GetComponent<UnitCard>().text_playerUnitNumber.text = i.ToString();
+        //    Sprite tempSprite = m_unitPortraitDatabase.GetPortraitSprite(tempUnitName);
+        //    cardObj.GetComponent<UnitCard>().m_portraitSlot.sprite = tempSprite;
+        //    cardObj.GetComponent<UnitCard>().SetGameManager(this);
+        //    cardObj.GetComponent<UnitCard>().InitUnitCardSelectButton();
+        //    m_unitCardList.Add(cardObj.GetComponent<UnitCard>());
 
-        }
+        //}
         
     }
     

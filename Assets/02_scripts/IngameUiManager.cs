@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Tilemaps;
 
 public enum ePhaseType
 {
@@ -13,17 +14,29 @@ public enum ePhaseType
 
 public class IngameUiManager : MonoBehaviour
 {
-    public GameObject panel_openingScreen;
-    public GameObject panel_tileInfo;
     public GameObject panel_unitcard;
     public ePhaseType m_currentPhase;
     public GameManager m_gameManager;
+
+    [Header("Stage")]
+    public GameObject panel_tileInfo;
+    public GameObject obj_currentSelectedTile;
+    public TMP_Text text_selectedTileType;
+
+    [Header("Unit Command")]
+    public GameObject panel_unitOrderMenu;
+    public TMP_Text text_selectedUnitName;
+    public TMP_Text text_selectedUnitState;
 
     [Header("Mision Data InFo")]
     public int m_missionNumber;
     public GameObject panel_missionBrief;
     public TMP_Text text_missionName;
     public TMP_Text text_missionObjective;
+
+    [Header("Mision Opening")]
+    public GameObject panel_openingScreen;
+    public Button btn_closeMissionOpeningPanel;
 
     [Header("Uniy Deployment")]
     public GameObject panel_deployPhase;
@@ -67,8 +80,13 @@ public class IngameUiManager : MonoBehaviour
     public Image img_hpBar_enemyUnit;
     public Image img_atkCondition_playerUnit;
     public Image img_atkCondition_enemyUnit;
+    public TMP_Text text_canAttack_player;
+    public TMP_Text text_canAttack_enemy;
     public Unit m_currentCombatAttacker;
     public Unit m_currentCombatDefender;
+
+    [Header("Turn")]
+    public TMP_Text tmp_currentTurn;
 
 
     [Header("Data")]
@@ -83,12 +101,75 @@ public class IngameUiManager : MonoBehaviour
 
     public void Start()
     {
+        ActivateOpeningScreen();
         m_gameManager = GameManager.instance;
         LoadMissionInfo();
         SetMissionBriefContent(m_missionNumber);
         
         InitPlayerUnitCardList();
         SetCurrentPhase(ePhaseType.UnitDeplyment);
+        panel_missionBrief.SetActive(true);
+        UpdateTurnUI();
+    }
+
+    public void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 클릭
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            int layerMaskTerrain = LayerMask.GetMask("Terrain");
+            int layerMaskUnit = LayerMask.GetMask("Unit");
+            Collider2D terrainHit = Physics2D.OverlapPoint(mousePos, layerMaskTerrain);
+            Collider2D unitHit = Physics2D.OverlapPoint(mousePos, layerMaskUnit);
+
+            if (terrainHit != null)
+            {
+                ShowTileInfoPanel();
+                text_selectedTileType.text = terrainHit.gameObject.ToString();
+            }
+
+            if(unitHit != null)
+            {
+                //Debug.Log("unit hit detected..");
+                ShowUnitOderPanel();
+                text_selectedUnitName.text = unitHit.GetComponent<Unit>().m_name;
+                //text_selectedUnitState.text = unitHit.GetComponent<Unit>().m_currentControlMode.ToString();
+            }
+            
+        }
+
+    }
+
+    public void UpdateUnitControlState(Unit selectedUnit)
+    {
+        text_selectedUnitState.text = selectedUnit.m_currentControlMode.ToString();
+    }
+
+    public void ActivateOpeningScreen()
+    {
+        panel_openingScreen.SetActive(true);
+    }
+
+    public void ShowUnitOderPanel()
+    {
+        panel_unitOrderMenu.SetActive(true);
+        
+    }
+
+    public void RefreshTileInfoPanelContent()
+    {
+        text_selectedTileType.text = obj_currentSelectedTile.gameObject.name.ToString();
+    }
+
+    public void ShowTileInfoPanel()
+    {
+        panel_tileInfo.SetActive(true);
+    }
+
+    public void UpdateTurnUI()
+    {
+        tmp_currentTurn.text = m_gameManager.m_currentTurn.ToString();
     }
 
     public void OnClickConfirmCombatExpect()
@@ -97,7 +178,11 @@ public class IngameUiManager : MonoBehaviour
         Debug.Log(m_currentCombatDefender.m_name);
         StartCoroutine(m_gameManager.StartCombatSequence(m_currentCombatAttacker, m_currentCombatDefender));
         
-        //panel_combatExpect.SetActive(false);
+    }
+
+    public void OnClickCloseCombatExpect()
+    {
+        m_gameManager.ExitCombatSequence(m_currentCombatAttacker, m_currentCombatDefender);
     }
 
     public void UpdateCombatExpectInfo(Unit attacker, Unit defender)
@@ -133,6 +218,7 @@ public class IngameUiManager : MonoBehaviour
         text_combat_playerUnit_attack.text = leftUnit.m_stat_atk.ToString();
         text_combat_playerUnit_accuracy.text = leftUnit.m_stat_hit.ToString();
         text_combat_playerUnit_critical.text = leftUnit.m_stat_hit.ToString();
+        text_canAttack_player.text = leftUnit.m_canAttack.ToString();
 
         int nRightUnitID = rightUnit.m_unitID;
         m_unitDatabase.m_unitDataDic.TryGetValue(nRightUnitID, out newData);
@@ -149,7 +235,7 @@ public class IngameUiManager : MonoBehaviour
         text_combat_enemyUnit_attack.text = rightUnit.m_stat_atk.ToString();
         text_combat_enemyUnit_accuracy.text = rightUnit.m_stat_hit.ToString();
         text_combat_enemyUnit_critical.text = rightUnit.m_stat_hit.ToString();
-
+        text_canAttack_enemy.text = rightUnit.m_canAttack.ToString();
 
     }
 
@@ -179,6 +265,7 @@ public class IngameUiManager : MonoBehaviour
     public void SetCurrentPhase(ePhaseType phaseType)
     {
         m_currentPhase = phaseType;
+        m_gameManager.m_currentGameState = eGamePlayState.Battle;
     }
     
     public void InitPlayerUnitCardList()
@@ -224,6 +311,7 @@ public class IngameUiManager : MonoBehaviour
     {
         panel_deployPhase.SetActive(false);
         SetCurrentPhase(ePhaseType.Battle);
+        m_gameManager.UpdateLeftUnitCount();
     }
 
     public void LoadMissionInfo()

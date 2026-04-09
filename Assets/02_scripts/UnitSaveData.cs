@@ -22,7 +22,8 @@ public class UnitSaveData
     public int m_defense;
     public int m_morale;
 
-    public UnitData m_unitOriginData; 
+    public UnitData m_unitOriginData;
 
+    public int m_atkRange;
    
 }

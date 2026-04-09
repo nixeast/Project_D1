@@ -5,6 +5,7 @@ using UnityEngine;
 public class StageManager : MonoBehaviour
 {
     public IngameUiManager m_ingameUiManager;
+    public GameManager m_gameManager;
 
     [Header("StageData Source")]
     public StageData targetStage;
@@ -21,7 +22,7 @@ public class StageManager : MonoBehaviour
 
     public void Awake()
     {
-        GenerateStage();
+        //GenerateStage();
         //Debug.Log("generate map");
 
     }
@@ -45,16 +46,14 @@ public class StageManager : MonoBehaviour
         }
         
         int nUnitCount = targetStage.m_unitList.Count;
-        Debug.Log("nUnitCount: " + nUnitCount);
         for (int j = 0; j < nUnitCount; j++)
         {
             s_UnitInfo newUnit = targetStage.m_unitList[j];
-
             GameObject prefab = FindPrefabByName(m_unitPrefabList, newUnit.m_name);
             if (prefab != null)
             {
                 Vector3 spawnPos = new Vector3(newUnit.x, newUnit.y, newUnit.z);
-                Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_object);
+                GameObject newObject = Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_object);
             }
         }
 

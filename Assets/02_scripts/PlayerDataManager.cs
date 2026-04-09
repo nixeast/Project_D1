@@ -166,7 +166,9 @@ public class PlayerDataManager : MonoBehaviour
                 newData.m_attack = newData.m_unitOriginData.m_stat_ATK;
                 newData.m_defense = newData.m_unitOriginData.m_stat_DEF;
                 newData.m_morale = 1;
-            
+                newData.m_atkRange = newData.m_unitOriginData.m_stat_attackRange;
+
+
                 playerData.m_currentUnits.Add(newData);
             
             }

@@ -45,5 +45,6 @@ public class UnitData
     public string m_equip_accessary_path;
 
     public string m_unitIcon_path;
+    public int m_stat_attackRange;
 
 }

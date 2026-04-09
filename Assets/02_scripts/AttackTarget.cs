@@ -14,11 +14,7 @@ public class AttackTarget : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(m_gameManager.m_currentSelectedUnit.gameObject.tag == "enemy" && other.CompareTag("Player"))
-        {
-            m_assignedUnit = other.gameObject.GetComponent<Unit>();
-        }
-        else if(m_gameManager.m_currentSelectedUnit.gameObject.tag == "Player" && other.CompareTag("enemy"))
+        if (other.gameObject.layer == 6)
         {
             m_assignedUnit = other.gameObject.GetComponent<Unit>();
         }
@@ -29,7 +25,6 @@ public class AttackTarget : MonoBehaviour
         if (m_assignedUnit != null)
         {
             m_gameManager.AttackUnit(m_assignedUnit);
-
         }
 
     }

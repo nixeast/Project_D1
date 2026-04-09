@@ -19,12 +19,12 @@ public class StartingPointButton : MonoBehaviour
     {
         if(this.gameObject.tag == "area")
         {
-            CreateUnitcardOnBattleMap();
+            CreateUnitOnBattleMap();
             m_ingameUiManager.obj_DeployArea.gameObject.SetActive(false);
         }
     }
     
-    public void CreateUnitcardOnBattleMap()
+    public void CreateUnitOnBattleMap()
     {
         int unitID = m_ingameUiManager.m_selectedDeployUnitNum;
         GameObject newUnit;
@@ -43,6 +43,9 @@ public class StartingPointButton : MonoBehaviour
         Color newColor = m_ingameUiManager.m_selectedPlayerUnitCard.GetComponent<PlayerUnitCard>().img_unitPortrait.color;
         newColor.a = 0.1f;
         m_ingameUiManager.m_selectedPlayerUnitCard.GetComponent<PlayerUnitCard>().img_unitPortrait.color = newColor;
+        m_ingameUiManager.m_selectedPlayerUnitCard.GetComponent<PlayerUnitCard>().m_currentDeployedUnit = newUnit;
+        tempUnit.m_myUnitCard = m_ingameUiManager.m_selectedPlayerUnitCard;
+        
 
     }
 

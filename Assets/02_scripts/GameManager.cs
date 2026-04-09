@@ -7,6 +7,7 @@ using System;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 
 public enum eTurnOwner
 {
@@ -25,11 +26,35 @@ public enum eGamePlayState
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance {get; private set;}
-
     [SerializeField] private GameRoot m_gameRoot;
-    public UnitPortraitDatabase m_unitPortraitDatabase;
-    public eGamePlayState m_currentGameState = default;
     public IngameUiManager m_ingameUiManager;
+    public BattleResultManager m_battleResultManager;
+    
+    [Header("Data")]
+    private PlayerData m_playerData;
+    public UnitPortraitDatabase m_unitPortraitDatabase;
+
+    [Header("Stage")]
+    public StageManager m_stageManager;
+    public eGamePlayState m_currentGameState = default;
+    private int m_maxStartUnitCount;
+    private int m_currentStartUnitCount;
+    public int m_mapSizeX;
+    public int m_mapSizeY;
+    public int[,] distanceMap;
+    public TMP_Text tmp_maxStartUnit;
+    public TMP_Text tmp_curentStartUnit;
+    public List<Unit> m_playerUnits = new List<Unit>();
+    public List<Unit> m_enemyUnits = new List<Unit>();
+    public int m_currentPlayerUnitCount;
+    public int m_currentEnemyUnitCount;
+
+    [Header("Turn")]
+    public TMP_Text tmp_turnOwner;
+    public int m_currentTurn;
+    public eTurnOwner m_currentTurnOwner;
+    public Button btn_turnOver;
+    public GameObject panel_currentTurn;
 
     [Header("UnitCommand")]
     public GameObject tile_moveTarget_true;
@@ -37,50 +62,24 @@ public class GameManager : MonoBehaviour
     public GameObject tile_attackTarget;
     public List<GameObject> m_currentMoveTiles = new List<GameObject>();
     public List<GameObject> m_currentAttackTiles = new List<GameObject>();
-
-    [Header("Etc")]
-    public BattleResultManager m_battleResultManager;
-
-    public TMP_Text tmp_maxStartUnit;
-    public TMP_Text tmp_curentStartUnit;
     public RectTransform scrollViewContent_unitCard;
-    
-    //public Button btn_startBattle;
     public GameObject panel_unitCardList;
-    public GameObject panel_battleInfo;
+    private List<UnitCard> m_unitCardList = new List<UnitCard>();
     public GameObject tileMap_startingPoints;
-
     public GameObject m_closeCombatIcon;
-
     public GameObject m_unitCardPrefab;
     public GameObject m_unitObject;
-    public Unit m_testUnit;
-    public Sprite m_tempSprite;
-    private PlayerData m_playerData;
-    public Unit m_currentSelectedUnit;
-    public UnitCard m_selectedUnitCard;
-    private int m_maxStartUnitCount;
-    private int m_currentStartUnitCount;
-
     public List<Vector3> m_movableTilePositions = new List<Vector3>();
     Vector3[] movePositions = new Vector3[4];
     GameObject[] moveTargets = new GameObject[4];
     Vector3[] attackPositions = new Vector3[4];
     GameObject[] attackTargets = new GameObject[4];
+    public Unit m_currentSelectedUnit;
+    public UnitCard m_selectedUnitCard;
 
-    private List<UnitCard> m_unitCardList = new List<UnitCard>();
-
-    public eTurnOwner m_currentTurnOwner;
-    public Button btn_turnOver;
-    public GameObject panel_currentTurn;
-    public TMP_Text tmp_currentTurn;
-    public TMP_Text tmp_turnOwner;
-    private int m_currentTurn;
-
-    public List<Unit> m_playerUnits = new List<Unit>();
-    public List<Unit> m_enemyUnits = new List<Unit>();
-
-    [SerializeField] GameObject panel_battleResult;
+    [Header("Battle")]
+    public GameObject panel_battleInfo;
+    public GameObject panel_battleResult;
 
 
     private void Awake()
@@ -88,6 +87,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         LoadGameRoot();
         m_maxStartUnitCount = 4;
+        m_stageManager.GenerateStage();
 
         //m_savePath = Path.Combine(Application.persistentDataPath,"m_playerData.json");
         //m_playerData = new PlayerData();
@@ -101,17 +101,51 @@ public class GameManager : MonoBehaviour
         MakeAttackablePositions();
         SetGamePlayState(eGamePlayState.SetupBattleUnit);
         LoadUnitCard();
+        InitTurnInfo();
         tmp_maxStartUnit.text = m_maxStartUnitCount.ToString();
-        //btn_startBattle.onClick.AddListener(StartBattle);
-        //btn_turnOver.onClick.AddListener(SwitchTurnOwner);
-        
-        m_currentTurnOwner = eTurnOwner.Player;
-        m_currentTurn = 1;
-        tmp_turnOwner.text = "player";
-        tmp_currentTurn.text = m_currentTurn.ToString();
-        //Debug.Log("current turn owner: " + m_currentTurnOwner);
+        m_mapSizeX = 19;
+        m_mapSizeY = 11;
+        distanceMap = new int[m_mapSizeX, m_mapSizeY];
 
         Debug.Log("<color=yellow>start battleMap Scene</color>");
+    }
+
+    public void StopGamePlay()
+    {
+
+    }
+
+    public void WinLoseCheck()
+    {
+        if(m_currentPlayerUnitCount <= 0)
+        {
+            StopGamePlay();
+            //panel_battleResult.SetActive(true);
+            BattleLose();
+            return;
+        }
+
+        if(m_currentEnemyUnitCount <= 0)
+        {
+            StopGamePlay();
+            //panel_battleResult.SetActive(true);
+            BattleWin();
+        }
+    }
+
+    public void InitTurnInfo()
+    {
+        m_currentTurn = 1;
+        m_currentTurnOwner = eTurnOwner.Player;
+        tmp_turnOwner.text = "player";
+    }
+
+    public void UpdateLeftUnitCount()
+    {
+        m_currentPlayerUnitCount = m_playerUnits.Count;
+        m_currentEnemyUnitCount = m_enemyUnits.Count;
+        Debug.Log("left player unit count: " + m_currentPlayerUnitCount);
+        Debug.Log("left enemy unit count: " + m_currentEnemyUnitCount);
     }
 
     private void LoadGameRoot()
@@ -181,24 +215,40 @@ public class GameManager : MonoBehaviour
 
         m_currentSelectedUnit.gameObject.transform.position = newPos;
         m_currentSelectedUnit.m_isMoved = true;
-        m_currentSelectedUnit.m_currentControlMode = eUnitControlMode.MoveEnd;
-        
+        //m_currentSelectedUnit.m_currentControlMode = eUnitControlMode.MoveEnd;
+        m_currentSelectedUnit.m_currentControlMode = eUnitControlMode.Attack;
+
+
         RemoveMoveTargetTiles();
         MakeAttackTargets(m_currentSelectedUnit);
+        m_ingameUiManager.UpdateUnitControlState(m_currentSelectedUnit);
 
     }
 
     public void AttackUnit(Unit currentAttackTarget)
     {
-        //currentAttackTarget.stat_hp -= currentSelectedUnit.stat_atk;
-        //Debug.Log(currentAttackTarget + "-> hp : " + currentAttackTarget.stat_hp);
-
         m_ingameUiManager.panel_combatExpect.SetActive(true);
 
         RemoveAttackTargetTiles();
         m_ingameUiManager.panel_combatExpect.SetActive(true);
         m_ingameUiManager.UpdateCombatExpectInfo(m_currentSelectedUnit, currentAttackTarget);
-        
+
+        MakeAttackTargets(currentAttackTarget);
+        int nAtkTileCount = m_currentAttackTiles.Count;
+        currentAttackTarget.m_canAttack = false;
+        for (int i = 0; i < nAtkTileCount; i++)
+        {
+            if (m_currentAttackTiles[i].GetComponent<AttackTarget>().m_assignedUnit != null)
+            {
+                if (m_currentAttackTiles[i].GetComponent<AttackTarget>().m_assignedUnit.gameObject == m_currentSelectedUnit.gameObject)
+                {
+                    currentAttackTarget.m_canAttack = true;
+                    Debug.Log("defender: attacker in my range");
+                }
+            }
+        }
+        m_ingameUiManager.UpdateCombatExpectInfo(m_currentSelectedUnit, currentAttackTarget);
+
     }
 
     public IEnumerator StartCombatSequence(Unit attacker, Unit defender)
@@ -211,7 +261,7 @@ public class GameManager : MonoBehaviour
             m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
         }
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
 
         if (defender.m_canAttack == true)
         {
@@ -222,10 +272,18 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(1.0f);
-        m_ingameUiManager.panel_combatExpect.SetActive(false);
+        //yield return new WaitForSeconds(0.5f);
 
+    }
+
+    public void ExitCombatSequence(Unit attacker, Unit defender)
+    {
+        RemoveAttackTargetTiles();
+        m_ingameUiManager.panel_combatExpect.SetActive(false);
         EndCombatPahse(attacker, defender);
+
+        UpdateLeftUnitCount();
+        WinLoseCheck();
     }
 
     public void EndCombatPahse(Unit attacker, Unit defender)
@@ -237,22 +295,27 @@ public class GameManager : MonoBehaviour
     public void OnClickEndTurn()
     {
         m_currentTurn++;
+        m_ingameUiManager.UpdateTurnUI();
         SwitchTurnOwner();
+        int nCount;
 
-        int nCount = m_playerUnits.Count;
-        for(int i = 0; i < nCount; i++)
+        if (m_currentTurnOwner == eTurnOwner.Player)
         {
-            m_playerUnits[i].m_isMoved = false;
+            nCount = m_playerUnits.Count;
+            for (int i = 0; i < nCount; i++)
+            {
+                m_playerUnits[i].m_isMoved = false;
+            }
+            //m_ingameUiManager.UpdateTurnUI();
+
         }
-
-        nCount = m_enemyUnits.Count;
-        for (int i = 0; i < nCount; i++)
+        else if (m_currentTurnOwner == eTurnOwner.enemy)
         {
-            m_enemyUnits[i].m_isMoved = false;
-        }
-
-        if(m_currentTurnOwner == eTurnOwner.enemy)
-        {
+            nCount = m_enemyUnits.Count;
+            for (int i = 0; i < nCount; i++)
+            {
+                m_enemyUnits[i].m_isMoved = false;
+            }
             StartCoroutine(CommandEenmyUnits());
         }
 
@@ -308,36 +371,45 @@ public class GameManager : MonoBehaviour
 
                 //check attack targets in range
                 int nAttackTargetCount = m_currentAttackTiles.Count;
-                GameObject tempTarget = null;
+                List<GameObject> tempTargetList = new List<GameObject>();
+                tempTargetList.Clear();
                 int nTargetAttackTileNum = 0;
                 for (int j = 0; j < nAttackTargetCount; j++)
                 {
                     if (m_currentAttackTiles[j].GetComponent<AttackTarget>().m_assignedUnit == true)
                     {
-                        tempTarget = m_currentAttackTiles[j];
-                        nTargetAttackTileNum = j;
+                        if(m_currentAttackTiles[j].GetComponent<AttackTarget>().m_assignedUnit.tag == "Player")
+                        {
+                            tempTargetList.Add(m_currentAttackTiles[j]);
+                        }
+                         
+                        //nTargetAttackTileNum = j;
                     }
                 }
 
-                if (tempTarget == null)
+                if (tempTargetList.Count == 0)
                 {
                     RemoveAttackTargetTiles();
                 }
                 else
                 {
-                    m_currentAttackTiles[nTargetAttackTileNum].GetComponent<AttackTarget>().OnMouseDown();
+                    tempTargetList[0].GetComponent<AttackTarget>().OnMouseDown();
+                    //m_currentAttackTiles[nTargetAttackTileNum]
                     yield return new WaitForSeconds(2.0f);
                     //confirm combat button
                     m_ingameUiManager.OnClickConfirmCombatExpect();
+                    yield return new WaitForSeconds(5.0f);
                 }
 
 
-                yield return new WaitForSeconds(10.0f);
+                yield return new WaitForSeconds(1.0f);
                 
                 RemoveAttackTargetTiles();
 
 
             }
+
+            //m_ingameUiManager.UpdateTurnUI();
         }
 
         yield return new WaitForSeconds(1.0f);
@@ -370,6 +442,9 @@ public class GameManager : MonoBehaviour
     public void MakeAttackTargets(Unit selectedUnit)
     {
         int nMeleAttackRange = 1;
+        nMeleAttackRange = selectedUnit.m_stat_attackRange;
+        Debug.Log("atk range: "+selectedUnit.m_stat_attackRange);
+
         Vector3 unitPos = selectedUnit.gameObject.transform.position;
         int minColumn = nMeleAttackRange * -1;
         int maxColumn = nMeleAttackRange;
@@ -423,6 +498,191 @@ public class GameManager : MonoBehaviour
             }
             nDrawRange--;
         }
+
+        int nAtkTileCount = m_currentAttackTiles.Count;
+        //Debug.Log("nAtkTileCount: " + nAtkTileCount);
+        for (int i = 0; i < nAtkTileCount; i++)
+        {
+            Collider2D hit = null;
+
+            Vector2 newPos = new Vector2();
+            newPos.x = m_currentAttackTiles[i].transform.position.x;
+            newPos.y = m_currentAttackTiles[i].transform.position.y;
+            hit = Physics2D.OverlapPoint(newPos, LayerMask.GetMask("Unit"));
+
+            if (hit != null && hit.gameObject != selectedUnit.gameObject)
+            {
+                m_currentAttackTiles[i].GetComponent<AttackTarget>().m_assignedUnit = hit.gameObject.GetComponent<Unit>();
+                Debug.Log("find enemy with Attack overlapPoint");
+            }
+        }
+    }
+
+    public void FindMovableArea(int startX, int startY, int movePower)
+    {
+        // 1. [초기화] 모든 타일의 거리를 -1(미방문)로 채웁니다.
+        for (int x = 0; x < m_mapSizeX; x++)
+        {
+            for (int y = 0; y < m_mapSizeY; y++)
+            {
+                distanceMap[x, y] = -1;
+            }
+        }
+
+        // 2. [시작점 설정] 현재 유닛이 서 있는 곳은 비용이 0입니다.
+        distanceMap[startX, startY] = 0;
+
+        // 3. [물결 퍼뜨리기] 이동력만큼 반복하여 주변으로 퍼져 나갑니다.
+        // 현재 이동력이 4라면, 0단계부터 3단계까지 주변을 조사합니다.
+        for (int currentStep = 0; currentStep < movePower; currentStep++)
+        {
+            // 맵 전체를 훑으며 "지금 단계에서 탐색할 타일"을 찾습니다.
+            for (int x = 0; x < m_mapSizeX; x++)
+            {
+                for (int y = 0; y < m_mapSizeY; y++)
+                {
+                    // 만약 이 타일이 방금 물결이 도달한 타일(currentStep)이라면
+                    if (distanceMap[x, y] == currentStep)
+                    {
+                        // 이 타일의 상, 하, 좌, 우 4방향을 검사합니다.
+                        CheckNeighborTile(x, y + 1, currentStep + 1); // 상
+                        CheckNeighborTile(x, y - 1, currentStep + 1); // 하
+                        CheckNeighborTile(x - 1, y, currentStep + 1); // 좌
+                        CheckNeighborTile(x + 1, y, currentStep + 1); // 우
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < m_mapSizeX; i++)
+        {
+            for (int j = 0; j < m_mapSizeY; j++)
+            {
+                int unitLayerMask = LayerMask.GetMask("Unit");
+
+                if (distanceMap[i, j] != -1 && distanceMap[i, j] <= movePower)
+                {
+                    Vector3 tempPos = new Vector3();
+                    tempPos.x = i - 9;
+                    tempPos.y = j - 5;
+                    tempPos.z = -1.0f;
+
+                    bool hasUnit = Physics2D.OverlapPoint(tempPos, unitLayerMask);
+
+                    if (hasUnit == false)
+                    {
+                        GameObject newTile = Instantiate(tile_moveTarget_true);
+                        newTile.transform.position = tempPos;
+                        m_currentMoveTiles.Add(newTile);
+                    }
+                    else if(hasUnit == true)
+                    {
+                        if(distanceMap[i, j] == 0)
+                        {
+                            GameObject newTile = Instantiate(tile_moveTarget_true);
+                            newTile.transform.position = tempPos;
+                            m_currentMoveTiles.Add(newTile);
+                        }
+                        else
+                        {
+                            GameObject newTile = Instantiate(tile_moveTarget_false);
+                            newTile.transform.position = tempPos;
+                            m_currentMoveTiles.Add(newTile);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    // 인접한 타일이 가도 되는 곳인지 검사하는 보조 함수
+    void CheckNeighborTile(int targetX, int targetY, int nextStepValue)
+    {
+        // [조건 1] 맵 밖으로 나가는지 확인
+        if (targetX < 0 || targetX >= m_mapSizeX || targetY < 0 || targetY >= m_mapSizeY)
+        {
+            return; // 맵 밖이면 중단
+        }
+
+        // [조건 2] 이미 더 짧은 경로로 계산된 적이 있는지 확인
+        if (distanceMap[targetX, targetY] != -1)
+        {
+            return; // 이미 방문했으면 중단
+        }
+
+        // [조건 3] 적 유닛(버민킨)이 그 자리에 있는지 확인 (가장 중요!)
+        // CheckIfEnemyExists는 적이 있으면 true를 반환하는 가상의 함수입니다.
+        if (CheckIfEnemyExists(targetX, targetY) == true)
+        {
+            // 적이 있다면 이 타일은 '막힌 길'이 됩니다. 
+            // 거리 값을 기록하지 않고 건너뜁니다. 
+            // 이렇게 하면 이 뒤쪽 타일로는 물결이 퍼져나가지 못합니다.
+            return;
+        }
+
+        // [조건 4] 장애물(벽, 바위 등)이 있는지 확인
+        if (CheckIfObstacle(targetX, targetY) == true)
+        {
+            return;
+        }
+
+        // 모든 조건을 통과했다면, 이 타일까지 오는 데 필요한 이동력을 기록합니다.
+        distanceMap[targetX, targetY] = nextStepValue;
+    }
+
+    // 이해를 돕기 위한 가상 함수 (실제 게임 시스템에 맞춰 수정 필요)
+    bool CheckIfEnemyExists(int x, int y)
+    {
+        // 적 유닛이 해당 좌표에 있는지 판별하는 로직이 들어갈 자리입니다.
+        Vector2 currentPos = new Vector2(x, y);
+        List<Vector2> tempEnemyPositionList = new List<Vector2>();
+
+        int nCounterForceCount;
+        if (m_currentTurnOwner == eTurnOwner.Player)
+        {
+            nCounterForceCount = m_enemyUnits.Count;
+
+            for (int i = 0; i < nCounterForceCount; i++)
+            {
+                Vector2 tempPos;
+                tempPos.x = m_enemyUnits[i].gameObject.transform.position.x + 9.0f;
+                tempPos.y = m_enemyUnits[i].gameObject.transform.position.y + 5.0f;
+                //tempEnemyPositionList.Add(tempPos);
+                if (tempPos.x == currentPos.x && tempPos.y == currentPos.y)
+                {
+                    Debug.Log("find enemy unit in movement range");
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            nCounterForceCount = m_playerUnits.Count;
+
+            for (int i = 0; i < nCounterForceCount; i++)
+            {
+                Vector2 tempPos;
+                tempPos.x = m_playerUnits[i].gameObject.transform.position.x + 9.0f;
+                tempPos.y = m_playerUnits[i].gameObject.transform.position.y + 5.0f;
+
+                if (tempPos.x == currentPos.x && tempPos.y == currentPos.y)
+                {
+                    Debug.Log("find player unit in movement range");
+                    return true;
+                }
+            }
+        }
+        
+        
+
+        return false;
+    }
+
+    bool CheckIfObstacle(int x, int y)
+    {
+        // 바위나 끊어진 다리 같은 지형지물이 있는지 판별하는 자리입니다.
+        return false;
     }
 
     public void MakeMoveTargets(Unit selectedUnit, int nUnitAp)
@@ -431,52 +691,12 @@ public class GameManager : MonoBehaviour
         float cx = unitPos.x;
         float cy = unitPos.y;
 
-        int unitLayerMask = LayerMask.GetMask("Unit");
+        Debug.Log("unitAP: " + nUnitAp);
+        //Debug.Log("unitPos: " + cx + "," + cy);
+        int ix = Mathf.FloorToInt(cx) + 9;
+        int iy = Mathf.FloorToInt(cy) + 5;
+        FindMovableArea(ix, iy, nUnitAp);
 
-        for (int dy = -nUnitAp; dy <= nUnitAp; dy++)
-        {
-            int dxLimit = nUnitAp - Mathf.Abs(dy);
-
-            for (int dx = -dxLimit; dx <= dxLimit; dx++)
-            {
-                float tx = cx + dx;
-                float ty = cy + dy;
-
-                Vector3 tempPos = new Vector3(tx, ty, -1.0f);
-                //m_movableTilePositions.Add(tempPos);
-
-                Vector3 targetTilePos = tempPos;
-                bool hasUnit = Physics2D.OverlapPoint(targetTilePos, unitLayerMask);
-
-                GameObject tempGameObj;
-
-                if (hasUnit == false)
-                {
-                    tempGameObj = Instantiate(tile_moveTarget_true);
-                    tempGameObj.transform.position = tempPos;
-                    m_currentMoveTiles.Add(tempGameObj);
-
-
-                }
-                else if (hasUnit == true)
-                {
-                    if (dx == 0 && dy == 0)
-                    {
-                        tempGameObj = Instantiate(tile_moveTarget_true);
-                        tempGameObj.transform.position = tempPos;
-                        m_currentMoveTiles.Add(tempGameObj);
-                        //tempGameObj.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        tempGameObj = Instantiate(tile_moveTarget_false);
-                        tempGameObj.transform.position = tempPos;
-                        m_currentMoveTiles.Add(tempGameObj);
-                    }
-                }
-
-            }
-        }
     }
 
     public void RemoveMoveTargetTiles()
@@ -552,7 +772,7 @@ public class GameManager : MonoBehaviour
 
     public Sprite GetPortraitByName(string unitName)
     {
-        m_tempSprite = m_unitPortraitDatabase.GetPortraitSprite(unitName);
+        Sprite m_tempSprite = m_unitPortraitDatabase.GetPortraitSprite(unitName);
 
         if(m_tempSprite == null)
         {
@@ -607,6 +827,7 @@ public class GameManager : MonoBehaviour
     public void StartBattle()
     {
         m_currentGameState = eGamePlayState.Battle;
+
         panel_unitCardList.SetActive(false);
         panel_battleInfo.SetActive(false);
         tileMap_startingPoints.SetActive(false);
@@ -645,24 +866,18 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void BattleWinCheck()
+    public void BattleWin()
     {
-        if(m_enemyUnits.Count == 0)
-        {
-            panel_battleResult.SetActive(true);
-            m_battleResultManager.MakeWinResult();
-            Debug.Log("player win..");
-        }
+        panel_battleResult.SetActive(true);
+        m_battleResultManager.MakeWinResult();
+        Debug.Log("player win..");
     }
 
-    public void BattleLoseCheck()
+    public void BattleLose()
     {
-        if (m_playerUnits.Count == 0)
-        {
-            panel_battleResult.SetActive(true);
-            m_battleResultManager.MakeLoseResult();
-            Debug.Log("enemy win..");
-        }
+        panel_battleResult.SetActive(true);
+        m_battleResultManager.MakeLoseResult();
+        Debug.Log("enemy win..");
     }
 
 }

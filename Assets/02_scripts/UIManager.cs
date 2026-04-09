@@ -26,6 +26,11 @@ public class UIManager : MonoBehaviour
 {
     public PlayerDataManager m_playerDataManager;
 
+    [Header("Unit Management")]
+    public GameObject panel_playerUnit;
+    public TMP_Text text_unitCapacity;
+    public int m_maxUnitCapacity;
+
     [Header("Mision Data InFo")]
     public MissionDatabase m_missionDatabase;
     public int m_currentSelectedMissionNumber;
@@ -108,6 +113,8 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         SubscribeSlotButton();
+        m_maxUnitCapacity = 10;
+
     }
 
     // Start is called before the first frame update
@@ -123,10 +130,16 @@ public class UIManager : MonoBehaviour
         RefreshUnitCard();
 
         //ShowCurrentUnitList();
-        //TestDoomList();
+        InitDoomListUI();
         //TestDwarfResource();
+        UpdateUnitCapacityUI();
     }
 
+    public void UpdateUnitCapacityUI()
+    {
+        string tempText = m_playerDataManager.GetPlayerData().m_currentUnits.Count.ToString();
+        text_unitCapacity.text = tempText + " / " + m_maxUnitCapacity.ToString();
+    }
     public void OnClickMissionIcon(int nMissionNumber)
     {
         m_currentSelectedMissionNumber = nMissionNumber;
@@ -191,11 +204,25 @@ public class UIManager : MonoBehaviour
             Debug.Log("playerUnit0" + (i + 1).ToString() + " originalNumber : " + nTemp);
         }
     }
-    public void TestDoomList()
+    public void InitDoomListUI()
     {
-        m_doomList[0].IncreaseDoomValue(eDoomType.PlagueOfContamination, 76);
-        m_doomList[0].UpdateDoom();
-        
+        m_doomList[0].m_doomName = "Plague Of Contamination";
+        m_doomList[1].m_doomName = "RiftStone Mutation";
+        m_doomList[2].m_doomName = "Subterranean Tunnels";
+        m_doomList[3].m_doomName = "Soul Harvest";
+        m_doomList[4].m_doomName = "Gears of Calamity";
+
+        m_doomList[0].IncreaseDoomValue(eDoomType.PlagueOfContamination, 25);
+        m_doomList[1].IncreaseDoomValue(eDoomType.RiftStoneMutation, 25);
+        m_doomList[2].IncreaseDoomValue(eDoomType.SubterraneanTunnels, 25);
+        m_doomList[3].IncreaseDoomValue(eDoomType.SoulHarvest, 25);
+        m_doomList[4].IncreaseDoomValue(eDoomType.GearsOfCalamity, 25);
+
+        for (int i = 0; i < 5; i++)
+        {
+            m_doomList[i].UpdateDoom();
+        }
+
     }
     
     public void TestDwarfResource()

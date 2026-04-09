@@ -16,9 +16,10 @@ public enum eDoomLevel
 public class Doom : MonoBehaviour
 {
     public eDoomType m_doomType;
+    public TMP_Text text_doomName;
     public string m_doomName;
-    public int m_doomValue;
     public Image m_doomLevelBar;
+    public int m_doomValue;
     public eDoomLevel m_doomLevel;
     public TMP_Text text_doomLevel;
 
@@ -33,6 +34,7 @@ public class Doom : MonoBehaviour
     void Start()
     {
         AssignDoomEffects(m_doomType);
+
 
     }
 
@@ -63,6 +65,7 @@ public class Doom : MonoBehaviour
     {
         UpdateDoomLevelBar();
         UpdateDoomLevel();
+        text_doomName.text = m_doomName;
     }
     
     public void IncreaseDoomValue(eDoomType doomType, int Amount)

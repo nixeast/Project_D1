@@ -12,7 +12,6 @@ public class UnitDataBase : MonoBehaviour
     private void Awake()
     {
         MakeSingletonPattern();
-
         m_unitDataDic.Clear();
         LoadFromCsv();
     }
@@ -112,6 +111,8 @@ public class UnitDataBase : MonoBehaviour
             newData.m_equip_accessary_path = dataColums[35];
 
             newData.m_unitIcon_path = dataColums[36];
+            //37 -> moveRange
+            newData.m_stat_attackRange = int.Parse(dataColums[38]);
 
             m_unitDataDic.Add(newData.m_UnitID, newData);
             //Debug.Log("unitID: " + newData.m_UnitID);

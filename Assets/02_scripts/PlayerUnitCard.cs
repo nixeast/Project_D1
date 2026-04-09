@@ -12,4 +12,6 @@ public class PlayerUnitCard : MonoBehaviour
 
     public int m_unitOriginNumber;
 
+    public GameObject m_currentDeployedUnit;
+
 }
