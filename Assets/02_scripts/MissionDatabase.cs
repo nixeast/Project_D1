@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum eMissionType
+{
+    None = 0,
+    Defense = 1,
+    Extraction = 2,
+    Explore = 3,
+    Destroy = 4,
+    Detonation = 5,
+    Elimination = 6,
+}
+
 public class MissionDatabase : MonoBehaviour
 {
     public static MissionDatabase s_instance;
@@ -63,6 +74,9 @@ public class MissionDatabase : MonoBehaviour
                 newData.m_enemyList_ID[j] = arr_enemyList[j];
             }
             //newData.m_enemyList_ID = dataColums[13];
+
+            newData.m_missionType = dataColums[14];
+
             m_missionDataDic.Add(newData.m_missionID, newData);
 
         }

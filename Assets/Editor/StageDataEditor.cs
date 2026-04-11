@@ -79,6 +79,7 @@ public class StageDataEditor : Editor
         if (name.Contains("tile_101")) return 101;
         if (name.Contains("tile_105")) return 105;
         if (name.Contains("tile_200")) return 200;
+        if (name.Contains("tile_201")) return 201;
 
         return -1;
     }

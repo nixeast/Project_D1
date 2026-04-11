@@ -58,18 +58,31 @@ public class StageManager : MonoBehaviour
         }
 
         int nAreaCount = targetStage.m_areaList.Count;
-        for(int k = 0; k < nAreaCount; k++)
+        for (int k = 0; k < nAreaCount; k++)
         {
             s_AreaInfo newArea = targetStage.m_areaList[k];
             GameObject prefab = FindPrefabByName(m_areaPrefabList, newArea.m_name);
-            StartingPointButton tempStartingPoint = prefab.GetComponent<StartingPointButton>();
-            if (prefab != null)
+            Vector3 spawnPos = new Vector3(newArea.x, newArea.y, -2.0f);
+
+            if (prefab.GetComponent<StartingPointButton>() != null)
             {
-                Vector3 spawnPos = new Vector3(newArea.x, newArea.y, 0);
+                GameObject newObject = Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_area);
+                StartingPointButton tempStartingPoint = newObject.GetComponent<StartingPointButton>();
                 tempStartingPoint.m_ingameUiManager = m_ingameUiManager;
                 tempStartingPoint.obj_tilemapRoot_object = tileRoot_object.gameObject;
-                Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_area);
+                newObject.SetActive(false);
+                
+                m_ingameUiManager.m_startingPointList.Add(tempStartingPoint);
             }
+            else if (prefab.GetComponent<EnemySpawnTile>() != null)
+            {
+                GameObject newObject = Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_area);
+                EnemySpawnTile newTile = newObject.GetComponent<EnemySpawnTile>();
+
+                //m_gameManager.m_enemySpawnTileList.Add(newTile);
+            }
+
+            Debug.Log("area created");
         }
 
     }

@@ -34,9 +34,9 @@ public class UIManager : MonoBehaviour
     [Header("Mision Data InFo")]
     public MissionDatabase m_missionDatabase;
     public int m_currentSelectedMissionNumber;
-    public TMP_Text text_missionType;
-    public TMP_Text text_missionTypeDesc;
     public TMP_Text text_missionName;
+    public TMP_Text text_missionNameDesc;
+    public TMP_Text text_missionType;
     public TMP_Text text_missionObjectiveTitle;
     public TMP_Text text_missionObjective;
     public Image img_missionDoomIcon;
@@ -162,9 +162,9 @@ public class UIManager : MonoBehaviour
     {
         MissionData tempData = new MissionData();
         m_missionDatabase.m_missionDataDic.TryGetValue(m_currentSelectedMissionNumber, out tempData);
-        text_missionType.text = tempData.m_missionTheme;
-        text_missionTypeDesc.text = tempData.m_missionTheme;
-        text_missionName.text = tempData.m_missionName;
+        text_missionName.text = tempData.m_missionTheme;
+        text_missionNameDesc.text = tempData.m_missionTheme;
+        text_missionType.text = tempData.m_missionType;
         text_missionObjectiveTitle.text = tempData.m_missionName;
         text_missionObjective.text = tempData.m_missionName;
         text_missionDoomName.text = tempData.m_doomName;

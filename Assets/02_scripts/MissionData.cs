@@ -20,5 +20,9 @@ public class MissionData
     public string missionGimmick_desc;
     public int m_enemyTotalCount;
     public string[] m_enemyList_ID;
+    public string m_missionType;
+    public List<int> m_waveTurnList;
+    public List<string> m_winConditionList;
+    public List<string> m_loseConditionList;
 
 }

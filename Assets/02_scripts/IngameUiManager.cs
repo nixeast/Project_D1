@@ -44,6 +44,7 @@ public class IngameUiManager : MonoBehaviour
     public List<GameObject> m_playerUnitCardList = new List<GameObject>();
     public RectTransform scrollViewContent_unitCommand;
     public GameObject obj_DeployArea;
+    public List<StartingPointButton> m_startingPointList = new List<StartingPointButton>();
     public int m_selectedDeployUnitNum;
     public GameObject m_selectedPlayerUnitCard;
 
@@ -259,9 +260,26 @@ public class IngameUiManager : MonoBehaviour
 
     public void ShowDeploymentArea()
     {
-        obj_DeployArea.SetActive(true);
+        //obj_DeployArea.SetActive(true);
+
+        int nCount = m_startingPointList.Count;
+        for (int i = 0; i < nCount; i++)
+        {
+            m_startingPointList[i].gameObject.SetActive(true);
+        }
+
     }
-    
+
+    public void HideDeploymentArea()
+    {
+        int nCount = m_startingPointList.Count;
+        for (int i = 0; i < nCount; i++)
+        {
+            m_startingPointList[i].gameObject.SetActive(false);
+        }
+
+    }
+
     public void SetCurrentPhase(ePhaseType phaseType)
     {
         m_currentPhase = phaseType;

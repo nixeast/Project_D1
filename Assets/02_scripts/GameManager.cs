@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting.Dependencies.Sqlite;
 
 public enum eTurnOwner
 {
@@ -48,6 +49,8 @@ public class GameManager : MonoBehaviour
     public List<Unit> m_enemyUnits = new List<Unit>();
     public int m_currentPlayerUnitCount;
     public int m_currentEnemyUnitCount;
+    private ImissionCondition m_currentMissionCondition;
+    public List<EnemySpawnTile> m_enemySpawnTileList = new List<EnemySpawnTile>();
 
     [Header("Turn")]
     public TMP_Text tmp_turnOwner;
@@ -82,6 +85,7 @@ public class GameManager : MonoBehaviour
     public GameObject panel_battleResult;
 
 
+
     private void Awake()
     {
         instance = this;
@@ -107,7 +111,21 @@ public class GameManager : MonoBehaviour
         m_mapSizeY = 11;
         distanceMap = new int[m_mapSizeX, m_mapSizeY];
 
+        InitMissionCondition();
         Debug.Log("<color=yellow>start battleMap Scene</color>");
+    }
+
+    public void InitMissionCondition()
+    {
+        int nCurrentMissionNumber = GameRoot.s_instance.GetStartMissionNumber();
+        MissionData newData;
+        MissionDatabase.s_instance.m_missionDataDic.TryGetValue(nCurrentMissionNumber, out newData);
+        string missionConditionName = newData.m_missionType.ToString();
+        if(missionConditionName == "Defense")
+        {
+            m_currentMissionCondition = new DefenseCondition();
+
+        }
     }
 
     public void StopGamePlay()
@@ -117,20 +135,22 @@ public class GameManager : MonoBehaviour
 
     public void WinLoseCheck()
     {
-        if(m_currentPlayerUnitCount <= 0)
-        {
-            StopGamePlay();
-            //panel_battleResult.SetActive(true);
-            BattleLose();
-            return;
-        }
+        m_currentMissionCondition.CheckVictory();
 
-        if(m_currentEnemyUnitCount <= 0)
-        {
-            StopGamePlay();
-            //panel_battleResult.SetActive(true);
-            BattleWin();
-        }
+        //if(m_currentPlayerUnitCount <= 0)
+        //{
+        //    StopGamePlay();
+        //    //panel_battleResult.SetActive(true);
+        //    BattleLose();
+        //    return;
+        //}
+
+        //if(m_currentEnemyUnitCount <= 0)
+        //{
+        //    StopGamePlay();
+        //    //panel_battleResult.SetActive(true);
+        //    BattleWin();
+        //}
     }
 
     public void InitTurnInfo()
@@ -317,6 +337,17 @@ public class GameManager : MonoBehaviour
                 m_enemyUnits[i].m_isMoved = false;
             }
             StartCoroutine(CommandEenmyUnits());
+        }
+
+        WinLoseCheck();
+
+        if(m_enemySpawnTileList.Count >0)
+        {
+            for (int i = 0; i < m_enemySpawnTileList.Count; i++)
+            {
+                m_enemySpawnTileList[i].CreateCheck();
+            }
+
         }
 
         //Debug.Log("turn[" + m_currentTurn + "] Start!");

@@ -20,7 +20,8 @@ public class StartingPointButton : MonoBehaviour
         if(this.gameObject.tag == "area")
         {
             CreateUnitOnBattleMap();
-            m_ingameUiManager.obj_DeployArea.gameObject.SetActive(false);
+            //m_ingameUiManager.obj_DeployArea.gameObject.SetActive(false);
+            m_ingameUiManager.HideDeploymentArea();
         }
     }
     

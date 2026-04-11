@@ -4333,7 +4333,7 @@ GameObject:
   - component: {fileID: 306424460}
   - component: {fileID: 306424459}
   m_Layer: 5
-  m_Name: bg_missionTypeDesc
+  m_Name: bg_missionNameDesc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6642,9 +6642,9 @@ MonoBehaviour:
   m_maxUnitCapacity: 0
   m_missionDatabase: {fileID: 1882972006}
   m_currentSelectedMissionNumber: 0
-  text_missionType: {fileID: 1287254277}
-  text_missionTypeDesc: {fileID: 1424613227}
-  text_missionName: {fileID: 1156929830}
+  text_missionName: {fileID: 1287254277}
+  text_missionNameDesc: {fileID: 1424613227}
+  text_missionType: {fileID: 1156929830}
   text_missionObjectiveTitle: {fileID: 1588150715}
   text_missionObjective: {fileID: 1056259534}
   img_missionDoomIcon: {fileID: 6440734}
@@ -19246,7 +19246,7 @@ GameObject:
   - component: {fileID: 1103775307}
   - component: {fileID: 1103775306}
   m_Layer: 5
-  m_Name: bg_missionType
+  m_Name: bg_missionName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20297,7 +20297,7 @@ GameObject:
   - component: {fileID: 1156929831}
   - component: {fileID: 1156929830}
   m_Layer: 5
-  m_Name: text_missionLevel
+  m_Name: text_missionType
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20342,7 +20342,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: mission Name
+  m_text: missionType
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: af4e6ed09aec741c7a94ba794651697d, type: 2}
   m_sharedMaterial: {fileID: 1870041251732803735, guid: af4e6ed09aec741c7a94ba794651697d, type: 2}
@@ -22027,7 +22027,7 @@ GameObject:
   - component: {fileID: 1287254278}
   - component: {fileID: 1287254277}
   m_Layer: 5
-  m_Name: text_missionType
+  m_Name: text_missionName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22072,7 +22072,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: mission Type
+  m_text: missionName
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: af4e6ed09aec741c7a94ba794651697d, type: 2}
   m_sharedMaterial: {fileID: 1870041251732803735, guid: af4e6ed09aec741c7a94ba794651697d, type: 2}
@@ -22657,7 +22657,7 @@ GameObject:
   - component: {fileID: 1329330340}
   - component: {fileID: 1329330339}
   m_Layer: 5
-  m_Name: bg_missionName
+  m_Name: bg_missionType
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
