@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
     [Header("Battle")]
     public GameObject panel_battleInfo;
     public GameObject panel_battleResult;
+    public bool isEndCombatSequence = false;
 
 
 
@@ -233,28 +234,31 @@ public class GameManager : MonoBehaviour
 
     public void AttackUnit(Unit currentAttackTarget)
     {
-        m_ingameUiManager.panel_combatExpect.SetActive(true);
-
         RemoveAttackTargetTiles();
+        isEndCombatSequence = false;
         m_ingameUiManager.panel_combatExpect.SetActive(true);
         m_ingameUiManager.UpdateCombatExpectInfo(m_currentSelectedUnit, currentAttackTarget);
-
         MakeAttackTargets(currentAttackTarget);
+        CheckCounterAttack(currentAttackTarget);
+        m_ingameUiManager.UpdateCombatExpectInfo(m_currentSelectedUnit, currentAttackTarget);
+    }
+
+    public void CheckCounterAttack(Unit attackTarget)
+    {
+        attackTarget.m_canAttack = false;
         int nAtkTileCount = m_currentAttackTiles.Count;
-        currentAttackTarget.m_canAttack = false;
+
         for (int i = 0; i < nAtkTileCount; i++)
         {
             if (m_currentAttackTiles[i].GetComponent<AttackTarget>().m_assignedUnit != null)
             {
                 if (m_currentAttackTiles[i].GetComponent<AttackTarget>().m_assignedUnit.gameObject == m_currentSelectedUnit.gameObject)
                 {
-                    currentAttackTarget.m_canAttack = true;
+                    attackTarget.m_canAttack = true;
                     Debug.Log("defender: attacker in my range");
                 }
             }
         }
-        m_ingameUiManager.UpdateCombatExpectInfo(m_currentSelectedUnit, currentAttackTarget);
-
     }
 
     public bool CheckAttackHit(Unit attackUnit)
@@ -316,6 +320,7 @@ public class GameManager : MonoBehaviour
         RemoveAttackTargetTiles();
         m_ingameUiManager.panel_combatExpect.SetActive(false);
         EndCombatPahse(attacker, defender);
+        isEndCombatSequence = true;
 
         UpdateLeftUnitCount();
         WinLoseCheck();
@@ -359,13 +364,29 @@ public class GameManager : MonoBehaviour
 
     public void CheckRespawnTiles()
     {
-        if (m_currentTurnOwner == eTurnOwner.enemy && m_enemySpawnTileList.Count > 0)
+        if (m_currentTurnOwner == eTurnOwner.enemy)
         {
-            for (int i = 0; i < m_enemySpawnTileList.Count; i++)
+            List<EnemySpawnTile> removeList = new List<EnemySpawnTile>();
+            int nSpawnTileCount = m_enemySpawnTileList.Count;
+            
+            for (int i = 0; i < nSpawnTileCount; i++)
             {
-                m_enemySpawnTileList[i].CreateCheck();
+                if (m_enemySpawnTileList[i].m_createTurn == m_currentTurn)
+                {
+                    m_enemySpawnTileList[i].CreateCheck();
+                    m_enemySpawnTileList[i].gameObject.SetActive(false);
+                    
+                }
             }
+
+
         }
+    }
+    
+    public void RemoveEnemySpawnTile(EnemySpawnTile spawnTile)
+    {
+        //m_enemySpawnTileList.Remove(spawnTile);
+        Destroy(spawnTile.gameObject);
     }
 
     public void OnClickEndTurn()
@@ -373,8 +394,84 @@ public class GameManager : MonoBehaviour
         IncreaseTurn();
         ResetIsMoved();
         SwitchTurnOwner();
-        CheckRespawnTiles();        
+        CheckRespawnTiles();
+        if (m_currentTurnOwner == eTurnOwner.enemy)
+        {
+            StartCoroutine(CommandEenmyUnits());
+        }
 
+    }
+    
+    public void AssignTargetUnit(Unit mainUnit)
+    {
+        mainUnit.m_currentTargetUnit = m_playerUnits[0].gameObject;
+    }
+
+    public int CommandEnemyToFindMovePos(Unit mainUnit)
+    {
+        mainUnit.OnMouseDown();
+        int nMoveTileCount = m_currentMoveTiles.Count;
+        float fDistance;
+        fDistance = Vector3.Distance(m_currentMoveTiles[0].transform.position, mainUnit.transform.position);
+        int nCloseMoveTileNumber = 0;
+        for (int j = 0; j < nMoveTileCount; j++)
+        {
+            float newDistance = Vector3.Distance(m_currentMoveTiles[j].transform.position, mainUnit.m_currentTargetUnit.transform.position);
+            if (newDistance < fDistance)
+            {
+                if (m_currentMoveTiles[j].GetComponent<MoveTarget>() == true)
+                {
+                    fDistance = newDistance;
+                    nCloseMoveTileNumber = j;
+                }
+
+            }
+        }
+        return nCloseMoveTileNumber;
+    }
+
+    public void CommandEnemyToMoveToPosition(int nCloseTileNumber)
+    {
+        if (m_currentMoveTiles[nCloseTileNumber].GetComponent<MoveTarget>() == true)
+        {
+            m_currentMoveTiles[nCloseTileNumber].GetComponent<MoveTarget>().OnMouseDown();
+        }
+        else
+        {
+            Debug.Log("no move target detected");
+            RemoveMoveTargetTiles();
+        }
+    }
+
+    public void CommandEnemyToCheckAttackTarget()
+    {
+        int nAttackTargetCount = m_currentAttackTiles.Count;
+        List<GameObject> tempTargetList = new List<GameObject>();
+        tempTargetList.Clear();
+
+        for (int j = 0; j < nAttackTargetCount; j++)
+        {
+            AttackTarget tempTarget = m_currentAttackTiles[j].GetComponent<AttackTarget>();
+            if (tempTarget.m_assignedUnit == true)
+            {
+                if (tempTarget.m_assignedUnit.tag == "Player")
+                {
+                    tempTargetList.Add(m_currentAttackTiles[j]);
+                }
+            }
+        }
+
+        if (tempTargetList.Count == 0)
+        {
+            RemoveAttackTargetTiles();
+            isEndCombatSequence = true;
+        }
+        else
+        {
+            tempTargetList[0].GetComponent<AttackTarget>().OnMouseDown();
+            //m_ingameUiManager.OnClickConfirmCombatExpect();
+            RemoveAttackTargetTiles();
+        }
     }
 
     public IEnumerator CommandEenmyUnits()
@@ -384,95 +481,23 @@ public class GameManager : MonoBehaviour
             int nCount = m_enemyUnits.Count;
             for (int i = 0; i < nCount; i++)
             {
-                //set enemyUnit's target with a player unit
-                m_enemyUnits[i].m_currentTargetUnit = m_playerUnits[0].gameObject;
-
-                //command move to, make moveTiles
-                m_enemyUnits[i].OnMouseDown();
-
-                //find close movetarget tile to targetUnit
-                int nMoveTileCount = m_currentMoveTiles.Count;
-                float fDistance;
-
-                if(m_enemyUnits[i] == null)
+                if (m_enemyUnits[i] != null)
                 {
-                    Debug.Log("m_enemyUnits[i] == null");
-                }
-
-                if(m_currentMoveTiles[0] == null)
-                {
-                    Debug.Log("m_currentMoveTiles[0] == null");
-                }
-
-                fDistance = Vector3.Distance(m_currentMoveTiles[0].transform.position, m_enemyUnits[i].m_currentTargetUnit.transform.position);
-                int nCloseMoveTileNumber = 0;
-                for (int j = 0; j < nMoveTileCount; j++)
-                {
-                    float newDistance = Vector3.Distance(m_currentMoveTiles[j].transform.position, m_enemyUnits[i].m_currentTargetUnit.transform.position);
-                    if (newDistance < fDistance)
-                    {
-                        if (m_currentMoveTiles[j].GetComponent<MoveTarget>() == true)
-                        {
-                            fDistance = newDistance;
-                            nCloseMoveTileNumber = j;
-                        }
-
-                    }
-                }
-
-                yield return new WaitForSeconds(1.0f);
-                //Debug.Log("nCount: " + i);
-
-                if (m_currentMoveTiles[nCloseMoveTileNumber].GetComponent<MoveTarget>() == true)
-                {
-                    m_currentMoveTiles[nCloseMoveTileNumber].GetComponent<MoveTarget>().OnMouseDown();
+                    AssignTargetUnit(m_enemyUnits[i]);
+                    int nCloseTileNumber = CommandEnemyToFindMovePos(m_enemyUnits[i]);
+                    yield return new WaitForSeconds(1.0f);
+                    CommandEnemyToMoveToPosition(nCloseTileNumber);
+                    yield return new WaitForSeconds(1.0f);
+                    CommandEnemyToCheckAttackTarget();
+                    yield return new WaitUntil(() => isEndCombatSequence == true);
+                    Debug.Log("receive wait until success..");
+                    //yield return new WaitForSeconds(1.0f);
+                    //RemoveAttackTargetTiles();
                 }
                 else
                 {
-                    Debug.Log("no move target detected");
-                    RemoveMoveTargetTiles();
+                    Debug.Log("dead but in list found: " + m_enemyUnits[i].m_name);
                 }
-
-                yield return new WaitForSeconds(1.0f);
-
-                //check attack targets in range
-                int nAttackTargetCount = m_currentAttackTiles.Count;
-                List<GameObject> tempTargetList = new List<GameObject>();
-                tempTargetList.Clear();
-                int nTargetAttackTileNum = 0;
-                for (int j = 0; j < nAttackTargetCount; j++)
-                {
-                    if (m_currentAttackTiles[j].GetComponent<AttackTarget>().m_assignedUnit == true)
-                    {
-                        if(m_currentAttackTiles[j].GetComponent<AttackTarget>().m_assignedUnit.tag == "Player")
-                        {
-                            tempTargetList.Add(m_currentAttackTiles[j]);
-                        }
-                         
-                        //nTargetAttackTileNum = j;
-                    }
-                }
-
-                if (tempTargetList.Count == 0)
-                {
-                    RemoveAttackTargetTiles();
-                }
-                else
-                {
-                    tempTargetList[0].GetComponent<AttackTarget>().OnMouseDown();
-                    //m_currentAttackTiles[nTargetAttackTileNum]
-                    yield return new WaitForSeconds(2.0f);
-                    //confirm combat button
-                    m_ingameUiManager.OnClickConfirmCombatExpect();
-                    yield return new WaitForSeconds(5.0f);
-                }
-
-
-                yield return new WaitForSeconds(1.0f);
-                
-                RemoveAttackTargetTiles();
-
-
             }
 
             //m_ingameUiManager.UpdateTurnUI();
@@ -480,7 +505,6 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
         OnClickEndTurn();
-
     }
 
     public void AssignCloseCombatState(AttackTarget attackTarget)
@@ -586,7 +610,7 @@ public class GameManager : MonoBehaviour
 
     public void FindMovableArea(int startX, int startY, int movePower)
     {
-        // 1. [ÃÊ±âÈ­] ¸ðµç Å¸ÀÏÀÇ °Å¸®¸¦ -1(¹Ì¹æ¹®)·Î Ã¤¿ó´Ï´Ù.
+        // 1. [ï¿½Ê±ï¿½È­] ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ -1(ï¿½Ì¹æ¹®)ï¿½ï¿½ Ã¤ï¿½ï¿½Ï´ï¿½.
         for (int x = 0; x < m_mapSizeX; x++)
         {
             for (int y = 0; y < m_mapSizeY; y++)
@@ -595,26 +619,26 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // 2. [½ÃÀÛÁ¡ ¼³Á¤] ÇöÀç À¯´ÖÀÌ ¼­ ÀÖ´Â °÷Àº ºñ¿ëÀÌ 0ÀÔ´Ï´Ù.
+        // 2. [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½Ô´Ï´ï¿½.
         distanceMap[startX, startY] = 0;
 
-        // 3. [¹°°á ÆÛ¶ß¸®±â] ÀÌµ¿·Â¸¸Å­ ¹Ýº¹ÇÏ¿© ÁÖº¯À¸·Î ÆÛÁ® ³ª°©´Ï´Ù.
-        // ÇöÀç ÀÌµ¿·ÂÀÌ 4¶ó¸é, 0´Ü°èºÎÅÍ 3´Ü°è±îÁö ÁÖº¯À» Á¶»çÇÕ´Ï´Ù.
+        // 3. [ï¿½ï¿½ï¿½ï¿½ ï¿½Û¶ß¸ï¿½ï¿½ï¿½] ï¿½Ìµï¿½ï¿½Â¸ï¿½Å­ ï¿½Ýºï¿½ï¿½Ï¿ï¿½ ï¿½Öºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ 4ï¿½ï¿½ï¿½, 0ï¿½Ü°ï¿½ï¿½ï¿½ï¿½ 3ï¿½Ü°ï¿½ï¿½ï¿½ï¿½ ï¿½Öºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         for (int currentStep = 0; currentStep < movePower; currentStep++)
         {
-            // ¸Ê ÀüÃ¼¸¦ ÈÈÀ¸¸ç "Áö±Ý ´Ü°è¿¡¼­ Å½»öÇÒ Å¸ÀÏ"À» Ã£½À´Ï´Ù.
+            // ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ "ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°è¿¡ï¿½ï¿½ Å½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½"ï¿½ï¿½ Ã£ï¿½ï¿½ï¿½Ï´ï¿½.
             for (int x = 0; x < m_mapSizeX; x++)
             {
                 for (int y = 0; y < m_mapSizeY; y++)
                 {
-                    // ¸¸¾à ÀÌ Å¸ÀÏÀÌ ¹æ±Ý ¹°°áÀÌ µµ´ÞÇÑ Å¸ÀÏ(currentStep)ÀÌ¶ó¸é
+                    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½(currentStep)ï¿½Ì¶ï¿½ï¿½
                     if (distanceMap[x, y] == currentStep)
                     {
-                        // ÀÌ Å¸ÀÏÀÇ »ó, ÇÏ, ÁÂ, ¿ì 4¹æÇâÀ» °Ë»çÇÕ´Ï´Ù.
-                        CheckNeighborTile(x, y + 1, currentStep + 1); // »ó
-                        CheckNeighborTile(x, y - 1, currentStep + 1); // ÇÏ
-                        CheckNeighborTile(x - 1, y, currentStep + 1); // ÁÂ
-                        CheckNeighborTile(x + 1, y, currentStep + 1); // ¿ì
+                        // ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½, ï¿½ï¿½, ï¿½ï¿½ 4ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Õ´Ï´ï¿½.
+                        CheckNeighborTile(x, y + 1, currentStep + 1); // ï¿½ï¿½
+                        CheckNeighborTile(x, y - 1, currentStep + 1); // ï¿½ï¿½
+                        CheckNeighborTile(x - 1, y, currentStep + 1); // ï¿½ï¿½
+                        CheckNeighborTile(x + 1, y, currentStep + 1); // ï¿½ï¿½
                     }
                 }
             }
@@ -662,45 +686,45 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // ÀÎÁ¢ÇÑ Å¸ÀÏÀÌ °¡µµ µÇ´Â °÷ÀÎÁö °Ë»çÇÏ´Â º¸Á¶ ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     void CheckNeighborTile(int targetX, int targetY, int nextStepValue)
     {
-        // [Á¶°Ç 1] ¸Ê ¹ÛÀ¸·Î ³ª°¡´ÂÁö È®ÀÎ
+        // [ï¿½ï¿½ï¿½ï¿½ 1] ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         if (targetX < 0 || targetX >= m_mapSizeX || targetY < 0 || targetY >= m_mapSizeY)
         {
-            return; // ¸Ê ¹ÛÀÌ¸é Áß´Ü
+            return; // ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ß´ï¿½
         }
 
-        // [Á¶°Ç 2] ÀÌ¹Ì ´õ ÂªÀº °æ·Î·Î °è»êµÈ ÀûÀÌ ÀÖ´ÂÁö È®ÀÎ
+        // [ï¿½ï¿½ï¿½ï¿½ 2] ï¿½Ì¹ï¿½ ï¿½ï¿½ Âªï¿½ï¿½ ï¿½ï¿½Î·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         if (distanceMap[targetX, targetY] != -1)
         {
-            return; // ÀÌ¹Ì ¹æ¹®ÇßÀ¸¸é Áß´Ü
+            return; // ï¿½Ì¹ï¿½ ï¿½æ¹®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß´ï¿½
         }
 
-        // [Á¶°Ç 3] Àû À¯´Ö(¹ö¹ÎÅ²)ÀÌ ±× ÀÚ¸®¿¡ ÀÖ´ÂÁö È®ÀÎ (°¡Àå Áß¿ä!)
-        // CheckIfEnemyExists´Â ÀûÀÌ ÀÖÀ¸¸é true¸¦ ¹ÝÈ¯ÇÏ´Â °¡»óÀÇ ÇÔ¼öÀÔ´Ï´Ù.
+        // [ï¿½ï¿½ï¿½ï¿½ 3] ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½Å²)ï¿½ï¿½ ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ß¿ï¿½!)
+        // CheckIfEnemyExistsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ trueï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½Ô´Ï´ï¿½.
         if (CheckIfEnemyExists(targetX, targetY) == true)
         {
-            // ÀûÀÌ ÀÖ´Ù¸é ÀÌ Å¸ÀÏÀº '¸·Èù ±æ'ÀÌ µË´Ï´Ù. 
-            // °Å¸® °ªÀ» ±â·ÏÇÏÁö ¾Ê°í °Ç³Ê¶Ý´Ï´Ù. 
-            // ÀÌ·¸°Ô ÇÏ¸é ÀÌ µÚÂÊ Å¸ÀÏ·Î´Â ¹°°áÀÌ ÆÛÁ®³ª°¡Áö ¸øÇÕ´Ï´Ù.
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½'ï¿½ï¿½ ï¿½Ë´Ï´ï¿½. 
+            // ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½Ç³Ê¶Ý´Ï´ï¿½. 
+            // ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ï·Î´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
             return;
         }
 
-        // [Á¶°Ç 4] Àå¾Ö¹°(º®, ¹ÙÀ§ µî)ÀÌ ÀÖ´ÂÁö È®ÀÎ
+        // [ï¿½ï¿½ï¿½ï¿½ 4] ï¿½ï¿½Ö¹ï¿½(ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         if (CheckIfObstacle(targetX, targetY) == true)
         {
             return;
         }
 
-        // ¸ðµç Á¶°ÇÀ» Åë°úÇß´Ù¸é, ÀÌ Å¸ÀÏ±îÁö ¿À´Â µ¥ ÇÊ¿äÇÑ ÀÌµ¿·ÂÀ» ±â·ÏÇÕ´Ï´Ù.
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ß´Ù¸ï¿½, ï¿½ï¿½ Å¸ï¿½Ï±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         distanceMap[targetX, targetY] = nextStepValue;
     }
 
-    // ÀÌÇØ¸¦ µ½±â À§ÇÑ °¡»ó ÇÔ¼ö (½ÇÁ¦ °ÔÀÓ ½Ã½ºÅÛ¿¡ ¸ÂÃç ¼öÁ¤ ÇÊ¿ä)
+    // ï¿½ï¿½ï¿½Ø¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½)
     bool CheckIfEnemyExists(int x, int y)
     {
-        // Àû À¯´ÖÀÌ ÇØ´ç ÁÂÇ¥¿¡ ÀÖ´ÂÁö ÆÇº°ÇÏ´Â ·ÎÁ÷ÀÌ µé¾î°¥ ÀÚ¸®ÀÔ´Ï´Ù.
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Çºï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¥ ï¿½Ú¸ï¿½ï¿½Ô´Ï´ï¿½.
         Vector2 currentPos = new Vector2(x, y);
         List<Vector2> tempEnemyPositionList = new List<Vector2>();
 
@@ -711,14 +735,18 @@ public class GameManager : MonoBehaviour
 
             for (int i = 0; i < nCounterForceCount; i++)
             {
-                Vector2 tempPos;
-                tempPos.x = m_enemyUnits[i].gameObject.transform.position.x + 9.0f;
-                tempPos.y = m_enemyUnits[i].gameObject.transform.position.y + 5.0f;
-                //tempEnemyPositionList.Add(tempPos);
-                if (tempPos.x == currentPos.x && tempPos.y == currentPos.y)
+                if (m_enemyUnits[i] != null)
                 {
-                    Debug.Log("find enemy unit in movement range");
-                    return true;
+                    Vector2 tempPos;
+                    tempPos.x = m_enemyUnits[i].gameObject.transform.position.x + 9.0f;
+                    tempPos.y = m_enemyUnits[i].gameObject.transform.position.y + 5.0f;
+                    //tempEnemyPositionList.Add(tempPos);
+                    if (tempPos.x == currentPos.x && tempPos.y == currentPos.y)
+                    {
+                        Debug.Log("find enemy unit in movement range");
+                        return true;
+                    }
+
                 }
             }
         }
@@ -747,7 +775,7 @@ public class GameManager : MonoBehaviour
 
     bool CheckIfObstacle(int x, int y)
     {
-        // ¹ÙÀ§³ª ²÷¾îÁø ´Ù¸® °°Àº ÁöÇüÁö¹°ÀÌ ÀÖ´ÂÁö ÆÇº°ÇÏ´Â ÀÚ¸®ÀÔ´Ï´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Çºï¿½ï¿½Ï´ï¿½ ï¿½Ú¸ï¿½ï¿½Ô´Ï´ï¿½.
         return false;
     }
 
@@ -782,7 +810,7 @@ public class GameManager : MonoBehaviour
         
         for (int i = 0; i < nCount; i++)
         {
-            Destroy(m_currentAttackTiles[i]);
+            Destroy(m_currentAttackTiles[i].gameObject);
         }
         m_currentAttackTiles.Clear();
     }

@@ -128,8 +128,8 @@ public class Unit : MonoBehaviour
     {
         m_stat_moveRange_modified = m_stat_moveRange / 2;
     }
-
-    public void OnMouseDown()
+    
+    public void DeployUnit()
     {
         if(m_gameManager.m_currentGameState == eGamePlayState.SetupBattleUnit)
         {
@@ -149,15 +149,20 @@ public class Unit : MonoBehaviour
 
             return;
         }
-
-        m_gameManager.SelectUnit(this);
-        
+    }
+    
+    public bool CheckUnitPhase()
+    {
         if(this.gameObject.tag != m_gameManager.m_currentTurnOwner.ToString())
         {
             Debug.Log("turn owner missmatch");
-            return;
+            return false;
         }
-
+        return true;
+    }
+    
+    public void MakeMovableTiles()
+    {
         if (m_isMoved == false)
         {
             m_currentControlMode = eUnitControlMode.Move;
@@ -175,19 +180,26 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public void OnMouseDown()
+    {
+        DeployUnit();
+        m_gameManager.SelectUnit(this);
+        if (CheckUnitPhase() == false) return;
+        MakeMovableTiles();
+    }
+
     public bool DeadCheck(Unit targetUnit)
     {
-        if(m_stat_hp <= 0)
+        if (m_stat_hp <= 0)
         {
-            if(this.gameObject.tag == "enemy")
+            if (this.gameObject.tag == "enemy")
             {
-                GameManager.instance.m_enemyUnits.Remove(this);
+                //GameManager.instance.m_enemyUnits.Remove(this);
             }
-            else if(this.gameObject.tag == "Player")
+            else if (this.gameObject.tag == "Player")
             {
-                GameManager.instance.m_playerUnits.Remove(this);
+                //GameManager.instance.m_playerUnits.Remove(this);
             }
-
             Debug.Log(targetUnit.m_name + " is dead..");
             Destroy(this.gameObject);
             return true;

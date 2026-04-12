@@ -27,14 +27,12 @@ public class EnemySpawnTile : MonoBehaviour
         GameObject newEnemy = Instantiate(prefab_enemyUnit, m_spawnPoint, Quaternion.identity, m_createParent);
         //newUnit.transform.position = m_spawnPoint;
         Unit newUnit = newEnemy.GetComponent<Unit>();
-        m_gameManager.m_enemyUnits.Add(newUnit);
-        m_gameManager.m_enemySpawnTileList.Remove(this);
-        Destroy(this.gameObject);
+        //m_gameManager.m_enemyUnits.Add(newUnit);
     }
 
     public void CreateCheck()
     {
-        if(GameManager.instance.m_currentTurn >= m_createTurn)
+        if(GameManager.instance.m_currentTurn != m_createTurn)
         {
             return;
         }
@@ -44,15 +42,15 @@ public class EnemySpawnTile : MonoBehaviour
         newPos.x = m_spawnPoint.x;
         newPos.y = m_spawnPoint.y;
         hit = Physics2D.OverlapPoint(newPos, LayerMask.GetMask("Unit"));
+        
         if (hit == null)
         {
             CreateEnemy();
         }
         else
         {
-            m_gameManager.m_enemySpawnTileList.Remove(this);
-
-            Destroy(this.gameObject);
+            //m_gameManager.m_enemySpawnTileList.Remove(this);
+            //Destroy(this.gameObject);
         }
 
     }
