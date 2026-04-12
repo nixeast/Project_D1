@@ -188,19 +188,25 @@ public class IngameUiManager : MonoBehaviour
 
     public void UpdateCombatExpectInfo(Unit attacker, Unit defender)
     {
-        Unit leftUnit;
-        Unit rightUnit;
+        Unit leftUnit = null;
+        Unit rightUnit = null;
 
-        leftUnit = attacker;
-        rightUnit = defender;
-        m_currentCombatAttacker = attacker;
-        m_currentCombatDefender = defender;
+        if(attacker.gameObject.tag =="Player")
+        {
+            leftUnit = attacker;
+            rightUnit = defender;
 
-        if (attacker.gameObject.tag == "enemy")
+        }
+        else if (attacker.gameObject.tag == "enemy")
         {
             leftUnit = defender;
             rightUnit = attacker;
         }
+
+        m_currentCombatAttacker = attacker;
+        m_currentCombatDefender = defender;
+
+        //left unit setting
 
         UnitData newData;
         int nLeftUnitID = leftUnit.m_unitID;
@@ -217,10 +223,22 @@ public class IngameUiManager : MonoBehaviour
         text_unitinfo_player_ap.text = leftUnit.m_stat_ap.ToString();
         text_hp_playerUnit.text = leftUnit.m_stat_hp.ToString();
         text_combat_playerUnit_attack.text = leftUnit.m_stat_atk.ToString();
-        text_combat_playerUnit_accuracy.text = leftUnit.m_stat_hit.ToString();
         text_combat_playerUnit_critical.text = leftUnit.m_stat_hit.ToString();
         text_canAttack_player.text = leftUnit.m_canAttack.ToString();
 
+        float fLeftUnitAcc;
+        int nLeftUnitAcc;
+        float fLeftHit;
+        float fRightEva;
+
+        fLeftHit = (float)leftUnit.m_stat_hit;
+        fRightEva = (float)rightUnit.m_stat_eva;
+        fLeftUnitAcc = (fLeftHit / (fRightEva * 1.5f)) * 100.0f;
+        nLeftUnitAcc = Mathf.FloorToInt(fLeftUnitAcc);
+        leftUnit.m_currentAttackChance = nLeftUnitAcc;
+        text_combat_playerUnit_accuracy.text = nLeftUnitAcc.ToString() + " %";
+
+        //right unit setting
         int nRightUnitID = rightUnit.m_unitID;
         m_unitDatabase.m_unitDataDic.TryGetValue(nRightUnitID, out newData);
         img_unit_enemy.sprite = Resources.Load<Sprite>(newData.m_PortraitPath);
@@ -234,9 +252,20 @@ public class IngameUiManager : MonoBehaviour
         text_unitinfo_enemy_ap.text = rightUnit.m_stat_ap.ToString();
         text_hp_enemyUnit.text = rightUnit.m_stat_hp.ToString();
         text_combat_enemyUnit_attack.text = rightUnit.m_stat_atk.ToString();
-        text_combat_enemyUnit_accuracy.text = rightUnit.m_stat_hit.ToString();
         text_combat_enemyUnit_critical.text = rightUnit.m_stat_hit.ToString();
         text_canAttack_enemy.text = rightUnit.m_canAttack.ToString();
+
+        float fRightUnitAcc;
+        int nRightUnitAcc;
+        float fRightHit;
+        float fLeftEva;
+
+        fRightHit = (float)rightUnit.m_stat_hit;
+        fLeftEva = (float)leftUnit.m_stat_eva;
+        fRightUnitAcc = (fRightHit / (fLeftEva * 1.5f)) * 100.0f;
+        nRightUnitAcc = Mathf.FloorToInt(fRightUnitAcc);
+        rightUnit.m_currentAttackChance = nRightUnitAcc;
+        text_combat_enemyUnit_accuracy.text = nRightUnitAcc.ToString() + " %";
 
     }
 

@@ -24,6 +24,14 @@ public struct s_AreaInfo
     public string m_name;
 }
 
+[System.Serializable]
+public struct s_ObjectInfo
+{
+    public int x, y;
+    public int m_objectID;
+    public string m_name;
+}
+
 [CreateAssetMenu(fileName = "NewStage", menuName = "ProjectD/Stage")]
 public class StageData : ScriptableObject
 {
@@ -34,5 +42,6 @@ public class StageData : ScriptableObject
     public List<s_TerrainInfo> m_terrainList = new List<s_TerrainInfo>();
     public List<s_UnitInfo> m_unitList = new List<s_UnitInfo>();
     public List<s_AreaInfo> m_areaList = new List<s_AreaInfo>();
+    public List<s_ObjectInfo> m_objectList = new List<s_ObjectInfo>();
 
 }

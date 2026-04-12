@@ -25269,10 +25269,18 @@ MonoBehaviour:
   m_unitPrefabList:
   - {fileID: 3578645706863797812, guid: 4127a0837327c9d4ebd67f87671e364d, type: 3}
   - {fileID: 3578645706863797812, guid: 78a669982f1a26e46bde937ca1f4e1b4, type: 3}
+  - {fileID: 3578645706863797812, guid: 5d2123f437bdfd44fa30aa47c42fd2be, type: 3}
+  - {fileID: 3578645706863797812, guid: d847e06ecc6ecc04395918e78b7047e1, type: 3}
+  - {fileID: 3578645706863797812, guid: 96a4bbb0c26548f47826a80d9de6673d, type: 3}
   - {fileID: 3578645706863797812, guid: 697a39d359899914c8b12a88f0700591, type: 3}
+  - {fileID: 3578645706863797812, guid: a5b5ce5c0617b3d4e97a1efaf1b67fc7, type: 3}
+  - {fileID: 3578645706863797812, guid: fffeb8515fd4ddc4fa1adcea3021bc72, type: 3}
   m_areaPrefabList:
   - {fileID: 8901053067870212552, guid: 4ad241fad6d78dc41b794d84dfabb4cd, type: 3}
   - {fileID: 8901053067870212552, guid: 1e11c64d3d4428041a0b9cd7cd4297da, type: 3}
+  m_objectPrefabList:
+  - {fileID: 3578645706863797812, guid: 6ae8fa2cd2724024098001c3d167a4e2, type: 3}
+  - {fileID: 3578645706863797812, guid: 9dc14450b315b1546821db99671fe4bf, type: 3}
   tileRoot_terrain: {fileID: 202121356}
   tileRoot_object: {fileID: 1709185093}
   tileRoot_area: {fileID: 1841890573}

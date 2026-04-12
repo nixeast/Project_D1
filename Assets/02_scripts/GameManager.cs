@@ -136,21 +136,6 @@ public class GameManager : MonoBehaviour
     public void WinLoseCheck()
     {
         m_currentMissionCondition.CheckVictory();
-
-        //if(m_currentPlayerUnitCount <= 0)
-        //{
-        //    StopGamePlay();
-        //    //panel_battleResult.SetActive(true);
-        //    BattleLose();
-        //    return;
-        //}
-
-        //if(m_currentEnemyUnitCount <= 0)
-        //{
-        //    StopGamePlay();
-        //    //panel_battleResult.SetActive(true);
-        //    BattleWin();
-        //}
     }
 
     public void InitTurnInfo()
@@ -158,6 +143,7 @@ public class GameManager : MonoBehaviour
         m_currentTurn = 1;
         m_currentTurnOwner = eTurnOwner.Player;
         tmp_turnOwner.text = "player";
+        m_ingameUiManager.UpdateTurnUI();
     }
 
     public void UpdateLeftUnitCount()
@@ -271,14 +257,39 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public bool CheckAttackHit(Unit attackUnit)
+    {
+        Debug.Log("start check attack hit");
+        int nAttackChance = attackUnit.m_currentAttackChance;
+        int nResult = UnityEngine.Random.Range(1, 101);
+        Debug.Log("chance: " + nAttackChance + " / nResult: " + nResult);
+
+        if (nAttackChance >= 100)
+        {
+            return true;
+        }
+        
+        if(nResult <= nAttackChance)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public IEnumerator StartCombatSequence(Unit attacker, Unit defender)
     {
         yield return new WaitForSeconds(1.0f);
 
         if (attacker.m_canAttack == true)
         {
-            defender.m_stat_hp -= attacker.m_stat_atk;
-            m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
+            bool isHit = CheckAttackHit(attacker);
+            if (isHit == true)
+            {
+                defender.m_stat_hp -= attacker.m_stat_atk;
+                m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
+
+            }
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -287,8 +298,12 @@ public class GameManager : MonoBehaviour
         {
             if(defender.m_stat_hp > 0)
             {
-                attacker.m_stat_hp -= defender.m_stat_atk;
-                m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
+                bool isHit = CheckAttackHit(defender);
+                if (isHit == true)
+                {
+                    attacker.m_stat_hp -= defender.m_stat_atk;
+                    m_ingameUiManager.UpdateCombatExpectInfo(attacker, defender);
+                }
             }
         }
 
@@ -312,45 +327,54 @@ public class GameManager : MonoBehaviour
         defender.DeadCheck(defender);
     }
 
-    public void OnClickEndTurn()
+    public void IncreaseTurn()
     {
-        m_currentTurn++;
-        m_ingameUiManager.UpdateTurnUI();
-        SwitchTurnOwner();
-        int nCount;
+        if (m_currentTurnOwner == eTurnOwner.enemy)
+        {
+            m_currentTurn++;
+            m_ingameUiManager.UpdateTurnUI();
+        }
+    }
 
+    public void ResetIsMoved()
+    {
         if (m_currentTurnOwner == eTurnOwner.Player)
         {
-            nCount = m_playerUnits.Count;
+            int nCount = m_playerUnits.Count;
             for (int i = 0; i < nCount; i++)
             {
                 m_playerUnits[i].m_isMoved = false;
             }
-            //m_ingameUiManager.UpdateTurnUI();
-
         }
         else if (m_currentTurnOwner == eTurnOwner.enemy)
         {
-            nCount = m_enemyUnits.Count;
+            int nCount = m_enemyUnits.Count;
             for (int i = 0; i < nCount; i++)
             {
                 m_enemyUnits[i].m_isMoved = false;
             }
-            StartCoroutine(CommandEenmyUnits());
+            //StartCoroutine(CommandEenmyUnits());
         }
+    }
 
-        WinLoseCheck();
-
-        if(m_enemySpawnTileList.Count >0)
+    public void CheckRespawnTiles()
+    {
+        if (m_currentTurnOwner == eTurnOwner.enemy && m_enemySpawnTileList.Count > 0)
         {
             for (int i = 0; i < m_enemySpawnTileList.Count; i++)
             {
                 m_enemySpawnTileList[i].CreateCheck();
             }
-
         }
+    }
 
-        //Debug.Log("turn[" + m_currentTurn + "] Start!");
+    public void OnClickEndTurn()
+    {
+        IncreaseTurn();
+        ResetIsMoved();
+        SwitchTurnOwner();
+        CheckRespawnTiles();        
+
     }
 
     public IEnumerator CommandEenmyUnits()
@@ -369,6 +393,17 @@ public class GameManager : MonoBehaviour
                 //find close movetarget tile to targetUnit
                 int nMoveTileCount = m_currentMoveTiles.Count;
                 float fDistance;
+
+                if(m_enemyUnits[i] == null)
+                {
+                    Debug.Log("m_enemyUnits[i] == null");
+                }
+
+                if(m_currentMoveTiles[0] == null)
+                {
+                    Debug.Log("m_currentMoveTiles[0] == null");
+                }
+
                 fDistance = Vector3.Distance(m_currentMoveTiles[0].transform.position, m_enemyUnits[i].m_currentTargetUnit.transform.position);
                 int nCloseMoveTileNumber = 0;
                 for (int j = 0; j < nMoveTileCount; j++)
@@ -880,21 +915,14 @@ public class GameManager : MonoBehaviour
     {
         if(m_currentTurnOwner == eTurnOwner.Player) 
         {
-            //tmp_turnOwner.text = "enemy";
             m_currentTurnOwner = eTurnOwner.enemy;
-            Debug.Log("enemy turn started");
+            //Debug.Log("enemy turn started");
         }
         else if (m_currentTurnOwner == eTurnOwner.enemy)
         {
-            //m_currentTurn++;
-            //tmp_currentTurn.text = m_currentTurn.ToString();
-            //tmp_turnOwner.text = "player";
             m_currentTurnOwner = eTurnOwner.Player;
-            Debug.Log("player turn started");
+            //Debug.Log("player turn started");
         }
-
-        //Debug.Log("turn owner: " + m_currentTurnOwner);
-
     }
 
     public void BattleWin()

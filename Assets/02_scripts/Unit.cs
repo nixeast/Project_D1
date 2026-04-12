@@ -43,6 +43,9 @@ public class Unit : MonoBehaviour
     public bool m_canAttack = true;
     public int m_stat_attackRange;
 
+    [Header("Unit Combat")]
+    public int m_currentAttackChance;
+
     [Header("Unit Command")]
     public GameObject m_currentTargetUnit;
     public eUnitControlMode m_currentControlMode;
@@ -99,6 +102,8 @@ public class Unit : MonoBehaviour
             m_stat_def = newData.m_stat_DEF;
             m_stat_ap = newData.m_stat_AP;
             m_stat_attackRange = newData.m_stat_attackRange;
+            m_stat_hit = newData.m_stat_HIT;
+            m_stat_eva = newData.m_stat_EVA;
         }else
         {
             Debug.Log("no match unitID with unitData");

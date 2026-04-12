@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 13558734ccb934eaab02958b0d0a2466, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.21568628}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -143,8 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337c73daf6b119b4aa410b513dff5d99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab_enemyUnit: {fileID: 3578645706863797812, guid: 4127a0837327c9d4ebd67f87671e364d, type: 3}
+  prefab_enemyUnit: {fileID: 3578645706863797812, guid: 5d2123f437bdfd44fa30aa47c42fd2be, type: 3}
   m_spawnPoint: {x: 0, y: 0, z: 0}
-  m_createTurn: 3
+  m_createTurn: 2
   m_createParent: {fileID: 0}
   m_gameManager: {fileID: 0}

@@ -22,6 +22,7 @@ public class StageDataEditor : Editor
         newStageData.m_terrainList.Clear();
         newStageData.m_unitList.Clear();
         newStageData.m_areaList.Clear();
+        newStageData.m_objectList.Clear();
 
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
         int nCount = allObjects.Length;
@@ -62,6 +63,17 @@ public class StageDataEditor : Editor
                 newStageData.m_areaList.Add(tempAreaInfo);
 
             }
+
+            else if (obj.CompareTag("object"))
+            {
+                s_ObjectInfo tempObjectInfo;
+                tempObjectInfo.x = (int)obj.transform.position.x;
+                tempObjectInfo.y = (int)obj.transform.position.y;
+                tempObjectInfo.m_objectID = GetIDFromName(obj.name);
+                tempObjectInfo.m_name = obj.name;
+                newStageData.m_objectList.Add(tempObjectInfo);
+
+            }
         }
 
         // Notice stageData file info modification to UnityEditor (important!)
@@ -75,11 +87,21 @@ public class StageDataEditor : Editor
         if (name.Contains("tile_default")) return 0;
         if (name.Contains("tile_001")) return 1;
         if (name.Contains("tile_002")) return 2;
+
         if (name.Contains("tile_100")) return 100;
         if (name.Contains("tile_101")) return 101;
+        if (name.Contains("tile_102")) return 102;
+        if (name.Contains("tile_103")) return 103;
+        if (name.Contains("tile_104")) return 104;
         if (name.Contains("tile_105")) return 105;
+        if (name.Contains("tile_106")) return 106;
+        if (name.Contains("tile_107")) return 107;
+
         if (name.Contains("tile_200")) return 200;
         if (name.Contains("tile_201")) return 201;
+
+        if (name.Contains("tile_300")) return 300;
+        if (name.Contains("tile_301")) return 301;
 
         return -1;
     }

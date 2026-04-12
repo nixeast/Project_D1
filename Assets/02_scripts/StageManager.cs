@@ -14,11 +14,14 @@ public class StageManager : MonoBehaviour
     public List<GameObject> m_terrainPrefabList;
     public List<GameObject> m_unitPrefabList;
     public List<GameObject> m_areaPrefabList;
+    public List<GameObject> m_objectPrefabList;
 
     [Header("Generate roots")]
     public Transform tileRoot_terrain;
     public Transform tileRoot_object;
     public Transform tileRoot_area;
+
+
 
     public void Awake()
     {
@@ -82,7 +85,21 @@ public class StageManager : MonoBehaviour
                 //m_gameManager.m_enemySpawnTileList.Add(newTile);
             }
 
-            Debug.Log("area created");
+            //Debug.Log("area created");
+        }
+
+        int nObjectCount = targetStage.m_objectList.Count;
+        for (int j = 0; j < nObjectCount; j++)
+        {
+            s_ObjectInfo newObj = targetStage.m_objectList[j];
+
+            GameObject prefab = FindPrefabByName(m_objectPrefabList, newObj.m_name);
+
+            if (prefab != null)
+            {
+                Vector3 spawnPos = new Vector3(newObj.x, newObj.y, -1.0f);
+                GameObject newObject = Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_object);
+            }
         }
 
     }

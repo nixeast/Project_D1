@@ -34,7 +34,7 @@ public class EnemySpawnTile : MonoBehaviour
 
     public void CreateCheck()
     {
-        if(GameManager.instance.m_currentTurn != m_createTurn)
+        if(GameManager.instance.m_currentTurn >= m_createTurn)
         {
             return;
         }
@@ -51,6 +51,7 @@ public class EnemySpawnTile : MonoBehaviour
         else
         {
             m_gameManager.m_enemySpawnTileList.Remove(this);
+
             Destroy(this.gameObject);
         }
 

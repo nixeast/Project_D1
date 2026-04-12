@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2433025699324313872}
   - component: {fileID: 8159680318431418654}
   m_Layer: 6
-  m_Name: tile_105_unit_PlagueDoctor
-  m_TagString: enemy
+  m_Name: tile_300_object_PurificationEngine
+  m_TagString: object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 9f0b7c89665458e479cf05e0b96e6b0c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b3fc1859992157244a1c7173fcb0844e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -171,11 +171,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f348e0586dc1d45caab5437c565acf2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentControlMode: 0
-  m_spriteRenderer: {fileID: 8888594027370597941}
-  isCloseCombat: 0
-  e_currentUnitState: 0
-  m_closeCombatOpponents: []
+  m_gameManager: {fileID: 0}
+  m_ingameUiManager: {fileID: 0}
+  m_unitID: 105
+  m_name: 
+  m_stat_hp: 0
+  m_stat_atk: 0
+  m_stat_def: 0
+  m_stat_hit: 0
+  m_stat_eva: 0
+  m_stat_ap: 0
+  m_stat_moveRange: 0
+  m_stat_moveRange_modified: 0
+  m_unitDatabase: {fileID: 0}
+  m_isMoved: 0
+  m_canAttack: 1
+  m_stat_attackRange: 0
+  m_currentTargetUnit: {fileID: 0}
+  m_currentControlMode: 0
   m_unitSaveData:
     unitName: 
     level: 0
@@ -251,13 +264,10 @@ MonoBehaviour:
       m_equip_armor_path: 
       m_equip_accessary_path: 
       m_unitIcon_path: 
-  m_unitID: 105
-  m_name: 
-  stat_hp: 0
-  stat_atk: 0
-  stat_def: 0
-  stat_moveRange: 0
-  stat_moveRange_modified: 0
-  stat_ap: 0
-  m_unitDatabase: {fileID: 0}
-  m_gameManager: {fileID: 0}
+      m_stat_attackRange: 0
+    m_atkRange: 0
+  m_myUnitCard: {fileID: 0}
+  m_spriteRenderer: {fileID: 8888594027370597941}
+  isCloseCombat: 0
+  e_currentUnitState: 0
+  m_closeCombatOpponents: []
