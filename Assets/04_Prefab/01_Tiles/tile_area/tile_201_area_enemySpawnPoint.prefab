@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337c73daf6b119b4aa410b513dff5d99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab_enemyUnit: {fileID: 3578645706863797812, guid: 5d2123f437bdfd44fa30aa47c42fd2be, type: 3}
+  prefab_enemyUnit: {fileID: 3578645706863797812, guid: 4127a0837327c9d4ebd67f87671e364d, type: 3}
   m_spawnPoint: {x: 0, y: 0, z: 0}
   m_createTurn: 2
   m_createParent: {fileID: 0}

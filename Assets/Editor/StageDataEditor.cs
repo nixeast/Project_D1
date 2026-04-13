@@ -55,11 +55,15 @@ public class StageDataEditor : Editor
 
             else if(obj.CompareTag("area"))
             {
-                s_AreaInfo tempAreaInfo;
+                s_AreaInfo tempAreaInfo = new s_AreaInfo();
                 tempAreaInfo.x = (int)obj.transform.position.x;
                 tempAreaInfo.y = (int)obj.transform.position.y;
                 tempAreaInfo.m_areaID = GetIDFromName(obj.name);
                 tempAreaInfo.m_name = obj.name;
+                if(obj.GetComponent<EnemySpawnTile>() != null)
+                {
+                    tempAreaInfo.m_spawnTurn = obj.GetComponent<EnemySpawnTile>().m_createTurn;
+                }
                 newStageData.m_areaList.Add(tempAreaInfo);
 
             }

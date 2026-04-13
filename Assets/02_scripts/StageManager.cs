@@ -30,10 +30,8 @@ public class StageManager : MonoBehaviour
 
     }
 
-    public void GenerateStage()
+    public void GenerateTerrainTile()
     {
-        if (targetStage == null) return;
-
         int nTileCount = targetStage.m_terrainList.Count;
         for (int i = 0; i < nTileCount; i++)
         {
@@ -42,12 +40,15 @@ public class StageManager : MonoBehaviour
             GameObject prefab = FindPrefabByName(m_terrainPrefabList, newTerrain.m_name);
             if (prefab != null)
             {
-                
+
                 Vector3 spawnPos = new Vector3(newTerrain.x, newTerrain.y, 0);
                 Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_terrain);
             }
         }
-        
+    }
+
+    public void GenerateUnitTile()
+    {
         int nUnitCount = targetStage.m_unitList.Count;
         for (int j = 0; j < nUnitCount; j++)
         {
@@ -59,7 +60,10 @@ public class StageManager : MonoBehaviour
                 GameObject newObject = Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_object);
             }
         }
+    }
 
+    public void GenerateAreaTile()
+    {
         int nAreaCount = targetStage.m_areaList.Count;
         for (int k = 0; k < nAreaCount; k++)
         {
@@ -74,20 +78,24 @@ public class StageManager : MonoBehaviour
                 tempStartingPoint.m_ingameUiManager = m_ingameUiManager;
                 tempStartingPoint.obj_tilemapRoot_object = tileRoot_object.gameObject;
                 newObject.SetActive(false);
-                
+
                 m_ingameUiManager.m_startingPointList.Add(tempStartingPoint);
             }
             else if (prefab.GetComponent<EnemySpawnTile>() != null)
             {
                 GameObject newObject = Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_area);
                 EnemySpawnTile newTile = newObject.GetComponent<EnemySpawnTile>();
+                newTile.m_createTurn = newArea.m_spawnTurn;
 
                 //m_gameManager.m_enemySpawnTileList.Add(newTile);
             }
 
             //Debug.Log("area created");
         }
+    }
 
+    public void GenerateObjectTile()
+    {
         int nObjectCount = targetStage.m_objectList.Count;
         for (int j = 0; j < nObjectCount; j++)
         {
@@ -101,7 +109,16 @@ public class StageManager : MonoBehaviour
                 GameObject newObject = Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_object);
             }
         }
+    }
 
+    public void GenerateStage()
+    {
+        if (targetStage == null) return;
+
+        GenerateTerrainTile();
+        GenerateUnitTile();
+        GenerateAreaTile();
+        GenerateObjectTile();
     }
 
     GameObject FindPrefabByName(List<GameObject> prefabs, string tempName)

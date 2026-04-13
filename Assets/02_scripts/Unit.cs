@@ -42,6 +42,7 @@ public class Unit : MonoBehaviour
     public bool m_isMoved = false;
     public bool m_canAttack = true;
     public int m_stat_attackRange;
+    public bool m_isDead = false;
 
     [Header("Unit Combat")]
     public int m_currentAttackChance;
@@ -63,6 +64,7 @@ public class Unit : MonoBehaviour
         m_unitDatabase = GameObject.FindObjectOfType<UnitDataBase>();
         m_gameManager = GameObject.FindObjectOfType<GameManager>();
         m_ingameUiManager = m_gameManager.m_ingameUiManager;
+        m_isDead = false;
     }
 
     // Start is called before the first frame update
@@ -144,6 +146,7 @@ public class Unit : MonoBehaviour
             this.m_myUnitCard.GetComponent<PlayerUnitCard>().m_currentDeployedUnit = null;
 
             //destroy this unit
+            
             m_gameManager.m_playerUnits.Remove(this);
             Destroy(this.gameObject);
 
@@ -201,6 +204,8 @@ public class Unit : MonoBehaviour
                 //GameManager.instance.m_playerUnits.Remove(this);
             }
             Debug.Log(targetUnit.m_name + " is dead..");
+
+            this.m_isDead = true;
             Destroy(this.gameObject);
             return true;
         }

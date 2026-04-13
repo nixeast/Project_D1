@@ -524,13 +524,13 @@ public class UIManager : MonoBehaviour
 
     public void gotoBattleMapScene()
     {
-        Debug.Log("btn clicked");
+        //Debug.Log("btn clicked");
         SceneManager.LoadScene("sc_01_battleMap");
     }
 
     public void gotoLobbyScene()
     {
-        Debug.Log("btn clicked");
+        //Debug.Log("btn clicked");
         SceneManager.LoadScene("sc_00_lobby");
     }
 

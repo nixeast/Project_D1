@@ -175,10 +175,10 @@ public class IngameUiManager : MonoBehaviour
 
     public void OnClickConfirmCombatExpect()
     {
-        Debug.Log(m_currentCombatAttacker.m_name);
-        Debug.Log(m_currentCombatDefender.m_name);
+        //Debug.Log(m_currentCombatAttacker.m_name);
+        // Debug.Log(m_currentCombatDefender.m_name);
         StartCoroutine(m_gameManager.StartCombatSequence(m_currentCombatAttacker, m_currentCombatDefender));
-        
+
     }
 
     public void OnClickCloseCombatExpect()
@@ -275,7 +275,7 @@ public class IngameUiManager : MonoBehaviour
         {
             m_selectedDeployUnitNum = nUnitNumber;
             ShowDeploymentArea();
-            Debug.Log("selected unit id :" + nUnitNumber);
+            //Debug.Log("selected unit id :" + nUnitNumber);
 
         }
     }
@@ -329,7 +329,8 @@ public class IngameUiManager : MonoBehaviour
             
             tempUnitData.m_unitOriginNumber = newOriginNumber;
             tempUnitData.text_unitNumber.text = tempUnitData.m_unitOriginNumber.ToString();
-            tempUnitData.img_unitPortrait.sprite = m_unitDatabase.GetUnitPortrait(newOriginNumber);
+            //tempUnitData.img_unitPortrait.sprite = m_unitDatabase.GetUnitPortrait(newOriginNumber);
+            tempUnitData.img_unitPortrait.sprite = m_unitDatabase.GetUnitIconSprite(newOriginNumber);
 
             tempUnitData.btn_cardButton.onClick.AddListener(() => OnClickDeployUnitCard(newOriginNumber));
             tempUnitData.btn_cardButton.onClick.AddListener(() => OnClickDeployUnitCard_01(tempUnitData.btn_cardButton.gameObject));

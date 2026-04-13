@@ -85,8 +85,6 @@ public class GameManager : MonoBehaviour
     public GameObject panel_battleResult;
     public bool isEndCombatSequence = false;
 
-
-
     private void Awake()
     {
         instance = this;
@@ -116,6 +114,22 @@ public class GameManager : MonoBehaviour
         Debug.Log("<color=yellow>start battleMap Scene</color>");
     }
 
+    public int CheckAliveEnemyUnitCount()
+    {
+        int nCount = m_enemyUnits.Count;
+        int nData = 0;
+        for (int i = 0; i < nCount; i++)
+        {
+            if (m_enemyUnits[i].IsUnityNull() == false)
+            {
+                nData++;
+                Debug.Log("alive number: " + i);
+            }
+        }
+        Debug.Log("alive enemy count: " + nData);
+        return nData;
+    }
+
     public void InitMissionCondition()
     {
         int nCurrentMissionNumber = GameRoot.s_instance.GetStartMissionNumber();
@@ -137,6 +151,7 @@ public class GameManager : MonoBehaviour
     public void WinLoseCheck()
     {
         m_currentMissionCondition.CheckVictory();
+        m_currentMissionCondition.CheckDefeat();
     }
 
     public void InitTurnInfo()
@@ -149,10 +164,36 @@ public class GameManager : MonoBehaviour
 
     public void UpdateLeftUnitCount()
     {
-        m_currentPlayerUnitCount = m_playerUnits.Count;
-        m_currentEnemyUnitCount = m_enemyUnits.Count;
-        Debug.Log("left player unit count: " + m_currentPlayerUnitCount);
-        Debug.Log("left enemy unit count: " + m_currentEnemyUnitCount);
+        UpdateLeftPlayerUnitCount();
+        UpdateLeftEnemyUnitCount();
+    }
+
+    public void UpdateLeftPlayerUnitCount()
+    {
+        int nCount = m_playerUnits.Count;
+        int nData = 0;
+
+        for(int i = 0; i < nCount; i++)
+        {
+            if (m_playerUnits[i].m_isDead == false) nData++;
+        }
+
+        m_currentPlayerUnitCount = nData;
+        //Debug.Log("m_currentPlayerUnitCount: " + m_currentPlayerUnitCount);
+
+    }
+
+    public void UpdateLeftEnemyUnitCount()
+    {
+        int nCount = m_enemyUnits.Count;
+        int nData = 0;
+
+        for (int i = 0; i < nCount; i++)
+        {
+            if (m_enemyUnits[i].m_isDead == false) nData++;
+        }
+
+        m_currentEnemyUnitCount = nData;
     }
 
     private void LoadGameRoot()
@@ -255,7 +296,7 @@ public class GameManager : MonoBehaviour
                 if (m_currentAttackTiles[i].GetComponent<AttackTarget>().m_assignedUnit.gameObject == m_currentSelectedUnit.gameObject)
                 {
                     attackTarget.m_canAttack = true;
-                    Debug.Log("defender: attacker in my range");
+                    //Debug.Log("defender: attacker in my range");
                 }
             }
         }
@@ -263,10 +304,10 @@ public class GameManager : MonoBehaviour
 
     public bool CheckAttackHit(Unit attackUnit)
     {
-        Debug.Log("start check attack hit");
+        //Debug.Log("start check attack hit");
         int nAttackChance = attackUnit.m_currentAttackChance;
         int nResult = UnityEngine.Random.Range(1, 101);
-        Debug.Log("chance: " + nAttackChance + " / nResult: " + nResult);
+        //Debug.Log("chance: " + nAttackChance + " / nResult: " + nResult);
 
         if (nAttackChance >= 100)
         {
@@ -319,14 +360,14 @@ public class GameManager : MonoBehaviour
     {
         RemoveAttackTargetTiles();
         m_ingameUiManager.panel_combatExpect.SetActive(false);
-        EndCombatPahse(attacker, defender);
+        CombatUnitDeadCheck(attacker, defender);
         isEndCombatSequence = true;
 
         UpdateLeftUnitCount();
         WinLoseCheck();
     }
 
-    public void EndCombatPahse(Unit attacker, Unit defender)
+    public void CombatUnitDeadCheck(Unit attacker, Unit defender)
     {
         attacker.DeadCheck(attacker);
         defender.DeadCheck(defender);
@@ -401,10 +442,70 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public Unit AssisgnAttackTarget(Unit _mainUnit)
+    {
+        Debug.Log("searching cloest player unit..");
+
+        List<Unit> tempUnitList = new List<Unit>();
+
+        Unit resultUnit = null;
+        int nCount = m_playerUnits.Count;
+        for (int i = 0; i < nCount; i++)
+        {
+            if (m_playerUnits[i].m_isDead == false)
+            {
+                Unit targetUnit = m_playerUnits[i];
+                tempUnitList.Add(targetUnit);
+                
+            }
+        }
+
+        if (tempUnitList.Count > 0)
+        {
+            int nAliveUnitCount = tempUnitList.Count;
+            //int nUnitNumber = 0;
+            float fDistToClosestPlayerUnit = Vector3.Distance(tempUnitList[0].transform.position, _mainUnit.transform.position);
+            resultUnit = tempUnitList[0];
+            for (int i =0; i < nAliveUnitCount; i++)
+            {
+                float tempDist = Vector3.Distance(tempUnitList[i].transform.position, _mainUnit.transform.position);
+                if(tempDist < fDistToClosestPlayerUnit)
+                {
+                    fDistToClosestPlayerUnit = tempDist;
+                    resultUnit = tempUnitList[i];
+                }
+            }
+            Debug.Log("cloest player unit: "+ resultUnit.m_name);
+            return resultUnit;
+        }
+
+        return resultUnit;
+    }
     
     public void AssignTargetUnit(Unit mainUnit)
     {
-        mainUnit.m_currentTargetUnit = m_playerUnits[0].gameObject;
+        Unit tempUnit = AssisgnAttackTarget(mainUnit);
+        //Unit targetUnit = null;
+        //int nCount = m_playerUnits.Count;
+        //for(int i=0;i<nCount;i++)
+        //{
+        //    if(m_playerUnits[i].m_isDead == false)
+        //    {
+        //        targetUnit = m_playerUnits[i];
+        //        i = nCount;
+        //    }
+        //}
+
+        if (tempUnit != null)
+        {
+            mainUnit.m_currentTargetUnit = tempUnit.gameObject;
+
+        }
+        else
+        {
+            Debug.Log("no target unit exist");
+        }
     }
 
     public int CommandEnemyToFindMovePos(Unit mainUnit)
@@ -413,9 +514,15 @@ public class GameManager : MonoBehaviour
         int nMoveTileCount = m_currentMoveTiles.Count;
         float fDistance;
         fDistance = Vector3.Distance(m_currentMoveTiles[0].transform.position, mainUnit.transform.position);
+        
         int nCloseMoveTileNumber = 0;
         for (int j = 0; j < nMoveTileCount; j++)
         {
+            if(mainUnit.m_currentTargetUnit == null)
+            {
+                return nCloseMoveTileNumber;
+            }
+
             float newDistance = Vector3.Distance(m_currentMoveTiles[j].transform.position, mainUnit.m_currentTargetUnit.transform.position);
             if (newDistance < fDistance)
             {
@@ -490,17 +597,19 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(1.0f);
                     CommandEnemyToCheckAttackTarget();
                     yield return new WaitUntil(() => isEndCombatSequence == true);
-                    Debug.Log("receive wait until success..");
-                    //yield return new WaitForSeconds(1.0f);
-                    //RemoveAttackTargetTiles();
                 }
                 else
                 {
-                    Debug.Log("dead but in list found: " + m_enemyUnits[i].m_name);
+                    Debug.Log("dead but in list found: enemy[" + i + "]");
+                }
+
+                UpdateLeftPlayerUnitCount();
+                if(m_currentPlayerUnitCount <= 0)
+                {
+                    WinLoseCheck();
+                    yield break;
                 }
             }
-
-            //m_ingameUiManager.UpdateTurnUI();
         }
 
         yield return new WaitForSeconds(1.0f);
@@ -533,7 +642,7 @@ public class GameManager : MonoBehaviour
     {
         int nMeleAttackRange = 1;
         nMeleAttackRange = selectedUnit.m_stat_attackRange;
-        Debug.Log("atk range: "+selectedUnit.m_stat_attackRange);
+        //Debug.Log("atk range: "+selectedUnit.m_stat_attackRange);
 
         Vector3 unitPos = selectedUnit.gameObject.transform.position;
         int minColumn = nMeleAttackRange * -1;
@@ -603,7 +712,7 @@ public class GameManager : MonoBehaviour
             if (hit != null && hit.gameObject != selectedUnit.gameObject)
             {
                 m_currentAttackTiles[i].GetComponent<AttackTarget>().m_assignedUnit = hit.gameObject.GetComponent<Unit>();
-                Debug.Log("find enemy with Attack overlapPoint");
+                //Debug.Log("find enemy with Attack overlapPoint");
             }
         }
     }
@@ -619,26 +728,20 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // 2. [������ ����] ���� ������ �� �ִ� ���� ����� 0�Դϴ�.
         distanceMap[startX, startY] = 0;
 
-        // 3. [���� �۶߸���] �̵��¸�ŭ �ݺ��Ͽ� �ֺ����� ���� �����ϴ�.
-        // ���� �̵����� 4���, 0�ܰ���� 3�ܰ���� �ֺ��� �����մϴ�.
         for (int currentStep = 0; currentStep < movePower; currentStep++)
         {
-            // �� ��ü�� ������ "���� �ܰ迡�� Ž���� Ÿ��"�� ã���ϴ�.
             for (int x = 0; x < m_mapSizeX; x++)
             {
                 for (int y = 0; y < m_mapSizeY; y++)
                 {
-                    // ���� �� Ÿ���� ��� ������ ������ Ÿ��(currentStep)�̶��
                     if (distanceMap[x, y] == currentStep)
                     {
-                        // �� Ÿ���� ��, ��, ��, �� 4������ �˻��մϴ�.
-                        CheckNeighborTile(x, y + 1, currentStep + 1); // ��
-                        CheckNeighborTile(x, y - 1, currentStep + 1); // ��
-                        CheckNeighborTile(x - 1, y, currentStep + 1); // ��
-                        CheckNeighborTile(x + 1, y, currentStep + 1); // ��
+                        CheckNeighborTile(x, y + 1, currentStep + 1);
+                        CheckNeighborTile(x, y - 1, currentStep + 1);
+                        CheckNeighborTile(x - 1, y, currentStep + 1);
+                        CheckNeighborTile(x + 1, y, currentStep + 1);
                     }
                 }
             }
@@ -686,45 +789,33 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // ������ Ÿ���� ���� �Ǵ� ������ �˻��ϴ� ���� �Լ�
     void CheckNeighborTile(int targetX, int targetY, int nextStepValue)
     {
-        // [���� 1] �� ������ �������� Ȯ��
         if (targetX < 0 || targetX >= m_mapSizeX || targetY < 0 || targetY >= m_mapSizeY)
         {
-            return; // �� ���̸� �ߴ�
-        }
-
-        // [���� 2] �̹� �� ª�� ��η� ���� ���� �ִ��� Ȯ��
-        if (distanceMap[targetX, targetY] != -1)
-        {
-            return; // �̹� �湮������ �ߴ�
-        }
-
-        // [���� 3] �� ����(����Ų)�� �� �ڸ��� �ִ��� Ȯ�� (���� �߿�!)
-        // CheckIfEnemyExists�� ���� ������ true�� ��ȯ�ϴ� ������ �Լ��Դϴ�.
-        if (CheckIfEnemyExists(targetX, targetY) == true)
-        {
-            // ���� �ִٸ� �� Ÿ���� '���� ��'�� �˴ϴ�. 
-            // �Ÿ� ���� ������� �ʰ� �ǳʶݴϴ�. 
-            // �̷��� �ϸ� �� ���� Ÿ�Ϸδ� ������ ���������� ���մϴ�.
             return;
         }
 
-        // [���� 4] ��ֹ�(��, ���� ��)�� �ִ��� Ȯ��
+        if (distanceMap[targetX, targetY] != -1)
+        {
+            return;
+        }
+
+        if (CheckIfEnemyExists(targetX, targetY) == true)
+        {
+            return;
+        }
+
         if (CheckIfObstacle(targetX, targetY) == true)
         {
             return;
         }
 
-        // ��� ������ ����ߴٸ�, �� Ÿ�ϱ��� ���� �� �ʿ��� �̵����� ����մϴ�.
         distanceMap[targetX, targetY] = nextStepValue;
     }
 
-    // ���ظ� ���� ���� ���� �Լ� (���� ���� �ý��ۿ� ���� ���� �ʿ�)
     bool CheckIfEnemyExists(int x, int y)
     {
-        // �� ������ �ش� ��ǥ�� �ִ��� �Ǻ��ϴ� ������ �� �ڸ��Դϴ�.
         Vector2 currentPos = new Vector2(x, y);
         List<Vector2> tempEnemyPositionList = new List<Vector2>();
 
@@ -735,7 +826,7 @@ public class GameManager : MonoBehaviour
 
             for (int i = 0; i < nCounterForceCount; i++)
             {
-                if (m_enemyUnits[i] != null)
+                if (m_enemyUnits[i].m_isDead == false)
                 {
                     Vector2 tempPos;
                     tempPos.x = m_enemyUnits[i].gameObject.transform.position.x + 9.0f;
@@ -743,7 +834,7 @@ public class GameManager : MonoBehaviour
                     //tempEnemyPositionList.Add(tempPos);
                     if (tempPos.x == currentPos.x && tempPos.y == currentPos.y)
                     {
-                        Debug.Log("find enemy unit in movement range");
+                        //Debug.Log("find enemy unit in movement range");
                         return true;
                     }
 
@@ -754,17 +845,24 @@ public class GameManager : MonoBehaviour
         {
             nCounterForceCount = m_playerUnits.Count;
 
+            
+
             for (int i = 0; i < nCounterForceCount; i++)
             {
-                Vector2 tempPos;
-                tempPos.x = m_playerUnits[i].gameObject.transform.position.x + 9.0f;
-                tempPos.y = m_playerUnits[i].gameObject.transform.position.y + 5.0f;
-
-                if (tempPos.x == currentPos.x && tempPos.y == currentPos.y)
+                if (m_playerUnits[i].m_isDead == false)
                 {
-                    Debug.Log("find player unit in movement range");
-                    return true;
+                    Vector2 tempPos;
+                    tempPos.x = m_playerUnits[i].gameObject.transform.position.x + 9.0f;
+                    tempPos.y = m_playerUnits[i].gameObject.transform.position.y + 5.0f;
+
+                    if (tempPos.x == currentPos.x && tempPos.y == currentPos.y)
+                    {
+                        //Debug.Log("find player unit in movement range");
+                        return true;
+                    }
+
                 }
+
             }
         }
         
@@ -775,7 +873,6 @@ public class GameManager : MonoBehaviour
 
     bool CheckIfObstacle(int x, int y)
     {
-        // ������ ������ �ٸ� ���� ���������� �ִ��� �Ǻ��ϴ� �ڸ��Դϴ�.
         return false;
     }
 
@@ -785,8 +882,6 @@ public class GameManager : MonoBehaviour
         float cx = unitPos.x;
         float cy = unitPos.y;
 
-        Debug.Log("unitAP: " + nUnitAp);
-        //Debug.Log("unitPos: " + cx + "," + cy);
         int ix = Mathf.FloorToInt(cx) + 9;
         int iy = Mathf.FloorToInt(cy) + 5;
         FindMovableArea(ix, iy, nUnitAp);
@@ -874,7 +969,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("unitName: " + unitName);
+            //Debug.Log("unitName: " + unitName);
         }
 
         return m_tempSprite;
@@ -927,7 +1022,7 @@ public class GameManager : MonoBehaviour
         tileMap_startingPoints.SetActive(false);
         
         Debug.Log("StartBattle");
-        Debug.Log("player unit list");
+        //Debug.Log("player unit list");
 
         int nLength = m_playerUnits.Count;
         int nCount = 0;

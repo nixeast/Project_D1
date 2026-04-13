@@ -22,6 +22,7 @@ public struct s_AreaInfo
     public int x, y;
     public int m_areaID;
     public string m_name;
+    public int m_spawnTurn;
 }
 
 [System.Serializable]
