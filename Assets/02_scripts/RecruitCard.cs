@@ -24,18 +24,6 @@ public class RecruitCard : MonoBehaviour
     public Button btn_portrait_unit;
     public UIManager m_uiManager;
     public Image image_soldOut;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     public void UpdateUI()
     {
@@ -44,8 +32,6 @@ public class RecruitCard : MonoBehaviour
         text_unitTrait.text = m_unitTrait;
         text_goldCost.text = m_goldCost.ToString();
         text_honorCost.text = m_honorCost.ToString();
-        
-
     }
     
     public void AssignSelectedUnit()

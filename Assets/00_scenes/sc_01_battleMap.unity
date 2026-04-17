@@ -26826,6 +26826,7 @@ MonoBehaviour:
   m_selectedUnitCard: {fileID: 0}
   panel_battleInfo: {fileID: 1265124346}
   panel_battleResult: {fileID: 1568744778}
+  isEndCombatSequence: 0
 --- !u!4 &1638072633
 Transform:
   m_ObjectHideFlags: 0

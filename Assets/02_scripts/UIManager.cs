@@ -138,7 +138,7 @@ public class UIManager : MonoBehaviour
     public void UpdateUnitCapacityUI()
     {
         string tempText = m_playerDataManager.GetPlayerData().m_currentUnits.Count.ToString();
-        text_unitCapacity.text = tempText + " / " + m_maxUnitCapacity.ToString();
+        text_unitCapacity.text = tempText + "/" + m_maxUnitCapacity.ToString();
     }
     public void OnClickMissionIcon(int nMissionNumber)
     {
@@ -185,7 +185,7 @@ public class UIManager : MonoBehaviour
             UnitData tempUnitData;
             m_unitDataBase.m_unitDataDic.TryGetValue(nTempID, out tempUnitData);
             
-            string path_portrait = tempUnitData.m_PortraitPath;
+            string path_portrait = tempUnitData.m_unitIcon_path;
             tempEnemyUnitCard.img_enemyPortrait.sprite = Resources.Load<Sprite>(path_portrait);
             
             m_missionEnemyBtnList.Add(newEnemyCard);
