@@ -145,3 +145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_gameManager: {fileID: 0}
   m_ingameUiManager: {fileID: 0}
+  m_tileID: 2
+  m_tileName: 
+  m_tileType: Ground

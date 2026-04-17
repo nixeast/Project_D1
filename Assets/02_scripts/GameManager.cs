@@ -485,6 +485,11 @@ public class GameManager : MonoBehaviour
     
     public void AssignTargetUnit(Unit mainUnit)
     {
+        m_ingameUiManager.text_selectedUnitName.text = mainUnit.m_name;
+        int nUnitID = mainUnit.m_unitID;
+        m_ingameUiManager.img_selectedUnitPortrait.sprite = m_ingameUiManager.m_unitDatabase.GetUnitPortrait(nUnitID);
+        m_ingameUiManager.img_selectedUnitPortrait.gameObject.SetActive(true);
+
         Unit tempUnit = AssisgnAttackTarget(mainUnit);
         //Unit targetUnit = null;
         //int nCount = m_playerUnits.Count;

@@ -6,6 +6,9 @@ public class CommonTile : MonoBehaviour
 {
     public GameManager m_gameManager;
     public IngameUiManager m_ingameUiManager;
+    public int m_tileID;
+    public string m_tileName;
+    public string m_tileType;
     // Start is called before the first frame update
     void Start()
     {

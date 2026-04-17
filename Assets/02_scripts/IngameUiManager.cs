@@ -27,6 +27,7 @@ public class IngameUiManager : MonoBehaviour
     public GameObject panel_unitOrderMenu;
     public TMP_Text text_selectedUnitName;
     public TMP_Text text_selectedUnitState;
+    public Image img_selectedUnitPortrait;
 
     [Header("Mision Data InFo")]
     public int m_missionNumber;
@@ -115,7 +116,7 @@ public class IngameUiManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // ¸¶¿ì½º ¿ÞÂÊ Å¬¸¯
+        if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -127,7 +128,8 @@ public class IngameUiManager : MonoBehaviour
             if (terrainHit != null)
             {
                 ShowTileInfoPanel();
-                text_selectedTileType.text = terrainHit.gameObject.ToString();
+                //text_selectedTileType.text = terrainHit.gameObject.ToString();
+                text_selectedTileType.text = terrainHit.GetComponent<CommonTile>().m_tileType;
             }
 
             if(unitHit != null)
@@ -136,6 +138,9 @@ public class IngameUiManager : MonoBehaviour
                 ShowUnitOderPanel();
                 text_selectedUnitName.text = unitHit.GetComponent<Unit>().m_name;
                 //text_selectedUnitState.text = unitHit.GetComponent<Unit>().m_currentControlMode.ToString();
+                int nUnitID = unitHit.GetComponent<Unit>().m_unitID;
+                img_selectedUnitPortrait.sprite = m_unitDatabase.GetUnitPortrait(nUnitID);
+                img_selectedUnitPortrait.gameObject.SetActive(true);
             }
             
         }
@@ -282,7 +287,7 @@ public class IngameUiManager : MonoBehaviour
 
     private void OnClickDeployUnitCard_01(GameObject clickedUnitObj)
     {
-        //Debug.Log("Å¬¸¯µÈ À¯´Ö ¹öÆ° ÀÌ¸§: " + clickedUnitObj.name);
+        //Debug.Log("Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½: " + clickedUnitObj.name);
         m_selectedPlayerUnitCard = clickedUnitObj;
 
     }

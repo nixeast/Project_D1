@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: b3fc1859992157244a1c7173fcb0844e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bc50c60df0b9c4fc3a59174af52412ec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -187,6 +187,8 @@ MonoBehaviour:
   m_isMoved: 0
   m_canAttack: 1
   m_stat_attackRange: 0
+  m_isDead: 0
+  m_currentAttackChance: 0
   m_currentTargetUnit: {fileID: 0}
   m_currentControlMode: 0
   m_unitSaveData:
