@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 8888594027370597941}
   - component: {fileID: 4025077036048336113}
   - component: {fileID: 2433025699324313872}
-  - component: {fileID: 8159680318431418654}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: tile_301_object_Boulder
   m_TagString: object
   m_Icon: {fileID: 0}
@@ -81,7 +80,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 0.71, y: 0.68}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -123,8 +122,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.64, y: 0.64}
+    oldSize: {x: 1.109375, y: 1.0625}
+    newSize: {x: 0.71, y: 0.68}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -159,115 +158,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8159680318431418654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578645706863797812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f348e0586dc1d45caab5437c565acf2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_gameManager: {fileID: 0}
-  m_ingameUiManager: {fileID: 0}
-  m_unitID: 105
-  m_name: 
-  m_stat_hp: 0
-  m_stat_atk: 0
-  m_stat_def: 0
-  m_stat_hit: 0
-  m_stat_eva: 0
-  m_stat_ap: 0
-  m_stat_moveRange: 0
-  m_stat_moveRange_modified: 0
-  m_unitDatabase: {fileID: 0}
-  m_isMoved: 0
-  m_canAttack: 1
-  m_stat_attackRange: 0
-  m_currentTargetUnit: {fileID: 0}
-  m_currentControlMode: 0
-  m_unitSaveData:
-    unitName: 
-    level: 0
-    upgrade: 0
-    m_unitOriginalNumber: 0
-    m_weapon:
-      m_itemNumber: 0
-      m_itemName: 
-      m_attackValue: 0
-      m_defenseValue: 0
-      m_moraleValue: 0
-      m_empty: 1
-    m_armor:
-      m_itemNumber: 0
-      m_itemName: 
-      m_attackValue: 0
-      m_defenseValue: 0
-      m_moraleValue: 0
-      m_empty: 1
-    m_charm_01:
-      m_itemNumber: 0
-      m_itemName: 
-      m_attackValue: 0
-      m_defenseValue: 0
-      m_moraleValue: 0
-      m_empty: 1
-    m_charm_02:
-      m_itemNumber: 0
-      m_itemName: 
-      m_attackValue: 0
-      m_defenseValue: 0
-      m_moraleValue: 0
-      m_empty: 1
-    m_health: 0
-    m_attack: 0
-    m_defense: 0
-    m_morale: 0
-    m_unitOriginData:
-      m_UnitID: 0
-      m_UnitName: 
-      m_unitType: 
-      m_unitTier: 0
-      m_PortraitPath: 
-      m_level: 0
-      m_stat_HP: 0
-      m_stat_ATK: 0
-      m_stat_DEF: 0
-      m_stat_HIT: 0
-      m_stat_EVA: 0
-      m_stat_AP: 0
-      m_trait_01: 
-      m_trait_02: 
-      m_passiveSkill_01: 
-      m_passiveSkill_02: 
-      m_passiveSkill_03: 
-      m_passiveSkill_04: 
-      m_activeSkill_01: 
-      m_activeSkill_02: 
-      m_activeSkill_03: 
-      m_trait_01_path: 
-      m_trait_02_path: 
-      m_passiveSkill_01_path: 
-      m_passiveSkill_02_path: 
-      m_passiveSkill_03_path: 
-      m_passiveSkill_04_path: 
-      m_activeSkill_01_path: 
-      m_activeSkill_02_path: 
-      m_activeSkill_03_path: 
-      m_equip_weapon: 
-      m_equip_armor: 
-      m_equip_accessary: 
-      m_equip_weapon_path: 
-      m_equip_armor_path: 
-      m_equip_accessary_path: 
-      m_unitIcon_path: 
-      m_stat_attackRange: 0
-    m_atkRange: 0
-  m_myUnitCard: {fileID: 0}
-  m_spriteRenderer: {fileID: 8888594027370597941}
-  isCloseCombat: 0
-  e_currentUnitState: 0
-  m_closeCombatOpponents: []
