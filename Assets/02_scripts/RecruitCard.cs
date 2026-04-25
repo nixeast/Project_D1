@@ -15,7 +15,7 @@ public class RecruitCard : MonoBehaviour
 
     public TMP_Text text_unitName;
     public TMP_Text text_unitType;
-    public TMP_Text text_unitTrait;
+    //public TMP_Text text_unitTrait;
     public TMP_Text text_goldCost;
     public TMP_Text text_honorCost;
 
@@ -29,7 +29,7 @@ public class RecruitCard : MonoBehaviour
     {
         text_unitName.text = m_unitName;
         text_unitType.text = m_unitType;
-        text_unitTrait.text = m_unitTrait;
+        //text_unitTrait.text = m_unitTrait;
         text_goldCost.text = m_goldCost.ToString();
         text_honorCost.text = m_honorCost.ToString();
     }

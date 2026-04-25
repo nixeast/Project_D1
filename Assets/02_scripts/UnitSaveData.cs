@@ -25,5 +25,6 @@ public class UnitSaveData
     public UnitData m_unitOriginData;
 
     public int m_atkRange;
+    public string m_unitType;
    
 }

@@ -21,18 +21,6 @@ public class UnitCard : MonoBehaviour
     public bool isSelected;
     public bool isInBattleField;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void InitUnitCardSelectButton()
     {
         m_selectButton.onClick.AddListener(OnSelectButtonClicked);

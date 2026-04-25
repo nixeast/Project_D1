@@ -26,6 +26,22 @@ public class UIManager : MonoBehaviour
 {
     public PlayerDataManager m_playerDataManager;
 
+    [Header("UI Panels")]
+    public Button btn_region;
+    public Button btn_quest;
+    public Button btn_playerUnits;
+    public Button btn_unitRecruit;
+
+    public GameObject panel_region;
+    public GameObject panel_quest;
+    public GameObject panel_playerUnits;
+    //public GameObject panel_unitRecruit;
+    public GameObject panel_recruit;
+    public GameObject panel_campaignPanels;
+    public GameObject panel_battleReady;
+    
+    List<GameObject> m_currentMainMenuPanels = new List<GameObject>();
+
     [Header("Unit Management")]
     public GameObject panel_playerUnit;
     public TMP_Text text_unitCapacity;
@@ -55,7 +71,7 @@ public class UIManager : MonoBehaviour
 
     public TMP_Text tmp_currentUnitHit;
     public TMP_Text tmp_currentUnitEvade;
-    public TMP_Text tmp_currentUnitAp;
+    //public TMP_Text tmp_currentUnitAp;
 
     public Image img_currentUnit_trait_01;
     public Image img_currentUnit_trait_02;
@@ -67,22 +83,29 @@ public class UIManager : MonoBehaviour
     public Image img_currentUnit_active_02;
     public Image img_currentUnit_active_03;
 
-    public Button btn_currentUnit_slotWeapon;
-    public Button btn_currentUnit_slotArmor;
-    public Button btn_currentUnit_slotAccessory_01;
+    //public Button btn_currentUnit_slotWeapon;
+    //public Button btn_currentUnit_slotArmor;
+    //public Button btn_currentUnit_slotAccessory_01;
     //public Button btn_currentUnit_slotAccessory_02;
     [SerializeField] private Sprite m_testSprite;
     public Image img_portrait;
 
     [Header("Unit Recruit")]
     public UnitRecruitDataBase m_unitRecruitDatabase;
-    public GameObject panel_recruit;
     public GameObject prefab_recruitCard;
     public RecruitCard m_selectedRecruitCard;
     public string m_selectedRecruitUnitName;
     public bool isRecruitUnitSelected;
     public List<RecruitCard> m_recruitCardList = new List<RecruitCard>();
-    public RectTransform scrollViewContent_recruit;
+    public RectTransform scrollViewContent_recruit_tanker;
+    public RectTransform scrollViewContent_recruit_dealer;
+    public RectTransform scrollViewContent_recruit_ranger;
+    public RectTransform scrollViewContent_recruit_supporter;
+    public List<GameObject> m_recruitTypePanels = new List<GameObject>();
+    public GameObject panel_recruit_tanker;
+    public GameObject panel_recruit_dealer;
+    public GameObject panel_recruit_ranger;
+    public GameObject panel_recruit_supporter;
 
     [Header("Unit Card")]
     public GameObject panel_characterInfo;
@@ -114,12 +137,12 @@ public class UIManager : MonoBehaviour
     {
         SubscribeSlotButton();
         m_maxUnitCapacity = 10;
-
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        InitCampaignUI();
         m_playerDataManager.CreateStarterUnits();
         LoadStorageItem();
         SubscribeStorageSlotButton();
@@ -133,6 +156,56 @@ public class UIManager : MonoBehaviour
         InitDoomListUI();
         //TestDwarfResource();
         UpdateUnitCapacityUI();
+    }
+
+    public void OnClickButtonRecruitType(int nTypeNumber)
+    {
+        int nCount = m_recruitTypePanels.Count;
+        for(int i = 0; i < nCount; i++)
+        {
+            m_recruitTypePanels[i].gameObject.SetActive(false);
+        }
+        m_recruitTypePanels[nTypeNumber].gameObject.SetActive(true);
+    }
+
+    public void OnClickButtonBattleReady()
+    {
+        panel_campaignPanels.SetActive(false);
+        panel_battleReady.SetActive(true);
+
+    }
+
+    public void OnClickButtonBattleReadyCancel()
+    {
+        panel_campaignPanels.SetActive(true);
+        panel_battleReady.SetActive(false);
+    }
+
+    private void InitCampaignUI()
+    {
+        //m_currentMainMenuPanels;
+        m_currentMainMenuPanels.Add(panel_region);
+        m_currentMainMenuPanels.Add(panel_quest);
+        m_currentMainMenuPanels.Add(panel_playerUnits);
+        m_currentMainMenuPanels.Add(panel_recruit);
+
+        m_recruitTypePanels.Add(panel_recruit_tanker);
+        m_recruitTypePanels.Add(panel_recruit_dealer);
+        m_recruitTypePanels.Add(panel_recruit_ranger);
+        m_recruitTypePanels.Add(panel_recruit_supporter);
+    }
+
+    public void OnClickButtonMainMenu(int panelNumber)
+    {
+        int nCount = m_currentMainMenuPanels.Count;
+        //Debug.Log(nCount);
+        for(int i = 0; i < nCount; i++)
+        {
+            m_currentMainMenuPanels[i].gameObject.SetActive(false);
+        }
+
+        m_currentMainMenuPanels[panelNumber].gameObject.SetActive(true);
+
     }
 
     public void UpdateUnitCapacityUI()
@@ -311,8 +384,7 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < nCount; i++)
         {
             arrResult[i] = new int();
-            int nRandNum = 0;
-            nRandNum = Random.Range(0, 100);
+            int nRandNum = Random.Range(0, 100);
             
             if(nRandNum < nData1)
             {
@@ -338,21 +410,32 @@ public class UIManager : MonoBehaviour
 
     public void AssignRecruitCardInfo(int recruit_01, int recruit_02, int recruit_03)
     {
-        int[] nRecruitSlots = new int[3];
+        int[] nRecruitSlots = new int[12];
         
-        for (int i = 0; i < 3; i++)
-        {
-            nRecruitSlots[i] = new int();
-        }
+        //for (int i = 0; i < 6; i++)
+        //{
+        //    nRecruitSlots[i] = new int();
+        //}
 
-        nRecruitSlots[0] = recruit_01;
-        nRecruitSlots[1] = recruit_02;
-        nRecruitSlots[2] = recruit_03;
+        //nRecruitSlots[0] = recruit_01;
+        //nRecruitSlots[1] = recruit_02;
+        //nRecruitSlots[2] = recruit_03;
+        nRecruitSlots[0] = 0;
+        nRecruitSlots[1] = 10;
+        nRecruitSlots[2] = 20;
+        nRecruitSlots[3] = 1;
+        nRecruitSlots[4] = 11;
+        nRecruitSlots[5] = 21;
+        nRecruitSlots[6] = 2;
+        nRecruitSlots[7] = 12;
+        nRecruitSlots[8] = 22;
+        nRecruitSlots[9] = 3;
+        nRecruitSlots[10] = 13;
+        nRecruitSlots[11] = 23;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 12; i++)
         {
             UnitRecruitData tempData = m_unitRecruitDatabase.GetRecruitData(nRecruitSlots[i]);
-            
             m_recruitCardList[i].m_recruitID = tempData.m_recruitID;
             m_recruitCardList[i].m_unitName = tempData.m_unitName;
             m_recruitCardList[i].m_unitType = tempData.m_unitType;
@@ -361,12 +444,10 @@ public class UIManager : MonoBehaviour
             m_recruitCardList[i].m_unitTrait = tempData.m_basicTraitName;
             m_recruitCardList[i].btn_portrait_unit.image.sprite = tempData.m_portrait_image;
             m_recruitCardList[i].image_icon_trait.sprite = tempData.m_basicTrait_image;
-
             m_recruitCardList[i].UpdateUI();
-
         }
-        
-            
+
+
     }
 
     public void CreateRecruitCard()
@@ -374,13 +455,42 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             GameObject cardObj = Instantiate(prefab_recruitCard);
-            cardObj.transform.SetParent(scrollViewContent_recruit, false);
+            cardObj.transform.SetParent(scrollViewContent_recruit_tanker, false);
             RecruitCard recruitObj = cardObj.GetComponent<RecruitCard>();
 
             recruitObj.m_uiManager = this;
             m_recruitCardList.Add(recruitObj);
         }
-        
+
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject cardObj = Instantiate(prefab_recruitCard);
+            cardObj.transform.SetParent(scrollViewContent_recruit_dealer, false);
+            RecruitCard recruitObj = cardObj.GetComponent<RecruitCard>();
+
+            recruitObj.m_uiManager = this;
+            m_recruitCardList.Add(recruitObj);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject cardObj = Instantiate(prefab_recruitCard);
+            cardObj.transform.SetParent(scrollViewContent_recruit_ranger, false);
+            RecruitCard recruitObj = cardObj.GetComponent<RecruitCard>();
+
+            recruitObj.m_uiManager = this;
+            m_recruitCardList.Add(recruitObj);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject cardObj = Instantiate(prefab_recruitCard);
+            cardObj.transform.SetParent(scrollViewContent_recruit_supporter, false);
+            RecruitCard recruitObj = cardObj.GetComponent<RecruitCard>();
+
+            recruitObj.m_uiManager = this;
+            m_recruitCardList.Add(recruitObj);
+        }
 
     }
     
@@ -538,7 +648,8 @@ public class UIManager : MonoBehaviour
     {
         m_selectedUnitCard = selectedUnitCard;
         panel_characterInfo.gameObject.SetActive(true);
-        tmp_currentUnitName.text = m_selectedUnitCard.m_unitName;
+        //tmp_currentUnitName.text = m_selectedUnitCard.m_unitName;
+        tmp_currentUnitName.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_unitType;
         RefreshUnitStats();
     }
 
@@ -551,7 +662,7 @@ public class UIManager : MonoBehaviour
             //tmp_currentUnitMorale.text = m_selectedUnitCard.m_unitSaveData.m_morale.ToString();
             tmp_currentUnitHit.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_HIT.ToString();
             tmp_currentUnitEvade.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_EVA.ToString();
-            tmp_currentUnitAp.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_AP.ToString();
+            //tmp_currentUnitAp.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_AP.ToString();
 
             int attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack;
             tmp_currentUnitAttack.text = attackValueResult.ToString();
@@ -567,7 +678,7 @@ public class UIManager : MonoBehaviour
             string tempPath_active_02 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_activeSkill_02_path;
             string tempPath_active_03 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_activeSkill_03_path;
 
-            img_portrait.sprite = Resources.Load<Sprite>(tempPath_portrait);
+            //img_portrait.sprite = Resources.Load<Sprite>(tempPath_portrait);
             img_currentUnit_trait_01.sprite = Resources.Load<Sprite>(tempPath_trait_01);
             img_currentUnit_trait_02.sprite = Resources.Load<Sprite>(tempPath_trait_02);
             img_currentUnit_passive_01.sprite = Resources.Load<Sprite>(tempPath_passive_01);
@@ -582,9 +693,9 @@ public class UIManager : MonoBehaviour
             string tempPath_armor = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_equip_armor_path;
             string tempPath_accessary = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_equip_accessary_path;
 
-            btn_currentUnit_slotWeapon.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(tempPath_weapon);
-            btn_currentUnit_slotArmor.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(tempPath_armor);
-            btn_currentUnit_slotAccessory_01.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(tempPath_accessary);
+            //btn_currentUnit_slotWeapon.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(tempPath_weapon);
+            //btn_currentUnit_slotArmor.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(tempPath_armor);
+            //btn_currentUnit_slotAccessory_01.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(tempPath_accessary);
 
             // SetSpriteByItemName("longSword");
 
@@ -592,27 +703,27 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void SetSpriteByItemName(string itemName)
-    {
+    //public void SetSpriteByItemName(string itemName)
+    //{
 
-        if(m_selectedUnitCard.m_unitSaveData.m_weapon == null)
-        {
-            //Debug.Log(m_selectedUnitCard.m_unitSaveData.m_weapon);
-            btn_currentUnit_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
-            return;
-        }
+    //    if(m_selectedUnitCard.m_unitSaveData.m_weapon == null)
+    //    {
+    //        //Debug.Log(m_selectedUnitCard.m_unitSaveData.m_weapon);
+    //        btn_currentUnit_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
+    //        return;
+    //    }
 
-        if (m_selectedUnitCard.m_unitSaveData.m_weapon.m_itemName == itemName)
-        {
-            btn_currentUnit_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(m_testSprite);
-            Debug.Log("find " + itemName);
-        }
-        else
-        {
-            btn_currentUnit_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
-            Debug.Log("can't find " + itemName);
-        }
-    }
+    //    if (m_selectedUnitCard.m_unitSaveData.m_weapon.m_itemName == itemName)
+    //    {
+    //        btn_currentUnit_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(m_testSprite);
+    //        Debug.Log("find " + itemName);
+    //    }
+    //    else
+    //    {
+    //        btn_currentUnit_slotWeapon.GetComponent<ItemSlotButton>().setIconImage(null);
+    //        Debug.Log("can't find " + itemName);
+    //    }
+    //}
 
     public void HideCharacterInfoPanel()
     {
