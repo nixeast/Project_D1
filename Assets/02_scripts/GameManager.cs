@@ -1,14 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using System.Net.Http.Headers;
-using System;
 using TMPro;
 using UnityEngine.UI;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using Unity.VisualScripting.Dependencies.Sqlite;
 
 public enum eTurnOwner
 {
@@ -120,7 +114,7 @@ public class GameManager : MonoBehaviour
         int nData = 0;
         for (int i = 0; i < nCount; i++)
         {
-            if (m_enemyUnits[i].IsUnityNull() == false)
+            if (m_enemyUnits[i] != null)
             {
                 nData++;
                 Debug.Log("alive number: " + i);
