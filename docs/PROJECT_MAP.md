@@ -2,10 +2,12 @@
 
 드워프(플레이어) vs 버민킨(적) 세력 구도의 **Unity 2D SRPG** 프로젝트 참조 문서.
 
-- Unity 버전: **2022.3.62f3**
+- Unity 버전: **6000.3.7f1** (Unity 6)
 - 주요 패키지: 2D Feature, Tilemap, TextMeshPro, uGUI, Input System
 - 데이터 저장: `Application.persistentDataPath/playerData.json` (JsonUtility)
 
+> 기획 내용은 [GDD](GDD/README.md)를 참고하세요.
+>
 > 이 문서는 폴더·파일 위치를 빠르게 찾기 위한 지도입니다. 구조가 바뀌면 함께 갱신하세요.
 
 ---
