@@ -875,7 +875,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void MakeMoveTargets(Unit selectedUnit, int nUnitAp)
+    public void MakeMoveTargets(Unit selectedUnit, int nMoveRange)
     {
         Vector3 unitPos = selectedUnit.gameObject.transform.position;
         float cx = unitPos.x;
@@ -883,7 +883,7 @@ public class GameManager : MonoBehaviour
 
         int ix = Mathf.FloorToInt(cx) + 9;
         int iy = Mathf.FloorToInt(cy) + 5;
-        FindMovableArea(ix, iy, nUnitAp);
+        FindMovableArea(ix, iy, nMoveRange);
 
     }
 

@@ -225,7 +225,7 @@ public class IngameUiManager : MonoBehaviour
         text_unitinfo_player_def.text = leftUnit.m_stat_def.ToString();
         text_unitinfo_player_hit.text = leftUnit.m_stat_hit.ToString();
         text_unitinfo_player_eva.text = leftUnit.m_stat_eva.ToString();
-        text_unitinfo_player_ap.text = leftUnit.m_stat_ap.ToString();
+        text_unitinfo_player_ap.text = leftUnit.m_stat_moveRange.ToString();
         text_hp_playerUnit.text = leftUnit.m_stat_hp.ToString();
         text_combat_playerUnit_attack.text = leftUnit.m_stat_atk.ToString();
         text_combat_playerUnit_critical.text = leftUnit.m_stat_hit.ToString();
@@ -254,7 +254,7 @@ public class IngameUiManager : MonoBehaviour
         text_unitinfo_enemy_def.text = rightUnit.m_stat_def.ToString();
         text_unitinfo_enemy_hit.text = rightUnit.m_stat_hit.ToString();
         text_unitinfo_enemy_eva.text = rightUnit.m_stat_eva.ToString();
-        text_unitinfo_enemy_ap.text = rightUnit.m_stat_ap.ToString();
+        text_unitinfo_enemy_ap.text = rightUnit.m_stat_moveRange.ToString();
         text_hp_enemyUnit.text = rightUnit.m_stat_hp.ToString();
         text_combat_enemyUnit_attack.text = rightUnit.m_stat_atk.ToString();
         text_combat_enemyUnit_critical.text = rightUnit.m_stat_hit.ToString();

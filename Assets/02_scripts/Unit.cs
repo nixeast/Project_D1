@@ -32,7 +32,6 @@ public class Unit : MonoBehaviour
     public int m_stat_def;
     public int m_stat_hit;
     public int m_stat_eva;
-    public int m_stat_ap;
     public int m_stat_moveRange;
     public int m_stat_moveRange_modified;
     public UnitDataBase m_unitDatabase;
@@ -58,8 +57,8 @@ public class Unit : MonoBehaviour
 
     public void Awake()
     {
-        m_unitDatabase = GameObject.FindObjectOfType<UnitDataBase>();
-        m_gameManager = GameObject.FindObjectOfType<GameManager>();
+        m_unitDatabase = GameObject.FindFirstObjectByType<UnitDataBase>();
+        m_gameManager = GameObject.FindFirstObjectByType<GameManager>();
         m_ingameUiManager = m_gameManager.m_ingameUiManager;
         m_isDead = false;
     }
@@ -99,7 +98,7 @@ public class Unit : MonoBehaviour
             m_stat_hp = newData.m_stat_HP;
             m_stat_atk = newData.m_stat_ATK;
             m_stat_def = newData.m_stat_DEF;
-            m_stat_ap = newData.m_stat_AP;
+            m_stat_moveRange = newData.m_stat_MOV;
             m_stat_attackRange = newData.m_stat_attackRange;
             m_stat_hit = newData.m_stat_HIT;
             m_stat_eva = newData.m_stat_EVA;
@@ -166,7 +165,7 @@ public class Unit : MonoBehaviour
         if (m_isMoved == false)
         {
             m_currentControlMode = eUnitControlMode.Move;
-            m_gameManager.MakeMoveTargets(this, m_stat_ap);
+            m_gameManager.MakeMoveTargets(this, m_stat_moveRange);
             m_ingameUiManager.UpdateUnitControlState(this);
         }
         else if(m_isMoved == true)

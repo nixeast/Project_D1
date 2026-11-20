@@ -23,7 +23,7 @@ public class StageDataEditor : Editor
         newStageData.m_areaList.Clear();
         newStageData.m_objectList.Clear();
 
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         int nCount = allObjects.Length;
 
         for (int i = 0; i < nCount; i++)

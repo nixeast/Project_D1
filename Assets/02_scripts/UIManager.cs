@@ -661,7 +661,7 @@ public class UIManager : MonoBehaviour
             //tmp_currentUnitMorale.text = m_selectedUnitCard.m_unitSaveData.m_morale.ToString();
             tmp_currentUnitHit.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_HIT.ToString();
             tmp_currentUnitEvade.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_EVA.ToString();
-            //tmp_currentUnitAp.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_AP.ToString();
+            //tmp_currentUnitAp.text = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_stat_MOV.ToString();
 
             int attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack;
             tmp_currentUnitAttack.text = attackValueResult.ToString();

@@ -82,7 +82,7 @@ public class UnitDataBase : MonoBehaviour
             newData.m_stat_DEF = int.Parse(dataColums[8]);
             newData.m_stat_HIT = int.Parse(dataColums[9]);
             newData.m_stat_EVA = int.Parse(dataColums[10]);
-            newData.m_stat_AP = int.Parse(dataColums[11]);
+            newData.m_stat_MOV = int.Parse(dataColums[11]);
             newData.m_trait_01 = dataColums[12];
             newData.m_trait_02 = dataColums[13];
             newData.m_passiveSkill_01 = dataColums[14];
@@ -111,8 +111,7 @@ public class UnitDataBase : MonoBehaviour
             newData.m_equip_accessary_path = dataColums[35];
 
             newData.m_unitIcon_path = dataColums[36];
-            //37 -> moveRange
-            newData.m_stat_attackRange = int.Parse(dataColums[38]);
+            newData.m_stat_attackRange = int.Parse(dataColums[37]);
 
             m_unitDataDic.Add(newData.m_UnitID, newData);
             //Debug.Log("unitID: " + newData.m_UnitID);

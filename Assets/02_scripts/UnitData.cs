@@ -17,7 +17,7 @@ public class UnitData
     public int m_stat_DEF;
     public int m_stat_HIT;
     public int m_stat_EVA;
-    public int m_stat_AP;
+    public int m_stat_MOV;
     public string m_trait_01;
     public string m_trait_02;
     public string m_passiveSkill_01;
