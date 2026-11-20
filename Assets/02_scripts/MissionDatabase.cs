@@ -11,6 +11,7 @@ public enum eMissionType
     Destroy = 4,
     Detonation = 5,
     Elimination = 6,
+    Capture = 7,
 }
 
 public class MissionDatabase : MonoBehaviour

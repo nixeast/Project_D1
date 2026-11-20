@@ -68,3 +68,42 @@ public class DefenseCondition : ImissionCondition
     }
 
 }
+
+// 전용 승리 조건이 아직 없는 미션 타입에 쓰는 임시 기본 조건.
+// 승리: 적 전멸 / 패배: 아군 전멸
+public class EliminationCondition : ImissionCondition
+{
+    public GameManager m_gameManager;
+
+    public EliminationCondition()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        m_gameManager = GameManager.instance;
+    }
+
+    public bool CheckVictory()
+    {
+        if (m_gameManager.m_currentEnemyUnitCount <= 0)
+        {
+            m_gameManager.BattleWin();
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool CheckDefeat()
+    {
+        if (m_gameManager.m_currentPlayerUnitCount <= 0)
+        {
+            m_gameManager.BattleLose();
+            return true;
+        }
+
+        return false;
+    }
+}

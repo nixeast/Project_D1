@@ -129,11 +129,16 @@ public class GameManager : MonoBehaviour
         int nCurrentMissionNumber = GameRoot.s_instance.GetStartMissionNumber();
         MissionData newData;
         MissionDatabase.s_instance.m_missionDataDic.TryGetValue(nCurrentMissionNumber, out newData);
-        string missionConditionName = newData.m_missionType.ToString();
+        string missionConditionName = newData != null ? newData.m_missionType : "";
         if(missionConditionName == "Defense")
         {
             m_currentMissionCondition = new DefenseCondition();
-
+        }
+        else
+        {
+            // Extraction, Explore, Destroy, Detonation, Elimination, Capture:
+            // 전용 조건을 만들기 전까지 적 전멸 승리 / 아군 전멸 패배로 처리
+            m_currentMissionCondition = new EliminationCondition();
         }
     }
 
