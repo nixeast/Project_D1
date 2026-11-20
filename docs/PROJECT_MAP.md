@@ -100,18 +100,19 @@ sc_00_lobby ──(UIManager.gotoBattleMapScene)──▶ sc_01_battleMap
 | `PlayerData.cs` | 저장 대상 루트 데이터 (유닛 목록, 자원, 창고) |
 | `UnitSaveData.cs` | 저장용 유닛 데이터 |
 | `StorageSaveData.cs` | 저장용 창고 슬롯 데이터 |
-| `UnitData.cs` | CSV에서 읽은 유닛 원본 데이터 |
+| `UnitData.cs` | CSV에서 읽은 유닛 원본 데이터 (특성 6칸·액티브 3칸은 스킬 영문 이름 배열) |
 | `UnitRecruitData.cs` | 모집 정보 데이터 |
 | `MissionData.cs` | 미션 정보 데이터 |
 | `Item.cs` | 아이템 데이터 |
 | `StageData.cs` | 스테이지 ScriptableObject (`Create > ProjectD > Stage`). 지형/유닛/영역/오브젝트 리스트 |
-| `ImissionCondition.cs` | 미션 승리조건 인터페이스 + `DefenseCondition` 구현 |
+| `ImissionCondition.cs` | 미션 승리조건 인터페이스 + `DefenseCondition`, 기본 조건 `EliminationCondition` |
 
 ### 4.4 데이터베이스 (CSV 로더)
 
 | 파일 | 읽는 CSV | 비고 |
 |---|---|---|
-| `UnitDataBase.cs` | `data_unit.csv` | 유닛 스탯·스킬·장비·아이콘 경로 |
+| `UnitDataBase.cs` | `data_unit.csv` | 유닛 스탯·특성·스킬 이름·장비·아이콘 경로. 헤더 이름으로 열을 찾음 |
+| `SkillDataBase.cs` | `Resources/data_skill.csv` | 특성·스킬 테이블 (static, 씬 배치 없이 `Resources.Load`). 영문 이름 → 한국어 이름·설명·아이콘 |
 | `UnitRecruitDataBase.cs` | `data_recruitInfo.csv` | 모집 가능 유닛 |
 | `MissionDatabase.cs` | `data_mission.csv` | 미션 목록, `eMissionType` 정의 |
 | `UnitPortraitDatabase.cs` | `data_unitPortrait.csv` | 유닛 ID → 초상화 스프라이트 |
@@ -152,7 +153,8 @@ sc_00_lobby ──(UIManager.gotoBattleMapScene)──▶ sc_01_battleMap
 
 | 파일 | 행 수 | 주요 컬럼 |
 |---|---:|---|
-| `data_unit.csv` | 40 | UnitID, UnitName, unitType, stat_HP/ATK/DEF/HIT/EVA/AP, trait·skill(이름+아이콘 경로), equip(이름+경로), path_icon, stat_mov, stat_atkRange |
+| `data_unit.csv` | 40 | UnitID, UnitName, unitType, stat_HP/ATK/DEF/HIT/EVA/MOV, trait_01~06, activeSkill_01~03 (스킬 영문 이름), equip(이름+경로), path_icon, stat_atkRange |
+| `Resources/data_skill.csv` | 143 | skillName_en, skillName_ko, skillType(Trait/Active), faction, description, icon_path. 큰따옴표 CSV(쉼표 허용) |
 | `data_mission.csv` | 20 | missionID, doomName, missionTheme, missionName/Description/Objective, missionDifficulty, missionGimmick, enemyTotalCount, enemyList_ID(`/` 구분), missionType |
 | `data_recruitInfo.csv` | 12 | recruitID, unitName, unitType, img_portrait, cost_gold, cost_honor, basicTrait, img_basicTrait |
 | `data_unitPortrait.csv` | 16 | UnitID, UnitName, PortraitPath |
@@ -203,6 +205,7 @@ sc_00_lobby ──(UIManager.gotoBattleMapScene)──▶ sc_01_battleMap
 | `res_icon_trait/` | 특성·스킬 아이콘 |
 | `res_icon_gear/` | 장비 아이콘 |
 | `res_icon_dooms/` | 둠 아이콘 |
+| `data_skill.csv` | 특성·스킬 테이블 (`SkillDataBase`가 읽음) |
 | `res_icon_object/` | 오브젝트 아이콘 |
 | `ui_campaign_recruit/`, `ui_campaign_unitInfo/`, `ui_doomPanel/`, `ui_dwarfResources/` | 로비 UI 동적 이미지 |
 | `background/`, `font/`, `sample_ui/` | 배경, 폰트, 샘플 UI |

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 
 public enum eDataUpdateType
 {
@@ -74,10 +75,11 @@ public class UIManager : MonoBehaviour
 
     public Image img_currentUnit_trait_01;
     public Image img_currentUnit_trait_02;
-    public Image img_currentUnit_passive_01;
-    public Image img_currentUnit_passive_02;
-    public Image img_currentUnit_passive_03;
-    public Image img_currentUnit_passive_04;
+    // 특성·패시브 통합(특성 6칸)으로 이름 변경. 씬 참조 유지를 위해 이전 이름을 남겨둡니다.
+    [FormerlySerializedAs("img_currentUnit_passive_01")] public Image img_currentUnit_trait_03;
+    [FormerlySerializedAs("img_currentUnit_passive_02")] public Image img_currentUnit_trait_04;
+    [FormerlySerializedAs("img_currentUnit_passive_03")] public Image img_currentUnit_trait_05;
+    [FormerlySerializedAs("img_currentUnit_passive_04")] public Image img_currentUnit_trait_06;
     public Image img_currentUnit_active_01;
     public Image img_currentUnit_active_02;
     public Image img_currentUnit_active_03;
@@ -666,27 +668,30 @@ public class UIManager : MonoBehaviour
             int attackValueResult = m_selectedUnitCard.m_unitSaveData.m_attack;
             tmp_currentUnitAttack.text = attackValueResult.ToString();
 
-            string tempPath_portrait = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_PortraitPath;
-            string tempPath_trait_01 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_trait_01_path;
-            string tempPath_trait_02 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_trait_02_path;
-            string tempPath_passive_01 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_passiveSkill_01_path;
-            string tempPath_passive_02 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_passiveSkill_02_path;
-            string tempPath_passive_03 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_passiveSkill_03_path;
-            string tempPath_passive_04 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_passiveSkill_04_path;
-            string tempPath_active_01 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_activeSkill_01_path;
-            string tempPath_active_02 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_activeSkill_02_path;
-            string tempPath_active_03 = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_activeSkill_03_path;
+            // 특성·스킬은 세이브에 복사된 원본 대신 현재 데이터베이스에서 읽습니다.
+            // (세이브에 남은 이전 데이터 구조와 무관하게 최신 데이터를 표시)
+            UnitData originData = m_selectedUnitCard.m_unitSaveData.m_unitOriginData;
+            UnitData dbData;
+            if (UnitDataBase.s_instance != null &&
+                UnitDataBase.s_instance.m_unitDataDic.TryGetValue(m_selectedUnitCard.m_unitSaveData.m_unitOriginalNumber, out dbData))
+            {
+                originData = dbData;
+            }
 
-            //img_portrait.sprite = Resources.Load<Sprite>(tempPath_portrait);
-            img_currentUnit_trait_01.sprite = Resources.Load<Sprite>(tempPath_trait_01);
-            img_currentUnit_trait_02.sprite = Resources.Load<Sprite>(tempPath_trait_02);
-            img_currentUnit_passive_01.sprite = Resources.Load<Sprite>(tempPath_passive_01);
-            img_currentUnit_passive_02.sprite = Resources.Load<Sprite>(tempPath_passive_02);
-            img_currentUnit_passive_03.sprite = Resources.Load<Sprite>(tempPath_passive_03);
-            img_currentUnit_passive_04.sprite = Resources.Load<Sprite>(tempPath_passive_04);
-            img_currentUnit_active_01.sprite = Resources.Load<Sprite>(tempPath_active_01);
-            img_currentUnit_active_02.sprite = Resources.Load<Sprite>(tempPath_active_02);
-            img_currentUnit_active_03.sprite = Resources.Load<Sprite>(tempPath_active_03);
+            Image[] traitImages = { img_currentUnit_trait_01, img_currentUnit_trait_02, img_currentUnit_trait_03,
+                                    img_currentUnit_trait_04, img_currentUnit_trait_05, img_currentUnit_trait_06 };
+            Image[] activeImages = { img_currentUnit_active_01, img_currentUnit_active_02, img_currentUnit_active_03 };
+
+            for (int i = 0; i < traitImages.Length; i++)
+            {
+                string skillName = (originData.m_traits != null && i < originData.m_traits.Length) ? originData.m_traits[i] : null;
+                traitImages[i].sprite = SkillDataBase.GetIcon(skillName);
+            }
+            for (int i = 0; i < activeImages.Length; i++)
+            {
+                string skillName = (originData.m_activeSkills != null && i < originData.m_activeSkills.Length) ? originData.m_activeSkills[i] : null;
+                activeImages[i].sprite = SkillDataBase.GetIcon(skillName);
+            }
 
             string tempPath_weapon = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_equip_weapon_path;
             string tempPath_armor = m_selectedUnitCard.m_unitSaveData.m_unitOriginData.m_equip_armor_path;

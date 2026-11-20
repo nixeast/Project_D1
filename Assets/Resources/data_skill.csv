@@ -1,0 +1,144 @@
+skillName_en,skillName_ko,skillType,faction,description,icon_path
+Shield Brothers,전우조,Trait,Dwarf,인접한 아군 하나당 자신의 DEF 상승,res_icon_trait/icon_trait_ShieldBrothers
+Ironclad Form,철갑 자세,Trait,Dwarf,이동하지 않고 턴을 마치면 다음 턴 시작 전까지 DEF 보너스,res_icon_trait/icon_trait_ShieldBrothers
+Juggernaut Advance,거침없는 전진,Trait,Dwarf,밀쳐내기 등 위치 변화 효과에 면역,res_icon_trait/icon_trait_ShieldBrothers
+Plague Ward,역병 방호,Trait,Dwarf,중독·지속 피해로 받는 피해 감소,res_icon_trait/icon_trait_ShieldBrothers
+Opportunist,기회 포착,Trait,Dwarf,이번 턴에 이미 피해를 입은 적을 공격하면 ATK 상승,res_icon_trait/icon_trait_ShieldBrothers
+Unyielding Resolve,불굴의 의지,Trait,Dwarf,공포 증가량 감소,res_icon_trait/icon_trait_ShieldBrothers
+Brutal Strike,강타,Active,Dwarf,단일 대상에게 강한 근접 공격,res_icon_trait/icon_trait_ShieldBrothers
+Shield Bash,방패 밀치기,Active,Dwarf,적을 1타일 밀쳐내고 ATK를 낮춤. 이동 후 사용하면 효율 상승,res_icon_trait/icon_trait_ShieldBrothers
+Rallying Vanguard,선봉 결집,Active,Dwarf,자신과 주변 아군의 DEF 상승,res_icon_trait/icon_trait_ShieldBrothers
+Heavy Plate Mastery,중갑 숙련,Trait,Dwarf,정면에서 오는 공격에 대해 DEF 효율 상승,res_icon_trait/icon_trait_HeavyPlateMastery
+Bulwark of Iron,강철 방벽,Trait,Dwarf,인접 아군이 받는 피해의 일부를 대신 받음,res_icon_trait/icon_trait_HeavyPlateMastery
+Unshakable Stance,흔들림 없는 자세,Trait,Dwarf,이동하지 않으면 EVA 대신 DEF가 크게 오름,res_icon_trait/icon_trait_HeavyPlateMastery
+Retaliation,보복,Trait,Dwarf,근접 공격을 받으면 반격 피해 상승,res_icon_trait/icon_trait_HeavyPlateMastery
+Doom Breaker: Grinding,둠 브레이커: 분쇄,Trait,Dwarf,'재앙의 톱니바퀴' 둠 테마 미션의 기믹 불이익에 면역,res_icon_trait/icon_trait_SteadfastAim
+Doom Breaker: Tunnels,둠 브레이커: 터널,Trait,Dwarf,'지하 터널' 둠 테마 미션의 기믹 불이익에 면역,res_icon_trait/icon_trait_SteadfastAim
+Shield Bulwark,방패 보루,Active,Dwarf,최상급 DEF 보너스와 상태이상 면역. 이동하면 즉시 해제,res_icon_trait/icon_trait_HeavyPlateMastery
+Defensive Formation,방어 진형,Active,Dwarf,자신을 포함한 주변 아군의 DEF를 높이고 밀쳐내기 면역,res_icon_trait/icon_trait_HeavyPlateMastery
+Crushing Strike,분쇄 일격,Active,Dwarf,피해를 주고 대상의 DEF를 낮춤,res_icon_trait/icon_trait_HeavyPlateMastery
+Immovable Bastion,부동의 보루,Trait,Dwarf,이동하지 않은 턴마다 DEF가 중첩해서 오름 (이동하면 초기화),res_icon_trait/icon_trait_ImmovableBastion
+Indomitable Bulwark,꺾이지 않는 방벽,Trait,Dwarf,체력이 낮을수록 DEF 상승,res_icon_trait/icon_trait_ImmovableBastion
+Iron-Shod Boots,철 박힌 장화,Trait,Dwarf,밀쳐내기 등 위치 변화 효과에 면역,res_icon_trait/icon_trait_ImmovableBastion
+Doom Breaker: Blight,둠 브레이커: 역병,Trait,Dwarf,'오염의 역병' 둠 테마 미션의 기믹 불이익에 면역,res_icon_trait/icon_trait_RunicResonance
+Stoic Fortitude,냉철한 인내,Trait,Dwarf,공포 증가량 크게 감소,res_icon_trait/icon_trait_ImmovableBastion
+Shield Parry,방패 쳐내기,Active,Dwarf,다음 받는 근접 공격을 막고 반격,res_icon_trait/icon_trait_ImmovableBastion
+Unyielding Defense,불굴의 방어,Active,Dwarf,최상급 DEF 보너스와 면역. 이동하면 즉시 해제,res_icon_trait/icon_trait_ImmovableBastion
+Call of the Warden,수호자의 외침,Active,Dwarf,주변 적의 HIT를 낮추고 자신을 공격하게 유도,res_icon_trait/icon_trait_ImmovableBastion
+Skirmish Arts,난전의 기술,Trait,Dwarf,인접 타일에 적이 2기 이상이면 EVA 상승,res_icon_trait/icon_trait_SkirmishArts
+Master of Strife,난전의 지배자,Trait,Dwarf,전장에 적이 아군보다 많으면 ATK 상승,res_icon_trait/icon_trait_SkirmishArts
+Nimble Steps,날랜 걸음,Trait,Dwarf,기본 MOV 보너스,res_icon_trait/icon_trait_SkirmishArts
+Doom Breaker: Soul,둠 브레이커: 영혼,Trait,Dwarf,'영혼 수확' 둠 테마 미션의 기믹 불이익에 면역,res_icon_trait/icon_trait_SkirmishArts
+Doom Breaker: Variant,둠 브레이커: 변이,Trait,Dwarf,'차원석 변이' 둠 테마 미션의 기믹 불이익에 면역,res_icon_trait/icon_trait_SkirmishArts
+Heavy Blow,묵직한 일격,Active,Dwarf,단일 대상에게 강한 근접 공격,res_icon_trait/icon_trait_SkirmishArts
+Headbutt,박치기,Active,Dwarf,피해를 주고 1턴간 대상의 HIT 감소,res_icon_trait/icon_trait_SkirmishArts
+Sweeping Slash,휩쓸기,Active,Dwarf,자신 주변의 모든 적을 공격하고 EVA를 낮춤,res_icon_trait/icon_trait_SkirmishArts
+Blood Vendetta,피의 복수,Trait,Dwarf,입은 피해에 비례해 ATK 상승,res_icon_trait/icon_trait_BloodVendetta
+Endless Fury,끝없는 분노,Trait,Dwarf,체력이 낮을수록 ATK 상승,res_icon_trait/icon_trait_BloodVendetta
+Unstoppable Charge,멈추지 않는 돌격,Trait,Dwarf,직선으로 2타일 이상 이동 후 공격하면 ATK 상승,res_icon_trait/icon_trait_BloodVendetta
+Berserk Fury,광란,Trait,Dwarf,적을 처치하면 MOV 일부 회복,res_icon_trait/icon_trait_BloodVendetta
+Severing Cleave,절단 베기,Active,Dwarf,자신 주변의 모든 적을 공격,res_icon_trait/icon_trait_BloodVendetta
+Sunder Chain,연쇄 강타,Active,Dwarf,대상과 그 인접한 적에게 연쇄 피해,res_icon_trait/icon_trait_BloodVendetta
+Execute,처형,Active,Dwarf,체력이 낮은 적에게 큰 피해,res_icon_trait/icon_trait_BloodVendetta
+Death Wish,죽음의 갈망,Trait,Dwarf,DEF가 크게 낮은 대신 모든 공격에 관통 효과,res_icon_trait/icon_trait_DeathWish
+Perfect Devotion,완전한 헌신,Trait,Dwarf,자신보다 현재 체력이 높은 적을 공격할 때 HIT 상승,res_icon_trait/icon_trait_DeathWish
+Unyielding Leap,꺾이지 않는 도약,Trait,Dwarf,인접한 적이 있어도 이동 제약을 받지 않음,res_icon_trait/icon_trait_DeathWish
+Bloodlust,피의 갈증,Trait,Dwarf,적을 처치하면 HP 일부 회복,res_icon_trait/icon_trait_DeathWish
+Fatal Strike,치명타,Active,Dwarf,"남은 SP에 비례해 큰 피해, 대신 자신의 DEF 감소",res_icon_trait/icon_trait_DeathWish
+Skullcracker,두개골 분쇄,Active,Dwarf,피해를 주고 1턴간 대상을 기절(행동 불가),res_icon_trait/icon_trait_DeathWish
+Final Stand,최후의 항전,Active,Dwarf,체력이 낮을 때만 사용. 1턴간 ATK 대폭 상승,res_icon_trait/icon_trait_DeathWish
+Steadfast Aim,고정 사격,Trait,Dwarf,이동하지 않고 공격하면 HIT와 ATK 상승,res_icon_trait/icon_trait_SteadfastAim
+Immovable Marksman,부동의 사수,Trait,Dwarf,이동하지 않은 턴이 이어질수록 HIT가 중첩해서 오름,res_icon_trait/icon_trait_SteadfastAim
+Vantage Point,유리한 고지,Trait,Dwarf,대상과의 거리가 멀수록 ATK 상승,res_icon_trait/icon_trait_SteadfastAim
+Munitions Management,탄약 관리,Trait,Dwarf,액티브 스킬 재사용 대기시간 1턴 감소,res_icon_trait/icon_trait_SteadfastAim
+Aimed Shot,조준 사격,Active,Dwarf,HIT가 높은 단일 원거리 공격,res_icon_trait/icon_trait_SteadfastAim
+Suppressive Fire,제압 사격,Active,Dwarf,피해를 주고 1턴간 대상의 MOV와 HIT 감소,res_icon_trait/icon_trait_SteadfastAim
+Concentrated Volley,집중 일제 사격,Active,Dwarf,이동을 포기하는 대신 다음 턴의 HIT와 ATK 대폭 상승,res_icon_trait/icon_trait_SteadfastAim
+First Strike Vigil,선제 포착,Trait,Dwarf,전투 첫 턴에 시야 범위와 HIT 상승,res_icon_trait/icon_trait_FirstStrikeVigil
+Hawkeye Surveillance,매의 눈,Trait,Dwarf,"시야 범위 상승, 시야 안의 적 EVA 감소",res_icon_trait/icon_trait_FirstStrikeVigil
+Nocturnal Vision,야간 시야,Trait,Dwarf,어둠으로 인한 시야 감소를 받지 않음,res_icon_trait/icon_trait_FirstStrikeVigil
+Mark the Weakness,약점 표시,Trait,Dwarf,공격한 적이 1턴간 받는 피해 증가,res_icon_trait/icon_trait_FirstStrikeVigil
+Targeted Mark,표적 지정,Active,Dwarf,대상에게 표식. 표식된 적을 공격하는 아군의 HIT 상승,res_icon_trait/icon_trait_FirstStrikeVigil
+Flashbang,섬광탄,Active,Dwarf,지정 지점에 섬광을 터뜨려 범위 내 적의 HIT를 낮추고 시야 차단,res_icon_trait/icon_trait_FirstStrikeVigil
+Focused Burst,집중 연사,Active,Dwarf,단일 대상에게 여러 번 공격,res_icon_trait/icon_trait_FirstStrikeVigil
+Ambush From Below,매복 사격,Trait,Dwarf,이번 전투에서 아직 공격받지 않은 적을 공격하면 ATK 상승,res_icon_trait/icon_trait_AmbushFromBelow
+Perfect Ambush,완벽한 매복,Trait,Dwarf,주변 1타일에 적이 없으면 EVA 상승,res_icon_trait/icon_trait_AmbushFromBelow
+Masters of the Depths,심연의 주인,Trait,Dwarf,험지 이동 페널티를 받지 않음,res_icon_trait/icon_trait_AmbushFromBelow
+Lethal Trajectory,치명적 탄도,Trait,Dwarf,"기본 HIT 보너스, 먼 거리의 적에게 추가 피해",res_icon_trait/icon_trait_AmbushFromBelow
+Precision Shot,정밀 저격,Active,Dwarf,사거리가 긴 단일 저격,res_icon_trait/icon_trait_AmbushFromBelow
+Piercing Round,관통탄,Active,Dwarf,관통 효과로 공격하고 대상의 이동을 봉쇄,res_icon_trait/icon_trait_AmbushFromBelow
+Silencing Salvo,침묵 사격,Active,Dwarf,피해를 주고 1턴간 대상의 액티브 스킬 사용 불가,res_icon_trait/icon_trait_AmbushFromBelow
+Runic Resonance,룬의 공명,Trait,Dwarf,인접 아군의 DEF와 EVA 상승,res_icon_trait/icon_trait_RunicResonance
+Amplified Resonance,증폭된 공명,Trait,Dwarf,룬의 공명 범위가 2타일로 늘어남,res_icon_trait/icon_trait_RunicResonance
+Runic Ward,룬의 수호,Trait,Dwarf,인접 아군이 받는 둠 기믹 불이익 감소,res_icon_trait/icon_trait_RunicResonance
+Residue Aether,잔류 에테르,Trait,Dwarf,액티브 스킬을 쓰면 SP 일부 회복,res_icon_trait/icon_trait_RunicResonance
+Searing Runic Bolt,작열하는 룬 화살,Active,Dwarf,원거리 마법 공격,res_icon_trait/icon_trait_RunicResonance
+Runic Plate Armor,룬 판금,Active,Dwarf,아군 한 명에게 방어막. 대상과 멀어지면 해제,res_icon_trait/icon_trait_RunicResonance
+Collapse Rune,붕괴의 룬,Active,Dwarf,범위 내 적의 DEF 감소,res_icon_trait/icon_trait_RunicResonance
+Arcane Focus,비전 집속,Trait,Dwarf,인접 아군은 매 턴 시작 시 MOV 보너스,res_icon_trait/icon_trait_ArcaneFocus
+Perfect Attunement,완벽한 조율,Trait,Dwarf,인접 아군의 HIT 상승,res_icon_trait/icon_trait_ArcaneFocus
+Meditative Runic Focus,명상의 룬 집중,Trait,Dwarf,자신의 턴 시작 시 SP 회복량 증가,res_icon_trait/icon_trait_ArcaneFocus
+Resonant Aether,공명하는 에테르,Trait,Dwarf,인접 아군의 SP 회복량 증가,res_icon_trait/icon_trait_ArcaneFocus
+Magic Bolt,마력탄,Active,Dwarf,원거리 마법 공격,res_icon_trait/icon_trait_ArcaneFocus
+Eldritch Wave,섬뜩한 파동,Active,Dwarf,"범위 마법 공격, 상태이상 해제(아군)",res_icon_trait/icon_trait_ArcaneFocus
+Arcane Overload,비전 과부하,Active,Dwarf,주변 아군의 MOV와 다음 공격의 HIT를 일시적으로 높임,res_icon_trait/icon_trait_ArcaneFocus
+Purifying Aura,정화의 오라,Trait,Dwarf,인접 아군의 디버프를 매 턴 하나 해제하고 공포를 낮춤,res_icon_trait/icon_trait_PurifyingAura
+Radiant Sanctum,빛나는 성역,Trait,Dwarf,정화의 오라 범위가 2타일로 늘어남,res_icon_trait/icon_trait_PurifyingAura
+Devout Steps,경건한 발걸음,Trait,Dwarf,지나간 타일의 오염·역병 지대를 제거,res_icon_trait/icon_trait_PurifyingAura
+Light of Healing,치유의 빛,Trait,Dwarf,턴 시작 시 인접 아군 HP 소량 회복,res_icon_trait/icon_trait_PurifyingAura
+Ray of Light,빛줄기,Active,Dwarf,원거리 신성 공격,res_icon_trait/icon_trait_PurifyingAura
+Sanctuary Call,성역의 부름,Active,Dwarf,넓은 구역 내 아군의 DEF를 높이고 이동 제약 해제,res_icon_trait/icon_trait_PurifyingAura
+Ancestral Blessing,선조의 축복,Active,Dwarf,아군 한 명의 공포를 크게 낮추고 HP 회복,res_icon_trait/icon_trait_PurifyingAura
+Cowardly Flanking,비열한 협공,Trait,Verminkin,공격 대상과 인접한 아군 버민킨 하나당 HIT 상시 증가,(none)
+Terror of the Horde,물량의 공포,Trait,Verminkin,인접 타일에 아군 버민킨이 3기 이상이면 ATK 보너스,(none)
+Swift Paws,날랜 발바닥,Trait,Verminkin,"기본 MOV 보너스, 험지 이동 페널티 무시",(none)
+Harrying Steps,교란의 걸음,Trait,Verminkin,적과 인접하여 이동을 종료하면 그 적의 EVA를 다음 턴 시작 전까지 감소,(none)
+Survival Instinct,생존 본능,Trait,Verminkin,현재 체력 30% 이하일 때 EVA 대폭 상승,(none)
+Ruthless Charge,무자비한 돌진,Trait,Verminkin,직선으로 3타일 이상 이동 후 공격 시 ATK Potency 대폭 상승,(none)
+Bloated Hide,비대해진 가죽,Trait,Verminkin,"기본 DEF가 매우 높고, 원거리 공격에 추가 방어 효율",(none)
+Plague Epicenter,역병의 진원지,Trait,Verminkin,주변 1타일 내 적의 DEF를 상시 약화시키는 오라,(none)
+Overwhelming Mass,압도적 질량,Trait,Verminkin,공격 성공 시 적을 1타일 밀쳐내고 MOV를 일시적으로 고정,(none)
+Backlash of Pain,고통의 역류,Trait,Verminkin,"피격 시 받은 데미지 일부를 주변 적에게 반사, 자신의 ATK 1턴간 상승",(none)
+Incorporeal Form,실체 없는 형상,Trait,Verminkin,"물리 공격에 대해 높은 EVA 보너스, 지형지물 통과 이동",(none)
+Mind Erosion,정신적 잠식,Trait,Verminkin,공격 시 적의 HIT를 영구적으로 소폭 감소,(none)
+Wave of Dread,공포의 파동,Trait,Verminkin,주변 2타일 내 적의 ATK 효율 상시 감소,(none)
+Will Breaker,의지 파괴,Trait,Verminkin,스킬 적중 시 적의 의지 유지 조건을 강제로 해제하여 지속 스킬 중단,(none)
+Veil of Phantoms,환영의 장막,Trait,Verminkin,인접한 아군 버민킨의 EVA 상시 보정,(none)
+Steel Shredder,강철 파쇄기,Trait,Verminkin,공격 시 대상의 DEF를 무시하는 관통 효과 상시 보유,(none)
+Precision Targeting Rig,정밀 조준 장치,Trait,Verminkin,이동하지 않고 사격하면 HIT와 사거리 보너스,(none)
+Overheated Engine,과열된 엔진,Trait,Verminkin,스킬 재사용 대기시간 동안 주변 타일에 지속 화염 피해,(none)
+Toxic Fuel Leak,유독성 연료 유출,Trait,Verminkin,이동 경로에 기름 타일을 생성하여 적의 MOV 크게 제한,(none)
+Impact Stabilizer,충격 보정 장치,Trait,Verminkin,원거리 공격 시 대상과 가까울수록 ATK Potency 추가 증폭,(none)
+Filth Toss,비열한 투척,Active,Verminkin,[원거리 공격] 오물 주머니로 피해를 주고 1턴간 HIT 소폭 감소,(none)
+Strength in Numbers,숫자 밀어붙이기,Active,Verminkin,[근접 공격] 자신과 인접한 아군 버민킨 하나당 추가 피해,(none)
+Dreadful Squeal,공포의 찍찍거림,Active,Verminkin,[범위 디버프] 주변 2타일 내 드워프의 ATK 1턴간 감소,(none)
+Rathole Ambush,쥐구멍 습격,Active,Verminkin,[이동 및 공격] 2타일 내 빈 공간으로 즉시 도약하여 근접한 적 공격,(none)
+Merciless Gnaw,무자비한 갉아먹기,Active,Verminkin,[강력한 근접 공격] 피해를 주고 낮은 확률로 1턴간 이동불가(Root),(none)
+Breath of Rot,부패의 숨결,Active,Verminkin,범위 내 적들의 DEF를 매 턴 영구 감소,(none)
+Plague Corpse Toss,역병 사체 투척,Active,Verminkin,지정 타일을 역병 지대로 만듦. 진입한 적은 지속적으로 HP 감소,(none)
+Venom Spore Burst,독포자 폭발,Active,Verminkin,SP를 소모해 중독 부여. 중독된 적은 매 턴 ATK 감소,(none)
+Summon Tainted Swarm,오염된 쥐 떼 소환,Active,Verminkin,버민 보병을 소환하여 적의 이동을 방해하고 압박,(none)
+Slime Floor,점액질 바닥,Active,Verminkin,"지면에 오물을 뿌려 적의 MOV 감소, 이동 경로 제약",(none)
+Warpstone Overload,차원석 과부하,Active,Verminkin,일시적으로 자신의 ATK와 MOV 대폭 증폭. 종료 후 SP 고갈 또는 자해 피해,(none)
+Cell Regeneration,세포 재생,Active,Verminkin,"매 턴 시작 시 잃은 HP 일부 회복, 주변 버민에게도 약한 재생 부여",(none)
+Unstable Mutation,불안정한 변이,Active,Verminkin,피격 시 일정 확률로 MOV 보너스를 얻고 무작위 인접 타일로 이동하여 회피,(none)
+Suicide Rush,자폭 돌격,Active,Verminkin,체력이 일정 이하가 되면 적진으로 돌진해 자폭. 광역 피해와 장비 기능 정지,(none)
+Gigantism Injection,거대화 주입,Active,Verminkin,"아군 하나를 일시적으로 거대화. HP·DEF 대폭 상승, 밀쳐내기 부여",(none)
+Phantom Clone,환영 복제,Active,Verminkin,피해를 주지 못하는 허상을 소환하여 타겟팅을 분산,(none)
+Shadow Hide,그림자 숨기,Active,Verminkin,안개나 지형지물로 은신. 은신 중에는 타겟팅에서 제외,(none)
+Vital Stab,급소 찌르기,Active,Verminkin,"은신을 해제하며 공격하면 HIT와 무관하게 반드시 명중, 추가 피해",(none)
+Set Trap,함정 설치,Active,Verminkin,"보이지 않는 함정 설치. 밟은 적은 이동 정지, EVA 급락",(none)
+Smoke Bomb,연막탄,Active,Verminkin,"주변을 연기로 가려 아군 버민의 EVA 상승, 적의 HIT를 최저 수치로 고정",(none)
+Assassinate Engineer,기술자 암살,Active,Verminkin,적 서포터를 우선 노림. 적중 시 SP 회복 방해 또는 쿨타임 증가,(none)
+Soul Siphon,영혼 갈취,Active,Verminkin,가한 피해의 일정 비율만큼 HP 회복 또는 SP 충전,(none)
+Scream of Terror,공포의 비명,Active,Verminkin,광역으로 주변 적들의 MOV와 ATK 감소,(none)
+Raise Revenant,망령 부활,Active,Verminkin,쓰러진 버민 유닛을 낮은 HP의 영체 유닛으로 부활,(none)
+Curse of Despair,절망의 저주,Active,Verminkin,대상과 인접한 드워프들의 DEF와 EVA를 동시에 약화,(none)
+Warp Energy Barrage,차원 에너지 포격,Active,Verminkin,먼 거리에 광역 피해. 지형 파괴 또는 화재 효과,(none)
+Armor Shred,장갑 파쇄,Active,Verminkin,적의 DEF를 일시 무효화하거나 영구 파괴,(none)
+High-Pressure Steam,고압 증기 방출,Active,Verminkin,"주변 1타일에 증기를 뿜어 밀쳐내고, 받는 피해량 증가",(none)
+Deploy Auto-Turret,자동 포탑 가동,Active,Verminkin,매 턴 가장 가까운 적을 자동 사격하는 포탑 설치,(none)
+Oil Spray,기름 발사,Active,Verminkin,"지면에 기름을 뿌려 MOV 제약, 화염 공격 시 추가 폭발 유도",(none)
+Immortal Dominion,불멸의 권능,Trait,Verminkin,주변 버민 유닛이 사망하면 일정 확률로 부활,(none)
+Emperor's Blade,황제의 검,Active,Verminkin,대상의 DEF를 무시하는 강력한 공격,(none)
+Legion Domination,군단 지배,Active,Verminkin,드워프 유닛 1명을 1턴간 조종,(none)

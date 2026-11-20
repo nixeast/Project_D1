@@ -6,6 +6,9 @@ using UnityEngine;
 [Serializable]
 public class UnitData
 {
+    public const int TRAIT_SLOT_COUNT = 6;
+    public const int ACTIVE_SLOT_COUNT = 3;
+
     public int m_UnitID;
     public string m_UnitName;
     public string m_unitType;
@@ -18,24 +21,10 @@ public class UnitData
     public int m_stat_HIT;
     public int m_stat_EVA;
     public int m_stat_MOV;
-    public string m_trait_01;
-    public string m_trait_02;
-    public string m_passiveSkill_01;
-    public string m_passiveSkill_02;
-    public string m_passiveSkill_03;
-    public string m_passiveSkill_04;
-    public string m_activeSkill_01;
-    public string m_activeSkill_02;
-    public string m_activeSkill_03;
-    public string m_trait_01_path;
-    public string m_trait_02_path;
-    public string m_passiveSkill_01_path;
-    public string m_passiveSkill_02_path;
-    public string m_passiveSkill_03_path;
-    public string m_passiveSkill_04_path;
-    public string m_activeSkill_01_path;
-    public string m_activeSkill_02_path;
-    public string m_activeSkill_03_path;
+
+    // 특성 6칸, 액티브 3칸. 값은 data_skill.csv의 skillName_en (빈 칸은 "(none)")
+    public string[] m_traits = new string[TRAIT_SLOT_COUNT];
+    public string[] m_activeSkills = new string[ACTIVE_SLOT_COUNT];
 
     public string m_equip_weapon;
     public string m_equip_armor;
