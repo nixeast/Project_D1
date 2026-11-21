@@ -1,149 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public enum eDoomLevel
-{
-    Default = 0,
-    Stable = 1,
-    Low = 2,
-    Threat = 3,
-    Critical = 4,
-}
-
+// 위협도 게이지 표시 (GDD 03 §3.2). 이전의 둠 테마별 수치 구조는 단일 게이지로 바뀌었습니다.
+// 씬 참조를 유지하기 위해 클래스·필드 이름은 그대로 둡니다.
 public class Doom : MonoBehaviour
 {
-    public eDoomType m_doomType;
-    public TMP_Text text_doomName;
-    public string m_doomName;
-    public Image m_doomLevelBar;
-    public int m_doomValue;
-    public eDoomLevel m_doomLevel;
-    public TMP_Text text_doomLevel;
+    public TMP_Text text_doomName;   // 게이지 제목
+    public string m_doomName = "위협도";
+    public Image m_doomLevelBar;     // 게이지 막대
+    public TMP_Text text_doomLevel;  // 수치 (예: 40%)
 
-    [SerializeField] private DoomEffect[] m_doomEffectArray = new DoomEffect[4];
-
-    void Awake()
+    public void SetThreat(int threatPercent)
     {
-        m_doomValue = 0;
-        m_doomLevel = eDoomLevel.Stable;
+        if (text_doomName != null) text_doomName.text = m_doomName;
+        if (m_doomLevelBar != null) m_doomLevelBar.fillAmount = Mathf.Clamp01(threatPercent * 0.01f);
+        if (text_doomLevel != null) text_doomLevel.text = threatPercent + "%";
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        AssignDoomEffects(m_doomType);
-
-
-    }
-
-    public void AssignDoomEffects(eDoomType doomType)
-    {
-        for(int i=0; i <4; i++)
-        {
-            m_doomEffectArray[i] = new DoomEffect();
-        }
-
-        if(doomType == eDoomType.PlagueOfContamination)
-        {
-            m_doomEffectArray[0].isActive = false;
-            m_doomEffectArray[0].m_doomEffectName = "purifyingBreath";
-            m_doomEffectArray[1].isActive = false;
-            m_doomEffectArray[1].m_doomEffectName = "plagueTile";
-            m_doomEffectArray[2].isActive = false;
-            m_doomEffectArray[2].m_doomEffectName = "ringOfCorruption";
-            m_doomEffectArray[3].isActive = false;
-            m_doomEffectArray[3].m_doomEffectName = "plagueSpread";
-
-        }
-
-
-    }
-    
-    public void UpdateDoom()
-    {
-        UpdateDoomLevelBar();
-        UpdateDoomLevel();
-        text_doomName.text = m_doomName;
-    }
-    
-    public void IncreaseDoomValue(eDoomType doomType, int Amount)
-    {
-        int nDoomNumber = (int)doomType;
-        m_doomValue += Amount;
-    }
-    
-    public void DecreaseDoomValue(eDoomType doomType, int Amount)
-    {
-        int nDoomNumber = (int)doomType;
-        m_doomValue -= Amount;
-    }
-    
-    public void UpdateDoomLevelBar()
-    {
-        m_doomLevelBar.fillAmount = m_doomValue * 0.01f;
-    }
-    
-    public void UpdateDoomLevel()
-    {
-        if(m_doomValue < 25)
-        {
-            m_doomLevel = eDoomLevel.Stable;
-            text_doomLevel.text = "Stable";
-        }
-        else if(m_doomValue < 50)
-        {
-            m_doomLevel = eDoomLevel.Low;
-            text_doomLevel.text = "Low";
-        }
-        else if(m_doomValue < 75)
-        {
-            m_doomLevel = eDoomLevel.Threat;
-            text_doomLevel.text = "Threat";
-        }
-        else
-        {
-            m_doomLevel = eDoomLevel.Critical;
-            text_doomLevel.text = "Critical";
-        }
-    }
-    
-    public void AddDoomEffect()
-    {
-        if(m_doomLevel == eDoomLevel.Stable)
-        {
-            //add purifyingBreath
-            m_doomEffectArray[0].isActive = true;
-            m_doomEffectArray[1].isActive = false;
-            m_doomEffectArray[2].isActive = false;
-            m_doomEffectArray[3].isActive = false;
-        }
-        else if(m_doomLevel == eDoomLevel.Threat)
-        {
-            //add plagueTile
-            m_doomEffectArray[0].isActive = false;
-            m_doomEffectArray[1].isActive = true;
-            m_doomEffectArray[2].isActive = false;
-            m_doomEffectArray[3].isActive = false;
-
-        }
-        else if(m_doomLevel == eDoomLevel.Critical)
-        {
-            //add ringOfCorruption, plagueSpread
-            m_doomEffectArray[0].isActive = false;
-            m_doomEffectArray[1].isActive = true;
-            m_doomEffectArray[2].isActive = true;
-            m_doomEffectArray[3].isActive = true;
-        }
-    }
-
-    public void InitDoomEffect()
-    {
-        m_doomEffectArray[0].isActive = false;
-        m_doomEffectArray[1].isActive = false;
-        m_doomEffectArray[2].isActive = false;
-        m_doomEffectArray[3].isActive = false;
-    }
-    
 }

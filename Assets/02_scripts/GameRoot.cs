@@ -46,6 +46,11 @@ public class GameRoot : MonoBehaviour
 
     public PlayerData GetPlayerData()
     {
+        // 불러오기·새 캠페인으로 PlayerData가 바뀔 수 있어 항상 현재 데이터를 돌려줍니다.
+        if (PlayerDataManager.s_instance != null)
+        {
+            m_playerData = PlayerDataManager.s_instance.GetPlayerData();
+        }
         return m_playerData;
     }
 

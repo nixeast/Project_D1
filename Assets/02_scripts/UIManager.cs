@@ -131,8 +131,10 @@ public class UIManager : MonoBehaviour
     public TMP_Text tmp_value_dwarfHonor;
     public TMP_Text tmp_value_forgedEssence;
 
-    [Header("Doom List")]
-    public Doom[] m_doomList;
+    [Header("Campaign")]
+    public Doom m_threatGauge;                 // 위협도 게이지 (단일)
+    public TMP_Text text_campaignDay;          // 날짜·페이즈·남은 일수
+    public List<Button> m_missionIconButtons = new List<Button>(); // 둠 미션 아이콘 (페이즈마다 다시 배정)
 
     private void Awake()
     {
@@ -143,6 +145,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BindPersistentManagers();
         InitCampaignUI();
         m_playerDataManager.CreateStarterUnits();
         LoadStorageItem();
@@ -154,7 +157,7 @@ public class UIManager : MonoBehaviour
         RefreshUnitCard();
 
         //ShowCurrentUnitList();
-        InitDoomListUI();
+        RefreshCampaignUI();
         //TestDwarfResource();
         UpdateUnitCapacityUI();
     }
@@ -171,6 +174,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickButtonBattleReady()
     {
+        if (IsSelectedMissionPlayable() == false) return;
+
         panel_campaignPanels.SetActive(false);
         panel_battleReady.SetActive(true);
 
@@ -278,25 +283,95 @@ public class UIManager : MonoBehaviour
             Debug.Log("playerUnit0" + (i + 1).ToString() + " originalNumber : " + nTemp);
         }
     }
-    public void InitDoomListUI()
+    // 로비 씬을 다시 열면 씬에 있는 매니저들은 사본이라 곧 사라집니다.
+    // 살아 있는 싱글톤으로 다시 연결해 자원·유닛·캠페인 상태가 유지되게 합니다.
+    private void BindPersistentManagers()
     {
-        m_doomList[0].m_doomName = "Plague Of Contamination";
-        m_doomList[1].m_doomName = "RiftStone Mutation";
-        m_doomList[2].m_doomName = "Subterranean Tunnels";
-        m_doomList[3].m_doomName = "Soul Harvest";
-        m_doomList[4].m_doomName = "Gears of Calamity";
+        if (PlayerDataManager.s_instance != null) m_playerDataManager = PlayerDataManager.s_instance;
+        if (UnitDataBase.s_instance != null) m_unitDataBase = UnitDataBase.s_instance;
+        if (MissionDatabase.s_instance != null) m_missionDatabase = MissionDatabase.s_instance;
+        m_playerDataManager.SetUIManager(this);
+        m_playerDataManager.m_unitDataBase = m_unitDataBase;
+    }
 
-        m_doomList[0].IncreaseDoomValue(eDoomType.PlagueOfContamination, 25);
-        m_doomList[1].IncreaseDoomValue(eDoomType.RiftStoneMutation, 25);
-        m_doomList[2].IncreaseDoomValue(eDoomType.SubterraneanTunnels, 25);
-        m_doomList[3].IncreaseDoomValue(eDoomType.SoulHarvest, 25);
-        m_doomList[4].IncreaseDoomValue(eDoomType.GearsOfCalamity, 25);
+    // 날짜·위협도·미션 아이콘 갱신 (GDD 03 §3)
+    public void RefreshCampaignUI()
+    {
+        CampaignData campaign = Campaign.Current;
+        if (campaign == null) return;
 
-        for (int i = 0; i < 5; i++)
+        if (m_threatGauge != null) m_threatGauge.SetThreat(campaign.m_threat);
+        if (text_campaignDay != null) text_campaignDay.text = MakeCampaignDayText(campaign);
+
+        List<int> visibleMissions = Campaign.GetVisibleMissionIDs(campaign);
+        for (int i = 0; i < m_missionIconButtons.Count; i++)
         {
-            m_doomList[i].UpdateDoom();
+            Button iconButton = m_missionIconButtons[i];
+            if (iconButton == null) continue;
+
+            if (i < visibleMissions.Count)
+            {
+                int missionID = visibleMissions[i];
+                MissionData mission = Campaign.GetMission(missionID);
+                iconButton.gameObject.SetActive(true);
+
+                Sprite doomIcon = Resources.Load<Sprite>(mission.m_doomIcon_path);
+                if (doomIcon != null) iconButton.image.sprite = doomIcon;
+                TMP_Text iconLabel = iconButton.GetComponentInChildren<TMP_Text>();
+                if (iconLabel != null) iconLabel.text = Campaign.GetMissionDays(mission) + "일";
+
+                iconButton.onClick.RemoveAllListeners();
+                iconButton.onClick.AddListener(() => OnClickMissionIcon(missionID));
+                iconButton.interactable = Campaign.CanSelectMission(campaign, missionID);
+            }
+            else
+            {
+                iconButton.gameObject.SetActive(false);
+            }
         }
 
+        // 선택된 미션을 더 이상 고를 수 없으면 첫 번째로 고를 수 있는 미션을 선택
+        int selectMissionID = -1;
+        if (Campaign.CanSelectMission(campaign, m_currentSelectedMissionNumber))
+        {
+            selectMissionID = m_currentSelectedMissionNumber;
+        }
+        else
+        {
+            for (int i = 0; i < visibleMissions.Count; i++)
+            {
+                if (Campaign.CanSelectMission(campaign, visibleMissions[i]))
+                {
+                    selectMissionID = visibleMissions[i];
+                    break;
+                }
+            }
+        }
+        if (selectMissionID >= 0) OnClickMissionIcon(selectMissionID);
+    }
+
+    private string MakeCampaignDayText(CampaignData campaign)
+    {
+        if (campaign.m_state == eCampaignState.GameOver) return "게임 오버";
+        if (campaign.m_state == eCampaignState.Completed) return "캠페인 완료";
+
+        int day = Campaign.GetCurrentDay(campaign);
+        if (campaign.m_isAssaultPending)
+        {
+            return day + "일차 | 버민킨 대공세 | 위협도 " + campaign.m_threat + "%";
+        }
+        return day + "일차 | 둠 페이즈 " + campaign.m_phase + "/" + Campaign.PhaseCount
+            + " | 남은 " + Campaign.GetRemainingDays(campaign) + "일";
+    }
+
+    private bool IsSelectedMissionPlayable()
+    {
+        CampaignData campaign = Campaign.Current;
+        if (campaign == null) return true; // 캠페인 없이 테스트하는 경우
+        if (Campaign.CanSelectMission(campaign, m_currentSelectedMissionNumber)) return true;
+
+        Debug.Log("선택할 수 없는 미션입니다: " + m_currentSelectedMissionNumber);
+        return false;
     }
     
     public void TestDwarfResource()
@@ -636,6 +711,7 @@ public class UIManager : MonoBehaviour
     public void gotoBattleMapScene()
     {
         //Debug.Log("btn clicked");
+        if (IsSelectedMissionPlayable() == false) return;
         SceneManager.LoadScene("sc_01_battleMap");
     }
 

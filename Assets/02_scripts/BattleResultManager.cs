@@ -24,15 +24,15 @@ public class BattleResultManager : MonoBehaviour
         
     }
     
-    public void MakeWinResult()
+    public void MakeWinResult(string campaignMessage = "")
     {
-        tmp_winLose.text = "win";
+        tmp_winLose.text = MakeResultText("win", campaignMessage);
         RefreshResultUnitSlots();
     }
     
-    public void MakeLoseResult()
+    public void MakeLoseResult(string campaignMessage = "")
     {
-        tmp_winLose.text = "lose";
+        tmp_winLose.text = MakeResultText("lose", campaignMessage);
         RefreshResultUnitSlots();
     }
     
@@ -61,9 +61,22 @@ public class BattleResultManager : MonoBehaviour
         
     }
     
+    private string MakeResultText(string result, string campaignMessage)
+    {
+        if (string.IsNullOrEmpty(campaignMessage)) return result;
+        return result + "\n" + campaignMessage;
+    }
+
     public void gotoLobbyScene()
     {
         Debug.Log("btn clicked");
+
+        // 게임 오버·캠페인 완료 후에는 새 캠페인으로 시작
+        CampaignData campaign = Campaign.Current;
+        if (campaign != null && campaign.m_state != eCampaignState.InProgress)
+        {
+            PlayerDataManager.s_instance.ResetForNewCampaign();
+        }
         SceneManager.LoadScene("sc_00_lobby");
     }
     

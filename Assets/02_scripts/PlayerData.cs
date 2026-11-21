@@ -16,4 +16,6 @@ public class PlayerData
     //public Item[] m_storageItem;
     public StorageSaveData m_storage;
 
+    public CampaignData m_campaign = new CampaignData();
+
 }

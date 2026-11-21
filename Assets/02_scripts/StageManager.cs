@@ -60,6 +60,51 @@ public class StageManager : MonoBehaviour
                 GameObject newObject = Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_object);
             }
         }
+
+        GenerateAssaultExtraUnits();
+    }
+
+    // 버민킨 대공세: 위협도 20%마다 적 유닛 +1 (GDD 03 §3.2)
+    // 기존 적을 차례로 골라, 그 적에게 가장 가까운 빈 지형 칸에 같은 적을 추가합니다.
+    private void GenerateAssaultExtraUnits()
+    {
+        int nExtraCount = Campaign.GetCurrentAssaultExtraEnemyCount();
+        int nUnitCount = targetStage.m_unitList.Count;
+        if (nExtraCount <= 0 || nUnitCount == 0) return;
+
+        HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
+        foreach (s_UnitInfo unit in targetStage.m_unitList) occupied.Add(new Vector2Int(unit.x, unit.y));
+        foreach (s_ObjectInfo obj in targetStage.m_objectList) occupied.Add(new Vector2Int(obj.x, obj.y));
+        foreach (s_AreaInfo area in targetStage.m_areaList) occupied.Add(new Vector2Int(area.x, area.y));
+
+        for (int i = 0; i < nExtraCount; i++)
+        {
+            s_UnitInfo source = targetStage.m_unitList[i % nUnitCount];
+            GameObject prefab = FindPrefabByName(m_unitPrefabList, source.m_name);
+            if (prefab == null) continue;
+
+            bool isFound = false;
+            Vector2Int best = Vector2Int.zero;
+            int bestDistance = int.MaxValue;
+            foreach (s_TerrainInfo terrain in targetStage.m_terrainList)
+            {
+                Vector2Int pos = new Vector2Int(terrain.x, terrain.y);
+                if (occupied.Contains(pos)) continue;
+
+                int distance = Mathf.Abs(pos.x - source.x) + Mathf.Abs(pos.y - source.y);
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    best = pos;
+                    isFound = true;
+                }
+            }
+            if (isFound == false) return;
+
+            occupied.Add(best);
+            Vector3 spawnPos = new Vector3(best.x, best.y, source.z);
+            Instantiate(prefab, spawnPos, Quaternion.identity, tileRoot_object);
+        }
     }
 
     public void GenerateAreaTile()

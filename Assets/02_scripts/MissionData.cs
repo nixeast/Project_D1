@@ -24,5 +24,7 @@ public class MissionData
     public List<int> m_waveTurnList;
     public List<string> m_winConditionList;
     public List<string> m_loseConditionList;
+    // 둠 미션: 등장하는 둠 페이즈 목록 / 버민킨 대공세: 발생하는 페이즈(페이즈 종료 시)
+    public int[] m_appearPhases;
 
 }

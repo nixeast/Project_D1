@@ -78,6 +78,20 @@ public class MissionDatabase : MonoBehaviour
 
             newData.m_missionType = dataColums[14];
 
+            if (dataColums.Length > 15 && string.IsNullOrEmpty(dataColums[15]) == false)
+            {
+                string[] arr_phase = dataColums[15].Split('/');
+                newData.m_appearPhases = new int[arr_phase.Length];
+                for (int k = 0; k < arr_phase.Length; k++)
+                {
+                    newData.m_appearPhases[k] = int.Parse(arr_phase[k]);
+                }
+            }
+            else
+            {
+                newData.m_appearPhases = new int[0];
+            }
+
             m_missionDataDic.Add(newData.m_missionID, newData);
 
         }

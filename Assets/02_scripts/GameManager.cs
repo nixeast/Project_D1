@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
     public GameObject panel_battleInfo;
     public GameObject panel_battleResult;
     public bool isEndCombatSequence = false;
+    private bool m_isBattleOver = false;
 
     private void Awake()
     {
@@ -1054,15 +1055,25 @@ public class GameManager : MonoBehaviour
 
     public void BattleWin()
     {
+        if (m_isBattleOver) return;
+        m_isBattleOver = true;
+
+        string campaignMessage = GameRoot.s_instance != null
+            ? Campaign.ReportBattleResult(GameRoot.s_instance.GetStartMissionNumber(), true) : "";
         panel_battleResult.SetActive(true);
-        m_battleResultManager.MakeWinResult();
+        m_battleResultManager.MakeWinResult(campaignMessage);
         Debug.Log("player win..");
     }
 
     public void BattleLose()
     {
+        if (m_isBattleOver) return;
+        m_isBattleOver = true;
+
+        string campaignMessage = GameRoot.s_instance != null
+            ? Campaign.ReportBattleResult(GameRoot.s_instance.GetStartMissionNumber(), false) : "";
         panel_battleResult.SetActive(true);
-        m_battleResultManager.MakeLoseResult();
+        m_battleResultManager.MakeLoseResult(campaignMessage);
         Debug.Log("enemy win..");
     }
 

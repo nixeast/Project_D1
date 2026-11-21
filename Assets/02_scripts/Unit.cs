@@ -73,6 +73,7 @@ public class Unit : MonoBehaviour
         if(this.gameObject.tag == "enemy")
         {
             SetUnitstats(m_unitID);
+            ApplyAssaultBonus();
         }
     }
 
@@ -109,6 +110,16 @@ public class Unit : MonoBehaviour
 
     }
     
+    // 버민킨 대공세: 위협도 10%마다 ATK·DEF +2% (GDD 03 §3.2)
+    private void ApplyAssaultBonus()
+    {
+        int bonusPercent = Campaign.GetCurrentAssaultStatBonusPercent();
+        if (bonusPercent <= 0) return;
+
+        m_stat_atk = Mathf.RoundToInt(m_stat_atk * (100 + bonusPercent) / 100f);
+        m_stat_def = Mathf.RoundToInt(m_stat_def * (100 + bonusPercent) / 100f);
+    }
+
     public void AssignUnitToEnemyList()
     {
         GameManager.instance.m_enemyUnits.Add(this);

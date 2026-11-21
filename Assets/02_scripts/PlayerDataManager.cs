@@ -15,7 +15,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public void Awake()
     {
-        MakeSingletonPattern();
+        if (MakeSingletonPattern() == false) return;
 
         savePath = Path.Combine(Application.persistentDataPath,"playerData.json");
 
@@ -28,15 +28,31 @@ public class PlayerDataManager : MonoBehaviour
 
     }
 
-    public void MakeSingletonPattern()
+    // 씬을 다시 불러와 생긴 사본이면 false (사본은 데이터를 만들지 않고 바로 사라집니다)
+    public bool MakeSingletonPattern()
     {
         if(s_instance != null && s_instance != this)
         {
             Destroy(gameObject);
-            return;
+            return false;
         }
         s_instance = this;
         DontDestroyOnLoad(gameObject);
+        return true;
+    }
+
+    // 로비 씬이 다시 열릴 때 새 UIManager를 연결합니다.
+    public void SetUIManager(UIManager uiManager)
+    {
+        m_uiManager = uiManager;
+    }
+
+    // 게임 오버·캠페인 완료 후 새 캠페인을 시작합니다. (스타터 유닛은 로비에서 생성)
+    public void ResetForNewCampaign()
+    {
+        playerData = new PlayerData();
+        InintDwarfResourcesData();
+        CreateStarterStorage();
     }
 
     public void InintDwarfResourcesData()
@@ -139,6 +155,9 @@ public class PlayerDataManager : MonoBehaviour
     
     public void CreateStarterUnits()
     {
+        // 로비에 다시 들어올 때마다 중복 생성되지 않도록 처음 한 번만 만듭니다.
+        if (playerData.m_currentUnits.Count > 0) return;
+
         int nCount = 4;
 
         for (int i = 0; i < nCount; i++)
