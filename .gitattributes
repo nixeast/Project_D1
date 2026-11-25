@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Docs and tools: keep LF in the working tree too (avoids CRLF warnings on Windows)
+*.md text eol=lf
+*.py text eol=lf

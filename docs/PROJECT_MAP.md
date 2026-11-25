@@ -20,6 +20,8 @@ Project_D1/
 ├─ Packages/          ← manifest.json (패키지 의존성)
 ├─ ProjectSettings/   ← 빌드 씬 목록, 태그/레이어 등
 ├─ docs/              ← 프로젝트 문서 (이 파일)
+├─ tools/gdd.py      ← GDD 보조 스크립트 (status / decide / links)
+├─ .claude/skills/    ← 프로젝트 스킬 (gdd-decide: 기획 결정 절차)
 ├─ Library/ Logs/ obj/ UserSettings/ .vs/   ← 자동 생성, git 제외
 └─ Project_D1.sln, *.csproj                 ← IDE 솔루션 (자동 생성)
 ```
