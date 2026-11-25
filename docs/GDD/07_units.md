@@ -2,7 +2,7 @@
 
 [← 목차](README.md)
 
-> 유닛별 스탯, 장비, 스킬 배정 등 수치는 [`Assets/05_csv/data_unit.csv`](../../Assets/05_csv/data_unit.csv)가 원본입니다. 이 문서는 유닛의 역할과 컨셉만 다룹니다.
+> 유닛별 스탯, 기본 장비(설정·외형용), 스킬 배정 등 수치는 [`Assets/05_csv/data_unit.csv`](../../Assets/05_csv/data_unit.csv)가 원본입니다. 이 문서는 유닛의 역할과 컨셉만 다룹니다.
 
 ## 1. 유닛 파라미터
 
